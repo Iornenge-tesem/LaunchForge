@@ -3,24 +3,21 @@ import minikitConfig from "@/minikit.config";
 
 export async function GET() {
   const manifest = {
-    accountAssociation: {
-      header: "",
-      payload: "",
-      signature: "",
-    },
+    accountAssociation: minikitConfig.accountAssociation,
     frame: {
-      version: "1",
+      version: minikitConfig.version,
       name: minikitConfig.appName,
       subtitle: minikitConfig.subtitle,
       description: minikitConfig.description,
       primaryCategory: minikitConfig.primaryCategory,
       tags: minikitConfig.tags,
-      iconUrl: minikitConfig.imageUrl,
+      tagline: minikitConfig.tagline,
+      iconUrl: minikitConfig.iconUrl,
       homeUrl: minikitConfig.homeUrl,
-      imageUrl: minikitConfig.imageUrl,
       splashImageUrl: minikitConfig.splashImageUrl,
       splashBackgroundColor: minikitConfig.splashBackgroundColor,
       heroImageUrl: minikitConfig.heroImageUrl,
+      screenshotUrls: minikitConfig.screenshotUrls,
     },
   };
 

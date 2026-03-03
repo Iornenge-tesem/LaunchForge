@@ -18,6 +18,10 @@ export async function GET() {
       splashBackgroundColor: minikitConfig.splashBackgroundColor,
       heroImageUrl: minikitConfig.heroImageUrl,
       screenshotUrls: minikitConfig.screenshotUrls,
+      webhookUrl: minikitConfig.webhookUrl,
+      ogTitle: minikitConfig.ogTitle,
+      ogDescription: minikitConfig.ogDescription,
+      ogImageUrl: minikitConfig.ogImageUrl,
     },
   };
 

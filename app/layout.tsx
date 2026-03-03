@@ -8,6 +8,11 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.verc
 export const metadata: Metadata = {
   title: minikitConfig.appName,
   description: minikitConfig.description,
+  icons: {
+    icon: [{ url: "/images/launchforge-icon.png", type: "image/png" }],
+    shortcut: ["/images/launchforge-icon.png"],
+    apple: [{ url: "/images/launchforge-icon.png" }],
+  },
   other: {
     "fc:miniapp": JSON.stringify({
       version: "next",
@@ -39,6 +44,9 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
         <meta name="base:app_id" content="69a3c763955255bb0fb04e07" />
+        <link rel="icon" type="image/png" href="/images/launchforge-icon.png" />
+        <link rel="shortcut icon" href="/images/launchforge-icon.png" />
+        <link rel="apple-touch-icon" href="/images/launchforge-icon.png" />
         <meta
           name="fc:miniapp"
           content={JSON.stringify({

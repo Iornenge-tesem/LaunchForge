@@ -28,9 +28,9 @@ const config: MiniKitConfig = {
   description: "A launchpad for real builders and experimental ideas.",
   version: "1",
   accountAssociation: {
-    header: process.env.FARCASTER_HEADER ?? "",
-    payload: process.env.FARCASTER_PAYLOAD ?? "",
-    signature: process.env.FARCASTER_SIGNATURE ?? "",
+    header: "eyJmaWQiOjE3OTkwNTQsInR5cGUiOiJhdXRoIiwia2V5IjoiMHgwMTQ5MUQ1MjcxOTA1MjhjY0JDMzQwRGU4MGJmMkU0NDdkQ2M0ZmUzIn0",
+    payload: "eyJkb21haW4iOiJsYXVuY2gtZm9yZ2UtdGVuLnZlcmNlbC5hcHAifQ",
+    signature: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEGzrMDy5D6GdZ_YzgzQ0PUsWmtZlgFNFZH9n4LHSLB4BW6Nq6J9K2U7JFT1UvoOgfyT4f32psyl-1YTRqEug_qrGwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
   },
   primaryCategory: "finance",
   tags: ["launchpad", "crypto", "builders", "tokens"],

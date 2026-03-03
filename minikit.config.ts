@@ -55,7 +55,7 @@ const config: MiniKitConfig = {
   webhookUrl: `${rootUrl}/api/webhook`,
   ogTitle: "LaunchForge",
   ogDescription: "A launchpad for real builders and experimental ideas.",
-  ogImageUrl: "https://placehold.co/1200x630/png?text=LaunchForge+Hero",
+  ogImageUrl: `${rootUrl}/images/launchforge-icon.png`,
 };
 
 export default config;

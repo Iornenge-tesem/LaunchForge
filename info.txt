@@ -1,0 +1,220 @@
+LAUNCHFORGE REFERENCE SPEC (NON-EXECUTABLE)
+Version: 1.0
+Last Updated: 2026-03-03
+
+IMPORTANT
+- This file is for product/reference guidance only.
+- It must NOT be imported into app code, APIs, build scripts, or deployment config.
+- It does not control runtime behavior.
+
+============================================================
+1) PRODUCT VISION
+============================================================
+LaunchForge is a Base Mini App launchpad for serious crypto builders.
+Core values:
+- Minimal and fast
+- Mobile-first UX
+- Wallet-ready flows
+- Production-clean architecture
+- Compliant with Base Mini App expectations
+
+Primary value proposition:
+"Launch serious crypto projects with AI-assisted quality signals and optional USDC micro-payment powered premium actions."
+
+============================================================
+2) MVP SCOPE (CURRENT BUILD DIRECTION)
+============================================================
+Must-have:
+- Homepage: clear value proposition + strong CTAs
+- Explore page: browse/filter project cards
+- Launch page: create project form (minimal but complete fields)
+- Project detail page: project summary + AI signal placeholders + engagement
+- Consistent theme system and responsive components
+- MiniKit manifest and Farcaster metadata set correctly
+
+Nice-to-have (post-MVP):
+- Full wallet connection UX (not placeholder)
+- Persistent database integration
+- Onchain deploy flow for token contracts
+- Community comments and ratings submission
+- Rich analytics dashboards
+
+============================================================
+3) INFORMATION ARCHITECTURE
+============================================================
+Routes:
+- /                   -> Home
+- /explore            -> List and filter projects
+- /launch             -> Create project flow
+- /project/[id]       -> Project details
+- /.well-known/farcaster.json -> Mini app manifest output
+
+Suggested backend endpoints:
+- GET  /api/projects
+- GET  /api/projects/:id
+- POST /api/projects/create      (optionally paid via x402)
+- GET  /api/analytics            (optionally paid via x402)
+- POST /api/webhook
+
+============================================================
+4) LAUNCH PAGE REQUIREMENTS
+============================================================
+Required fields:
+- Project Name
+- Description
+- Category
+
+Optional fields:
+- Token Symbol
+- Funding / Tokenomics
+- Website
+- GitHub
+- Social links
+
+Expected UX:
+- Validate input client-side and server-side
+- Show submit loading state
+- Show clear success state after submission
+- Keep copy concise and professional
+
+============================================================
+5) AI SCORING REQUIREMENTS
+============================================================
+Location:
+- /agents (scripts and analysis logic)
+
+MVP output shape:
+- score: 0-100
+- summary: brief readable explanation
+- riskFlags: array
+
+Inputs to consider:
+- Wallet/project reputation signals
+- Tokenomics risk heuristics
+- Available social proof / engagement inputs
+
+Display usage:
+- Show score in project cards and detail pages
+- Keep language non-defamatory and probabilistic ("risk signals", not absolute claims)
+
+============================================================
+6) x402 PAYMENT REQUIREMENTS
+============================================================
+Purpose:
+- Monetize high-value actions with USDC micro-payments on Base
+
+Target paid examples:
+- /api/projects/create   -> $0.01 USDC
+- /api/analytics         -> $0.001 USDC
+
+Flow summary:
+1) Request without valid payment -> 402 Payment Required
+2) Client sends signed X-PAYMENT header
+3) Facilitator verifies
+4) Backend executes on success
+
+Network targets:
+- Base Sepolia: eip155:84532
+- Base Mainnet: eip155:8453
+
+============================================================
+7) SMART CONTRACT ROADMAP
+============================================================
+Folder:
+- /contracts
+
+Planned modules:
+- ERC-20 launch template
+- Optional ERC-721 launch template
+- Liquidity lock helper
+- Optional anti-snipe / vesting mechanics
+
+Integration principle:
+- Keep contract deployment optional for MVP
+- Do not block project listing on onchain deployment unless explicitly required
+
+============================================================
+8) DESIGN SYSTEM REFERENCE
+============================================================
+Tone:
+- Minimal, serious, high-trust
+- Mobile-first spacing and typography
+
+Current palette direction:
+- Jet Black:  #1A1A1A (surface/card)
+- Platinum:   #E5E5E5 (primary text)
+- Cold Grey:  #B0B0B0 (secondary text)
+- Accent:     #4DA3FF (CTAs/highlights)
+
+Design constraints:
+- Avoid visual clutter
+- Keep touch targets >= 44px where possible
+- Prefer readable contrast
+- Reuse tokens; avoid random hardcoded colors
+
+============================================================
+9) BASE MINI APP CHECKLIST (GUIDE)
+============================================================
+Manifest and metadata:
+- appName, subtitle, description are clear
+- icon and splash configured
+- tags and primaryCategory are valid
+- accountAssociation is set
+
+Product expectations:
+- Fast load target (~3s)
+- Clear CTA hierarchy
+- Friendly onboarding content
+- Avoid forcing external auth redirects in critical paths
+- Keep language client-agnostic and product-focused
+
+============================================================
+10) NON-FUNCTIONAL REQUIREMENTS
+============================================================
+Performance:
+- Prioritize minimal JS and lightweight UI
+- Keep expensive interactions optional/deferred
+
+Code quality:
+- Strong TypeScript typing
+- Focused reusable components
+- Keep API responses structured and consistent
+
+Security & trust:
+- Validate all external inputs
+- Never expose secrets in client code
+- Keep wallet/payment operations auditable
+
+============================================================
+11) DELIVERY PLAN (PHASED)
+============================================================
+Phase 1 (MVP polish)
+- Finalize UI consistency and navigation
+- Finalize create flow and success handling
+- Standardize project card/detail schema
+
+Phase 2 (backend correctness)
+- Implement projects and analytics endpoints
+- Add durable persistence
+- Add x402-protected routes
+
+Phase 3 (intelligence + onchain)
+- AI scoring implementation in /agents
+- Optional contract deployment helpers in /contracts
+- Add leaderboard and richer engagement features
+
+============================================================
+12) WHAT THIS FILE IS / IS NOT
+============================================================
+This file IS:
+- A single-source product reference
+- A planning and alignment document
+
+This file IS NOT:
+- Source code
+- Build configuration
+- Deployment configuration
+- Runtime state
+
+If any conflict exists between this file and implemented product behavior,
+engineering decisions should be validated in code and discussed before changes.

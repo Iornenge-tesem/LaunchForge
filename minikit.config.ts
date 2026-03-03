@@ -35,7 +35,7 @@ const config: MiniKitConfig = {
   primaryCategory: "finance",
   tags: ["launchpad", "crypto", "builders", "tokens"],
   tagline: "Launch serious crypto projects",
-  iconUrl: "https://placehold.co/1024x1024/png?text=LaunchForge",
+  iconUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://launchforge.vercel.app"}/images/launchforge-icon.png`,
   homeUrl: process.env.NEXT_PUBLIC_APP_URL ?? "https://launchforge.vercel.app",
   splashImageUrl: "https://placehold.co/200x200/png?text=LF",
   splashBackgroundColor: "#050505",

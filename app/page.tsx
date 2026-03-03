@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import { GlowBackground } from "@/components/ui/GlowBackground";
 import { Button } from "@/components/ui/Button";
@@ -9,7 +8,7 @@ export default function Home() {
     <div className="relative isolate overflow-hidden">
       <GlowBackground />
       <Section className="relative z-10 fade-in py-20 sm:py-24">
-        <Container className="text-center">
+        <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl font-semibold tracking-[-0.03em] text-[var(--text-main)] sm:text-6xl">LaunchForge</h1>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-[var(--text-dim)] sm:text-xl">
             The launchpad for serious builders.
@@ -22,7 +21,7 @@ export default function Home() {
               <Button variant="secondary">Explore Projects</Button>
             </Link>
           </div>
-        </Container>
+        </div>
       </Section>
 
       <Section className="relative z-10 pt-0">

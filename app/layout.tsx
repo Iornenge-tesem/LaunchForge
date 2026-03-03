@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import minikitConfig from "@/minikit.config";
-import { Navbar } from "@/components/Navbar";
-import { Container } from "@/components/Container";
+import { AppShell } from "@/components/AppShell";
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.vercel.app";
 
@@ -69,16 +68,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <div className="relative min-h-screen bg-[var(--bg-main)] text-[var(--text-main)]">
-            <Navbar />
-            <main>{children}</main>
-            <footer className="border-t border-[rgba(148,163,184,0.14)] py-5">
-              <Container className="flex items-center justify-between gap-3 text-xs text-[var(--text-dim)]">
-                <p>© {new Date().getFullYear()} LaunchForge</p>
-                <p>Built for serious builders</p>
-              </Container>
-            </footer>
-          </div>
+          <AppShell>{children}</AppShell>
         </Providers>
       </body>
     </html>

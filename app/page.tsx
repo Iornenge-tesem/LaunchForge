@@ -1,36 +1,46 @@
-"use client";
-
-import { useCallback, useState } from "react";
-import { LoadingScreen } from "@/components/LoadingScreen";
-import { Container } from "@/components/ui/Container";
+import Link from "next/link";
+import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import { GlowBackground } from "@/components/ui/GlowBackground";
 import { Button } from "@/components/ui/Button";
 
 export default function Home() {
-  const [ready, setReady] = useState(false);
-  const handleComplete = useCallback(() => setReady(true), []);
-
-  if (!ready) {
-    return <LoadingScreen onComplete={handleComplete} />;
-  }
-
   return (
-    <main className="relative isolate min-h-screen overflow-hidden">
+    <div className="relative isolate overflow-hidden">
       <GlowBackground />
-      <Container className="relative z-10 flex min-h-screen items-center justify-center py-24">
-        <section className="fade-in w-full max-w-2xl text-center">
-          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-[var(--text-main)] sm:text-5xl">
-            LaunchForge
-          </h1>
+      <Section className="relative z-10 fade-in py-20 sm:py-24">
+        <Container className="text-center">
+          <h1 className="text-4xl font-semibold tracking-[-0.03em] text-[var(--text-main)] sm:text-6xl">LaunchForge</h1>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-[var(--text-dim)] sm:text-xl">
             The launchpad for serious builders.
           </p>
           <div className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-            <Button variant="primary">Launch Project</Button>
-            <Button variant="secondary">Explore Projects</Button>
+            <Link href="/launch" aria-label="Launch Project">
+              <Button variant="primary">Launch Project</Button>
+            </Link>
+            <Link href="/explore" aria-label="Explore Projects">
+              <Button variant="secondary">Explore Projects</Button>
+            </Link>
           </div>
-        </section>
-      </Container>
-    </main>
+        </Container>
+      </Section>
+
+      <Section className="relative z-10 pt-0">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            "Launch tokens",
+            "Get AI analysis",
+            "Discover serious projects",
+          ].map((feature) => (
+            <div
+              key={feature}
+              className="rounded-2xl border border-[rgba(148,163,184,0.2)] bg-[var(--bg-soft)] p-5 text-left text-sm text-[var(--text-dim)]"
+            >
+              <h2 className="text-base font-semibold text-[var(--text-main)]">{feature}</h2>
+            </div>
+          ))}
+        </div>
+      </Section>
+    </div>
   );
 }

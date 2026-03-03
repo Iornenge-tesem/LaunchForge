@@ -145,3 +145,85 @@ a {
     transform: translateY(0);
   }
 }
+
+.lf-hammer-loader {
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.lf-stroke {
+  stroke: #ffffff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.lf-torso {
+  transform-origin: 92px 104px;
+  animation: lf-torso-cycle 2.2s ease-in-out infinite;
+}
+
+.lf-arm {
+  transform-origin: 0px 0px;
+  animation: lf-hammer-cycle 2.2s ease-in-out infinite;
+}
+
+.lf-spark {
+  fill: #4da3ff;
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(77, 163, 255, 0.95));
+  animation: lf-spark-cycle 2.2s ease-in-out infinite;
+}
+
+@keyframes lf-hammer-cycle {
+  0%,
+  13.6% {
+    transform: rotate(-8deg);
+  }
+  36.4%,
+  68.2% {
+    transform: rotate(8deg);
+  }
+  100% {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes lf-torso-cycle {
+  0%,
+  13.6% {
+    transform: rotate(0deg) translateY(0);
+  }
+  36.4%,
+  68.2% {
+    transform: rotate(2deg) translateY(1px);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+@keyframes lf-spark-cycle {
+  0%,
+  36.3% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  36.4%,
+  45.5% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  45.6%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}

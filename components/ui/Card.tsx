@@ -21,7 +21,7 @@ export function Card({
 }: CardProps) {
   return (
     <div
-      className={`rounded-[14px] border border-[var(--border)] bg-[var(--bg-card)] shadow-[var(--shadow-sm)] ${
+      className={`rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] shadow-[var(--shadow-sm)] ${
         paddingStyles[padding]
       } ${
         hover

@@ -32,7 +32,7 @@ export function Navbar() {
           className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
           onClick={() => setOpen(false)}
         >
-          <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-[10px] border border-[var(--border)] shadow-[var(--shadow-xs)]">
+          <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[5px] border border-[var(--border)] shadow-[var(--shadow-xs)]">
             <img
               src="/images/launchforge-icon.png"
               alt="LaunchForge"
@@ -50,7 +50,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-[10px] px-4 py-2 text-sm font-medium transition-all duration-150 ${
+              className={`rounded-[5px] px-4 py-2 text-sm font-medium transition-all duration-150 ${
                 pathname === link.href
                   ? "bg-[var(--accent-muted)] text-[var(--accent)]"
                   : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"
@@ -66,7 +66,7 @@ export function Navbar() {
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[5px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"
             aria-label="Toggle theme"
           >
             {resolvedTheme === "dark" ? (
@@ -88,7 +88,7 @@ export function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setOpen(!open)}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:hidden"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[5px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:hidden"
             aria-label="Menu"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
@@ -105,7 +105,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className={`rounded-[10px] px-4 py-3 text-sm font-medium transition-all duration-150 ${
+                className={`rounded-[5px] px-4 py-3 text-sm font-medium transition-all duration-150 ${
                   pathname === link.href
                     ? "bg-[var(--accent-muted)] text-[var(--accent)]"
                     : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"

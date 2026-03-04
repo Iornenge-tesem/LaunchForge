@@ -66,7 +66,7 @@ export default function LaunchPage() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-[var(--accent-muted)] text-[var(--accent)]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[5px] bg-[var(--accent-muted)] text-[var(--accent)]">
             <Rocket size={20} />
           </div>
           <h1 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">

@@ -6,7 +6,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { mockProjects } from "@/lib/projects";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import type { ProjectStatus, ProjectCategory } from "@/lib/types";
-import { Search, SlidersHorizontal, ChevronDown, ChevronUp } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, ChevronUp } from "lucide-react";
 
 const statusFilters: { label: string; value: ProjectStatus | "All" }[] = [
   { label: "All", value: "All" },
@@ -48,15 +48,12 @@ export default function ExplorePage() {
         <div className="mx-auto w-full max-w-[1200px] px-5 py-4 sm:px-6 lg:px-8">
           {/* Search */}
           <div className="relative mb-4">
-            <span className="pointer-events-none absolute left-0 top-0 flex h-[44px] w-11 items-center justify-center text-[var(--text-dim)]">
-              <Search size={17} />
-            </span>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects…"
-              className="h-[44px] w-full rounded-[10px] border border-[var(--border)] bg-[var(--bg-input)] pl-12 pr-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] sm:max-w-sm"
+                className="h-[44px] w-full rounded-[5px] border border-[var(--border)] bg-[var(--bg-input)] px-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none sm:max-w-sm"
             />
           </div>
 
@@ -68,7 +65,7 @@ export default function ExplorePage() {
                 <button
                   key={f.value}
                   onClick={() => setStatusFilter(f.value)}
-                  className={`cursor-pointer rounded-full border px-6 py-3 text-sm font-medium transition-all duration-150 ${
+                  className={`cursor-pointer rounded-[5px] border px-6 py-3 text-sm font-medium transition-all duration-150 ${
                     statusFilter === f.value
                       ? "border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
@@ -82,7 +79,7 @@ export default function ExplorePage() {
             <button
               type="button"
               onClick={() => setShowCategories((prev) => !prev)}
-              className="inline-flex cursor-pointer items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-card)] px-5 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-all duration-150 hover:border-[var(--border-hover)] hover:text-[var(--text-main)]"
+              className="inline-flex cursor-pointer items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-5 py-3 text-sm font-semibold text-[var(--text-secondary)] transition-all duration-150 hover:border-[var(--border-hover)] hover:text-[var(--text-main)]"
             >
               <SlidersHorizontal size={16} />
               Filter Categories
@@ -91,12 +88,12 @@ export default function ExplorePage() {
           </div>
 
           {showCategories && (
-            <div className="mt-6 flex flex-wrap gap-2 rounded-[12px] border border-[var(--border)] bg-[var(--bg-card)] p-3">
+            <div className="mt-6 flex flex-wrap gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] p-3">
               {categoryFilters.map((f) => (
                 <button
                   key={f.value}
                   onClick={() => setCategoryFilter(f.value)}
-                  className={`cursor-pointer rounded-[10px] border px-7 py-3.5 text-sm font-medium transition-all duration-150 ${
+                  className={`cursor-pointer rounded-[5px] border px-7 py-3.5 text-sm font-medium transition-all duration-150 ${
                     categoryFilter === f.value
                       ? "border-[var(--purple)] bg-[var(--purple-muted)] text-[var(--purple)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
@@ -129,7 +126,7 @@ export default function ExplorePage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-[14px] border border-[var(--border)] bg-[var(--bg-card)] p-16 text-center shadow-[var(--shadow-sm)]">
+          <div className="rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] p-16 text-center shadow-[var(--shadow-sm)]">
             <p className="text-base text-[var(--text-dim)]">
               No projects match your filters.
             </p>

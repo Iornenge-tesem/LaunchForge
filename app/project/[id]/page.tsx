@@ -95,7 +95,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       {name}
                     </h1>
                     {tokenSymbol && (
-                      <span className="rounded-[8px] bg-[var(--bg-elevated)] px-3 py-1 text-sm font-medium text-[var(--text-secondary)]">
+                      <span className="rounded-[5px] bg-[var(--bg-elevated)] px-3 py-1 text-sm font-medium text-[var(--text-secondary)]">
                         ${tokenSymbol}
                       </span>
                     )}
@@ -213,7 +213,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <Globe size={16} />
                     Website
@@ -224,7 +224,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -242,7 +242,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -310,7 +310,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   )}
                 </div>
               ) : (
-                <div className="rounded-[10px] bg-[var(--bg-elevated)] p-5 text-center">
+                <div className="rounded-[5px] bg-[var(--bg-elevated)] p-5 text-center">
                   <p className="text-sm text-[var(--text-dim)]">
                     AI analysis pending — submitted projects are scored
                     automatically.
@@ -327,7 +327,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 Community Ratings
               </h2>
-              <div className="rounded-[10px] bg-[var(--bg-elevated)] p-5 text-center">
+              <div className="rounded-[5px] bg-[var(--bg-elevated)] p-5 text-center">
                 <Star
                   size={28}
                   className="mx-auto mb-3 text-[var(--text-dim)]"

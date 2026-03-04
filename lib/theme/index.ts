@@ -33,10 +33,10 @@ export const theme = {
     },
   },
   radius: {
-    sm: "8px",
-    md: "10px",
-    lg: "14px",
-    xl: "20px",
+    sm: "5px",
+    md: "5px",
+    lg: "5px",
+    xl: "5px",
   },
   motion: {
     fast: 150,

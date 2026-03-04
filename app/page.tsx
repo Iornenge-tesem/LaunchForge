@@ -82,10 +82,14 @@ export default function Home() {
       </Section>
 
       {/* ── Stats ─────────────────────────────── */}
-      <Section className="relative z-10 py-6 sm:py-8">
+      <Section className="relative z-10 py-8 sm:py-10">
         <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
-            <Card key={stat.label} padding="md" className="flex items-center gap-4">
+            <Card
+              key={stat.label}
+              padding="md"
+              className="flex items-center gap-4 dark:bg-[color:rgba(34,34,34,0.92)] dark:shadow-[0_10px_24px_-10px_rgba(0,0,0,0.55)]"
+            >
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
                 {stat.icon}
               </div>
@@ -103,7 +107,7 @@ export default function Home() {
       </Section>
 
       {/* ── CTA Button ────────────────────────── */}
-      <Section className="relative z-10 py-6 sm:py-8">
+      <Section className="relative z-10 py-8 sm:py-10">
         <div className="flex justify-center">
           <Link href="/launch">
             <Button size="lg" className="gap-2.5 px-8 shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)]">
@@ -127,7 +131,12 @@ export default function Home() {
         </div>
         <div className="grid gap-6 sm:grid-cols-3">
           {features.map((f) => (
-            <Card key={f.title} hover padding="lg" className="flex flex-col">
+            <Card
+              key={f.title}
+              hover
+              padding="lg"
+              className="flex flex-col dark:bg-[color:rgba(34,34,34,0.9)]"
+            >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
                 {f.icon}
               </div>
@@ -178,7 +187,10 @@ export default function Home() {
 
       {/* ── CTA ───────────────────────────────── */}
       <Section className="relative z-10 pb-16 sm:pb-20">
-        <Card padding="lg" className="text-center">
+        <Card
+          padding="lg"
+          className="text-center dark:bg-[color:rgba(34,34,34,0.94)] dark:shadow-[0_16px_34px_-14px_rgba(0,0,0,0.6)]"
+        >
           <h2 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
             Ready to build?
           </h2>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { GlowBackground } from "@/components/ui/GlowBackground";
@@ -6,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Badge } from "@/components/ui/Badge";
 import { getTopProjects, mockProjects } from "@/lib/projects";
+import minikitConfig from "@/minikit.config";
 import {
   Rocket,
   DollarSign,
@@ -15,6 +17,46 @@ import {
   Users,
   ArrowRight,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: minikitConfig.appName,
+  description: minikitConfig.description,
+  openGraph: {
+    title: minikitConfig.ogTitle,
+    description: minikitConfig.ogDescription,
+    url: minikitConfig.homeUrl,
+    images: [
+      {
+        url: minikitConfig.iconUrl,
+        width: 1200,
+        height: 1200,
+        alt: `${minikitConfig.appName} app icon`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: minikitConfig.ogTitle,
+    description: minikitConfig.ogDescription,
+    images: [minikitConfig.iconUrl],
+  },
+  other: {
+    "fc:miniapp": JSON.stringify({
+      version: "next",
+      imageUrl: minikitConfig.iconUrl,
+      button: {
+        title: "Launch Project",
+        action: {
+          type: "launch_frame",
+          name: `Launch ${minikitConfig.appName}`,
+          url: minikitConfig.homeUrl,
+          splashImageUrl: minikitConfig.splashImageUrl,
+          splashBackgroundColor: minikitConfig.splashBackgroundColor,
+        },
+      },
+    }),
+  },
+};
 
 const features = [
   {

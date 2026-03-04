@@ -18,6 +18,28 @@ const appUrl =
 export const metadata: Metadata = {
   title: minikitConfig.appName,
   description: minikitConfig.description,
+  metadataBase: new URL(appUrl),
+  openGraph: {
+    title: minikitConfig.ogTitle,
+    description: minikitConfig.ogDescription,
+    url: appUrl,
+    siteName: minikitConfig.appName,
+    images: [
+      {
+        url: minikitConfig.ogImageUrl,
+        width: 1200,
+        height: 1200,
+        alt: `${minikitConfig.appName} icon preview`,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: minikitConfig.ogTitle,
+    description: minikitConfig.ogDescription,
+    images: [minikitConfig.ogImageUrl],
+  },
   icons: {
     icon: [{ url: "/images/launchforge-icon.png", type: "image/png" }],
     shortcut: ["/images/launchforge-icon.png"],

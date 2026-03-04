@@ -48,7 +48,7 @@ export default function ExplorePage() {
         <div className="mx-auto w-full max-w-[1200px] px-5 py-4 sm:px-6 lg:px-8">
           {/* Search */}
           <div className="relative mb-4">
-            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-[var(--text-dim)]">
+            <span className="pointer-events-none absolute left-0 top-0 flex h-[44px] w-11 items-center justify-center text-[var(--text-dim)]">
               <Search size={17} />
             </span>
             <input
@@ -56,7 +56,7 @@ export default function ExplorePage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects…"
-              className="h-[44px] w-full rounded-[10px] border border-[var(--border)] bg-[var(--bg-input)] pl-[46px] pr-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] sm:max-w-sm"
+              className="h-[44px] w-full rounded-[10px] border border-[var(--border)] bg-[var(--bg-input)] pl-12 pr-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] sm:max-w-sm"
             />
           </div>
 
@@ -91,12 +91,12 @@ export default function ExplorePage() {
           </div>
 
           {showCategories && (
-            <div className="mt-3 flex flex-wrap gap-2 rounded-[12px] border border-[var(--border)] bg-[var(--bg-card)] p-3">
+            <div className="mt-6 flex flex-wrap gap-2 rounded-[12px] border border-[var(--border)] bg-[var(--bg-card)] p-3">
               {categoryFilters.map((f) => (
                 <button
                   key={f.value}
                   onClick={() => setCategoryFilter(f.value)}
-                  className={`cursor-pointer rounded-full border px-6 py-3 text-sm font-medium transition-all duration-150 ${
+                  className={`cursor-pointer rounded-[10px] border px-7 py-3.5 text-sm font-medium transition-all duration-150 ${
                     categoryFilter === f.value
                       ? "border-[var(--purple)] bg-[var(--purple-muted)] text-[var(--purple)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"

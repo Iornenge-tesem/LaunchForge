@@ -6,7 +6,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { mockProjects } from "@/lib/projects";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import type { ProjectStatus, ProjectCategory } from "@/lib/types";
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal, ChevronDown, ChevronUp } from "lucide-react";
 
 const statusFilters: { label: string; value: ProjectStatus | "All" }[] = [
   { label: "All", value: "All" },
@@ -31,6 +31,7 @@ export default function ExplorePage() {
     ProjectCategory | "all"
   >("all");
   const [search, setSearch] = useState("");
+  const [showCategories, setShowCategories] = useState(false);
 
   const filtered = mockProjects.filter((p) => {
     if (statusFilter !== "All" && p.status !== statusFilter) return false;
@@ -49,14 +50,14 @@ export default function ExplorePage() {
           <div className="relative mb-4">
             <Search
               size={16}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-dim)]"
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-dim)]"
             />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects…"
-              className="h-[44px] w-full rounded-[10px] border border-[var(--border)] bg-[var(--bg-input)] pl-11 pr-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] sm:max-w-sm"
+              className="h-[44px] w-full rounded-[10px] border border-[var(--border)] bg-[var(--bg-input)] pl-12 pr-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] sm:max-w-sm"
             />
           </div>
 
@@ -68,7 +69,7 @@ export default function ExplorePage() {
                 <button
                   key={f.value}
                   onClick={() => setStatusFilter(f.value)}
-                  className={`cursor-pointer rounded-full border px-4 py-2 text-xs font-medium transition-all duration-150 ${
+                  className={`cursor-pointer rounded-full border px-5 py-2.5 text-xs font-medium transition-all duration-150 ${
                     statusFilter === f.value
                       ? "border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
@@ -79,15 +80,24 @@ export default function ExplorePage() {
               ))}
             </div>
 
-            <div className="hidden h-5 w-px bg-[var(--border)] sm:block" />
+            <button
+              type="button"
+              onClick={() => setShowCategories((prev) => !prev)}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-card)] px-4 py-2.5 text-xs font-semibold text-[var(--text-secondary)] transition-all duration-150 hover:border-[var(--border-hover)] hover:text-[var(--text-main)]"
+            >
+              <SlidersHorizontal size={16} />
+              Filter Categories
+              {showCategories ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+          </div>
 
-            {/* Category */}
-            <div className="flex flex-wrap gap-2">
+          {showCategories && (
+            <div className="mt-3 flex flex-wrap gap-2 rounded-[12px] border border-[var(--border)] bg-[var(--bg-card)] p-3">
               {categoryFilters.map((f) => (
                 <button
                   key={f.value}
                   onClick={() => setCategoryFilter(f.value)}
-                  className={`cursor-pointer rounded-full border px-4 py-2 text-xs font-medium transition-all duration-150 ${
+                  className={`cursor-pointer rounded-full border px-5 py-2.5 text-xs font-medium transition-all duration-150 ${
                     categoryFilter === f.value
                       ? "border-[var(--purple)] bg-[var(--purple-muted)] text-[var(--purple)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
@@ -97,7 +107,7 @@ export default function ExplorePage() {
                 </button>
               ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
 

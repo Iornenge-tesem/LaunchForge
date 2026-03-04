@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import minikitConfig from "@/minikit.config";
 import { Navbar } from "@/components/Navbar";
 import { Container } from "@/components/Container";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-sans",
 });
 
 const appUrl =
@@ -47,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={manrope.variable} suppressHydrationWarning>
       <head>
         <meta
           name="viewport"
@@ -83,7 +83,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#F7F7F8" />
       </head>
       <body
-        className="font-[family-name:var(--font-inter),ui-sans-serif,system-ui,-apple-system,sans-serif]"
+        className="font-[family-name:var(--font-sans),ui-sans-serif,system-ui,-apple-system,sans-serif]"
       >
         <Providers>
           <div className="relative flex min-h-[100dvh] flex-col">

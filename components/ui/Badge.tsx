@@ -11,14 +11,14 @@ type BadgeProps = {
 
 const variantStyles: Record<BadgeVariant, string> = {
   default:
-    "bg-[rgba(176,176,176,0.08)] text-[var(--text-dim)] border-[var(--border)]",
+    "bg-[var(--bg-elevated)] text-[var(--text-dim)] border-[var(--border)]",
   success:
-    "bg-[var(--green-muted)] text-[var(--green)] border-[rgba(52,211,153,0.2)]",
+    "bg-[var(--green-muted)] text-[var(--green)] border-[var(--green-muted)]",
   warning:
-    "bg-[var(--amber-muted)] text-[var(--amber)] border-[rgba(251,191,36,0.2)]",
+    "bg-[var(--amber-muted)] text-[var(--amber)] border-[var(--amber-muted)]",
   danger:
-    "bg-[var(--red-muted)] text-[var(--red)] border-[rgba(248,113,113,0.2)]",
-  info: "bg-[var(--accent-muted)] text-[var(--accent)] border-[rgba(77,163,255,0.2)]",
+    "bg-[var(--red-muted)] text-[var(--red)] border-[var(--red-muted)]",
+  info: "bg-[var(--accent-muted)] text-[var(--accent)] border-[var(--accent-muted)]",
 };
 
 export function Badge({

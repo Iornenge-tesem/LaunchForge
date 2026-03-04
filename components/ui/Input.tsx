@@ -25,10 +25,10 @@ export function Input({
         </span>
       )}
       <input
-        className={`h-[44px] w-full rounded-[5px] border bg-[var(--bg-input)] px-3.5 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none ${
+        className={`h-[44px] w-full rounded-[10px] border bg-[var(--bg-input)] px-3.5 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none ${
           error
             ? "border-[var(--red)]"
-            : "border-[var(--border)] hover:border-[var(--border-hover)]"
+            : "border-[var(--input-border)] hover:border-[var(--border-hover)]"
         } ${className}`}
         {...props}
       />
@@ -64,10 +64,10 @@ export function Textarea({
         </span>
       )}
       <textarea
-        className={`min-h-[120px] w-full rounded-[5px] border bg-[var(--bg-input)] px-3.5 py-3 text-sm leading-relaxed text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none ${
+        className={`min-h-[120px] w-full rounded-[10px] border bg-[var(--bg-input)] px-3.5 py-3 text-sm leading-relaxed text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none ${
           error
             ? "border-[var(--red)]"
-            : "border-[var(--border)] hover:border-[var(--border-hover)]"
+            : "border-[var(--input-border)] hover:border-[var(--border-hover)]"
         } ${className}`}
         {...props}
       />
@@ -106,10 +106,10 @@ export function Select({
       )}
       <div className="relative">
         <select
-          className={`h-[44px] w-full cursor-pointer appearance-none rounded-[5px] border bg-[var(--bg-input)] px-4 pr-10 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all hover:bg-[var(--bg-elevated)] focus:border-[var(--accent)] focus-visible:outline-none ${
+          className={`h-[44px] w-full cursor-pointer appearance-none rounded-[10px] border bg-[var(--bg-input)] px-4 pr-10 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all hover:bg-[var(--bg-elevated)] focus:border-[var(--accent)] focus-visible:outline-none ${
             error
               ? "border-[var(--red)]"
-              : "border-[var(--border)] hover:border-[var(--border-hover)]"
+              : "border-[var(--input-border)] hover:border-[var(--border-hover)]"
           } ${className}`}
           {...(props as React.SelectHTMLAttributes<HTMLSelectElement>)}
         >

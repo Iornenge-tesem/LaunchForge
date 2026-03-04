@@ -24,7 +24,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-overlay)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-main)]/95 backdrop-blur-xl dark:bg-[var(--bg-main)]/95">
       <Container className="flex h-16 items-center justify-between">
         {/* Logo */}
         <Link

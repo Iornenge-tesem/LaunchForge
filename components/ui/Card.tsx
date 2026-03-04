@@ -9,7 +9,7 @@ type CardProps = {
 
 const paddingStyles = {
   sm: "p-5",
-  md: "p-5 sm:p-6",
+  md: "p-6",
   lg: "p-6 sm:p-7",
 };
 
@@ -21,7 +21,7 @@ export function Card({
 }: CardProps) {
   return (
     <div
-      className={`rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] shadow-[var(--shadow-sm)] ${
+      className={`rounded-[14px] border border-[var(--border)] bg-[var(--bg-card)] shadow-[var(--shadow-sm)] ${
         paddingStyles[padding]
       } ${
         hover

@@ -22,7 +22,7 @@ export function ProgressBar({
           {label}
         </div>
       )}
-      <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--bg-elevated)]">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--border)]">
         <div
           className="h-full rounded-full bg-[var(--accent)] transition-all duration-700 ease-out"
           style={{ width: `${percent}%` }}

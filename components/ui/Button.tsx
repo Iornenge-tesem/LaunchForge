@@ -12,9 +12,9 @@ type ButtonProps = {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-[var(--accent)] text-white font-semibold hover:bg-[var(--accent-hover)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]",
+    "bg-[var(--accent)] text-white font-semibold hover:bg-[var(--accent-hover)] shadow-[var(--primary-btn-shadow)] hover:shadow-[var(--primary-btn-shadow-hover)]",
   secondary:
-    "bg-[var(--bg-card)] text-[var(--text-main)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-[var(--bg-elevated)] shadow-[var(--shadow-xs)]",
+    "bg-transparent text-[var(--text-main)] border border-[var(--input-border)] hover:border-[var(--border-hover)] hover:bg-[var(--accent-muted)]",
   ghost:
     "bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:bg-[var(--bg-elevated)]",
   danger:
@@ -22,9 +22,9 @@ const variantStyles: Record<ButtonVariant, string> = {
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "h-9 px-4 text-sm gap-1.5 rounded-[5px]",
-  md: "h-[44px] px-5 text-sm font-medium gap-2 rounded-[5px]",
-  lg: "h-[48px] px-6 text-base font-semibold gap-2 rounded-[5px]",
+  sm: "h-9 px-4 text-sm gap-1.5 rounded-[10px]",
+  md: "h-[44px] px-[22px] text-sm font-medium gap-2 rounded-[10px]",
+  lg: "h-[48px] px-7 text-base font-semibold gap-2 rounded-[10px]",
 };
 
 export function Button({

@@ -4,44 +4,53 @@
 
 /* ── Light Theme (default) ──────────────────────────────── */
 :root {
-  /* Core Surfaces */
-  --bg-main: #F7F7F8;
+  /* Core Surfaces (Light) */
+  --bg-main: #F8FAFC;
+  --bg-surface: #FFFFFF;
   --bg-card: #FFFFFF;
-  --bg-elevated: #F0F0F2;
-  --bg-input: #F5F5F7;
-  --bg-overlay: rgba(255, 255, 255, 0.88);
+  --bg-elevated: #F1F5F9;
+  --bg-input: #FFFFFF;
+  --bg-overlay: rgba(255, 255, 255, 0.94);
 
-  /* Accent */
-  --accent: #2563EB;
-  --accent-hover: #1D4ED8;
-  --accent-muted: rgba(37, 99, 235, 0.07);
-  --accent-glow: rgba(37, 99, 235, 0.10);
+  /* Brand — Forge Blue */
+  --accent: #3B82F6;
+  --accent-hover: #2563EB;
+  --accent-muted: #DBEAFE;
+  --accent-glow: rgba(59, 130, 246, 0.15);
+
+  /* Brand Accent — Forge Ember */
+  --ember: #F59E0B;
+  --ember-hover: #D97706;
+  --ember-muted: #FEF3C7;
 
   /* Semantic */
-  --green: #059669;
-  --green-muted: rgba(5, 150, 105, 0.07);
-  --amber: #D97706;
-  --amber-muted: rgba(217, 119, 6, 0.07);
-  --red: #DC2626;
-  --red-muted: rgba(220, 38, 38, 0.07);
-  --purple: #7C3AED;
-  --purple-muted: rgba(124, 58, 237, 0.07);
+  --green: #10B981;
+  --green-muted: rgba(16, 185, 129, 0.14);
+  --amber: #F59E0B;
+  --amber-muted: #FEF3C7;
+  --red: #EF4444;
+  --red-muted: rgba(239, 68, 68, 0.12);
+  --purple: #6366F1;
+  --purple-muted: rgba(99, 102, 241, 0.12);
 
-  /* Typography — jet black primary, cold grey secondary */
-  --text-main: #1A1A1A;
-  --text-secondary: #555555;
-  --text-dim: #B0B0B0;
+  /* Typography */
+  --text-main: #0F172A;
+  --text-secondary: #475569;
+  --text-dim: #94A3B8;
 
   /* Borders */
-  --border: rgba(26, 26, 26, 0.08);
-  --border-hover: rgba(26, 26, 26, 0.18);
+  --border: #E2E8F0;
+  --border-hover: #CBD5E1;
+  --input-border: #CBD5F5;
 
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 10px 20px -4px rgba(0, 0, 0, 0.06), 0 4px 8px -4px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 40px -8px rgba(0, 0, 0, 0.08);
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 6px 16px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 10px 26px rgba(15, 23, 42, 0.10);
+  --shadow-xl: 0 16px 36px rgba(15, 23, 42, 0.12);
+  --primary-btn-shadow: 0 0 0 2px rgba(59,130,246,0.10);
+  --primary-btn-shadow-hover: 0 0 0 2px rgba(59,130,246,0.15);
 
   /* Radii */
   --radius-sm: 5px;
@@ -53,39 +62,52 @@
 
 /* ── Dark Theme ─────────────────────────────────────────── */
 .dark {
-  --bg-main: #0F0F0F;
-  --bg-card: #1A1A1A;
-  --bg-elevated: #242424;
-  --bg-input: #202020;
-  --bg-overlay: rgba(15, 15, 15, 0.92);
+  /* Core Surfaces (Dark) */
+  --bg-main: #0B0F19;
+  --bg-surface: #111827;
+  --bg-card: #1F2937;
+  --bg-elevated: #111827;
+  --bg-input: #0F172A;
+  --bg-overlay: rgba(11, 15, 25, 0.94);
 
-  --accent: #4DA3FF;
-  --accent-hover: #6BB5FF;
-  --accent-muted: rgba(77, 163, 255, 0.10);
-  --accent-glow: rgba(77, 163, 255, 0.18);
+  /* Brand */
+  --accent: #3B82F6;
+  --accent-hover: #2563EB;
+  --accent-muted: #DBEAFE;
+  --accent-glow: rgba(59, 130, 246, 0.15);
 
-  --green: #34D399;
-  --green-muted: rgba(52, 211, 153, 0.10);
-  --amber: #FBBF24;
-  --amber-muted: rgba(251, 191, 36, 0.10);
-  --red: #F87171;
-  --red-muted: rgba(248, 113, 113, 0.10);
-  --purple: #8B5CF6;
-  --purple-muted: rgba(139, 92, 246, 0.10);
+  --ember: #F59E0B;
+  --ember-hover: #D97706;
+  --ember-muted: #FEF3C7;
 
-  /* platinum primary, cold grey secondary */
-  --text-main: #E5E5E5;
-  --text-secondary: #B0B0B0;
-  --text-dim: #8A8A8A;
+  /* Semantic */
+  --green: #10B981;
+  --green-muted: rgba(16, 185, 129, 0.16);
+  --amber: #F59E0B;
+  --amber-muted: rgba(245, 158, 11, 0.18);
+  --red: #EF4444;
+  --red-muted: rgba(239, 68, 68, 0.16);
+  --purple: #818CF8;
+  --purple-muted: rgba(129, 140, 248, 0.16);
 
-  --border: rgba(176, 176, 176, 0.14);
-  --border-hover: rgba(176, 176, 176, 0.28);
+  /* Typography */
+  --text-main: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-dim: #6B7280;
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.24);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.20);
-  --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.34), 0 3px 6px -3px rgba(0, 0, 0, 0.24);
-  --shadow-lg: 0 14px 28px -6px rgba(0, 0, 0, 0.40), 0 8px 12px -8px rgba(0, 0, 0, 0.28);
-  --shadow-xl: 0 24px 48px -10px rgba(0, 0, 0, 0.52);
+  /* Borders */
+  --border: #374151;
+  --border-hover: #4B5563;
+  --input-border: #374151;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.34);
+  --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.38);
+  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.46);
+  --shadow-xl: 0 18px 42px rgba(0, 0, 0, 0.54);
+  --primary-btn-shadow: 0 0 0 2px rgba(59,130,246,0.15);
+  --primary-btn-shadow-hover: 0 0 0 2px rgba(59,130,246,0.24), 0 8px 24px rgba(37,99,235,0.34);
 }
 
 /* ── Base Reset ───────────────────────────────────────────── */

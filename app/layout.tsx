@@ -99,10 +99,10 @@ export default function RootLayout({
         {/* Prevent flash of wrong theme */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");var d=window.matchMedia("(prefers-color-scheme:dark)").matches;if(t==="dark"||(t!=="light"&&d)){document.documentElement.classList.add("dark");document.querySelector('meta[name="theme-color"]')?.setAttribute("content","#0F0F0F")}else{document.querySelector('meta[name="theme-color"]')?.setAttribute("content","#F7F7F8")}}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem("theme");var d=window.matchMedia("(prefers-color-scheme:dark)").matches;if(t==="dark"||(t!=="light"&&d)){document.documentElement.classList.add("dark");document.querySelector('meta[name="theme-color"]')?.setAttribute("content","#0B0F19")}else{document.querySelector('meta[name="theme-color"]')?.setAttribute("content","#F8FAFC")}}catch(e){}})()`,
           }}
         />
-        <meta name="theme-color" content="#F7F7F8" />
+        <meta name="theme-color" content="#F8FAFC" />
       </head>
       <body
         className="font-[family-name:var(--font-sans),ui-sans-serif,system-ui,-apple-system,sans-serif]"

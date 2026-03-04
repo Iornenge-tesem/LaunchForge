@@ -34,7 +34,7 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
   return (
     <Link
       href={`/project/${id}`}
-      className="group flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-[var(--shadow-sm)] transition-all duration-200 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5 sm:p-6"
+      className="group flex flex-col rounded-[14px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-[var(--shadow-sm)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5 cursor-pointer sm:p-6"
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
@@ -44,12 +44,12 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
               {name}
             </h3>
             {tokenSymbol && (
-              <span className="shrink-0 rounded-[var(--radius-sm)] bg-[var(--bg-elevated)] px-2 py-0.5 text-xs font-medium text-[var(--text-secondary)]">
+              <span className="shrink-0 rounded-[8px] bg-[var(--bg-elevated)] px-2 py-0.5 text-xs font-medium text-[var(--text-secondary)]">
                 ${tokenSymbol}
               </span>
             )}
           </div>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
+          <div className="mt-2.5 flex flex-wrap items-center gap-2">
             <Badge variant={statusVariantMap[status] ?? "default"} dot>
               {status}
             </Badge>
@@ -62,7 +62,7 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
       </div>
 
       {/* Description */}
-      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+      <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-[var(--text-secondary)]">
         {description}
       </p>
 
@@ -80,13 +80,13 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
       {/* Footer */}
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--border)] pt-4 mt-5 text-xs text-[var(--text-dim)]">
         <span className="truncate font-mono">{creator}</span>
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3.5 shrink-0">
           <span className="flex items-center gap-1">
-            <Heart size={12} />
+            <Heart size={13} />
             {likes}
           </span>
           <span className="flex items-center gap-1">
-            <Eye size={12} />
+            <Eye size={13} />
             {views >= 1000 ? `${(views / 1000).toFixed(1)}k` : views}
           </span>
         </div>

@@ -13,8 +13,8 @@ export function Container({
 }: ContainerProps) {
   return (
     <div
-      className={`mx-auto w-full px-6 sm:px-8 ${
-        narrow ? "max-w-3xl" : "max-w-6xl"
+      className={`mx-auto w-full px-5 sm:px-6 lg:px-8 ${
+        narrow ? "max-w-[760px]" : "max-w-[1200px]"
       } ${className}`}
     >
       {children}

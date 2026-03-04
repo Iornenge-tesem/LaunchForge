@@ -64,17 +64,17 @@ export default function Home() {
       <GlowBackground />
 
       {/* ── Hero ──────────────────────────────── */}
-      <Section className="relative z-10 pt-20 pb-8 sm:pt-28 sm:pb-12">
+      <Section className="relative z-10 pt-16 pb-4 sm:pt-24 sm:pb-6">
         <div className="mx-auto max-w-2xl text-center fade-in-up">
-          <Badge variant="info" className="mb-6">
+          <Badge variant="info" className="mb-5">
             Built on Base
           </Badge>
-          <h1 className="text-4xl font-extrabold tracking-tight text-[var(--text-main)] sm:text-6xl sm:leading-[1.1]">
+          <h1 className="text-4xl font-extrabold tracking-tight text-[var(--text-main)] sm:text-[56px] sm:leading-[1.08]">
             The launchpad for
             <br />
             <span className="text-[var(--accent)]">serious builders.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
+          <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg sm:mt-5">
             Launch tokens, get AI analysis, and discover real crypto projects —
             all on Base.
           </p>
@@ -82,18 +82,20 @@ export default function Home() {
       </Section>
 
       {/* ── Stats ─────────────────────────────── */}
-      <Section className="relative z-10 py-0 sm:py-0">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <Section className="relative z-10 py-6 sm:py-8">
+        <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
-            <Card key={stat.label} padding="md" className="text-center">
-              <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-muted)] text-[var(--accent)]">
+            <Card key={stat.label} padding="md" className="flex items-center gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
                 {stat.icon}
               </div>
-              <div className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
-                {stat.value}
-              </div>
-              <div className="mt-1 text-sm text-[var(--text-dim)]">
-                {stat.label}
+              <div>
+                <div className="text-2xl font-bold text-[var(--text-main)]">
+                  {stat.value}
+                </div>
+                <div className="text-xs text-[var(--text-dim)]">
+                  {stat.label}
+                </div>
               </div>
             </Card>
           ))}
@@ -101,10 +103,10 @@ export default function Home() {
       </Section>
 
       {/* ── CTA Button ────────────────────────── */}
-      <Section className="relative z-10 py-8 sm:py-10">
+      <Section className="relative z-10 py-6 sm:py-8">
         <div className="flex justify-center">
           <Link href="/launch">
-            <Button size="lg" className="gap-2 px-8">
+            <Button size="lg" className="gap-2.5 px-8 shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)]">
               <Rocket size={18} />
               Launch Project
             </Button>
@@ -123,10 +125,10 @@ export default function Home() {
             covered.
           </p>
         </div>
-        <div className="grid gap-5 sm:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-3">
           {features.map((f) => (
-            <Card key={f.title} hover padding="lg">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-muted)] text-[var(--accent)]">
+            <Card key={f.title} hover padding="lg" className="flex flex-col">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
                 {f.icon}
               </div>
               <h3 className="text-base font-semibold text-[var(--text-main)]">
@@ -153,18 +155,18 @@ export default function Home() {
           </div>
           <Link
             href="/explore"
-            className="hidden items-center gap-1 text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)] sm:flex"
+            className="hidden items-center gap-1.5 text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)] sm:flex"
           >
             View all
             <ArrowRight size={14} />
           </Link>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {topProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-        <div className="mt-6 flex justify-center sm:hidden">
+        <div className="mt-8 flex justify-center sm:hidden">
           <Link href="/explore">
             <Button variant="secondary" size="sm" className="gap-2">
               View all projects

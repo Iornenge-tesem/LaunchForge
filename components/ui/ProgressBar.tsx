@@ -17,16 +17,9 @@ export function ProgressBar({
 
   return (
     <div className={className}>
-      {(label || showPercent) && (
-        <div className="mb-2 flex items-center justify-between text-xs">
-          {label && (
-            <span className="text-[var(--text-secondary)]">{label}</span>
-          )}
-          {showPercent && (
-            <span className="font-semibold text-[var(--text-main)]">
-              {percent}%
-            </span>
-          )}
+      {label && (
+        <div className="mb-2 text-xs text-[var(--text-secondary)]">
+          {label}
         </div>
       )}
       <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--bg-elevated)]">
@@ -35,6 +28,11 @@ export function ProgressBar({
           style={{ width: `${percent}%` }}
         />
       </div>
+      {showPercent && (
+        <div className="mt-1.5 text-right text-xs font-medium text-[var(--text-dim)]">
+          {percent}% funded
+        </div>
+      )}
     </div>
   );
 }

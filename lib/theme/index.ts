@@ -34,8 +34,8 @@ export const theme = {
   },
   radius: {
     sm: "8px",
-    md: "12px",
-    lg: "16px",
+    md: "10px",
+    lg: "14px",
     xl: "20px",
   },
   motion: {

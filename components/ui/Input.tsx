@@ -16,16 +16,16 @@ export function Input({
 }: InputProps) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-[var(--text-main)]">
+      <span className="mb-2 block text-sm font-medium text-[var(--text-main)]">
         {label}
       </span>
       {hint && (
-        <span className="mb-2 block text-xs text-[var(--text-dim)]">
+        <span className="-mt-1 mb-2 block text-xs text-[var(--text-dim)]">
           {hint}
         </span>
       )}
       <input
-        className={`w-full rounded-[var(--radius-md)] border bg-[var(--bg-input)] px-4 py-3 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] ${
+        className={`h-[44px] w-full rounded-[10px] border bg-[var(--bg-input)] px-3.5 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] ${
           error
             ? "border-[var(--red)]"
             : "border-[var(--border)] hover:border-[var(--border-hover)]"
@@ -64,7 +64,7 @@ export function Textarea({
         </span>
       )}
       <textarea
-        className={`w-full rounded-[var(--radius-md)] border bg-[var(--bg-input)] px-4 py-3 text-sm leading-relaxed text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] ${
+        className={`min-h-[120px] w-full rounded-[10px] border bg-[var(--bg-input)] px-3.5 py-3 text-sm leading-relaxed text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] ${
           error
             ? "border-[var(--red)]"
             : "border-[var(--border)] hover:border-[var(--border-hover)]"
@@ -104,21 +104,24 @@ export function Select({
           {hint}
         </span>
       )}
-      <select
-        className={`w-full appearance-none rounded-[var(--radius-md)] border bg-[var(--bg-input)] px-4 py-3 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] ${
-          error
-            ? "border-[var(--red)]"
-            : "border-[var(--border)] hover:border-[var(--border-hover)]"
-        } ${className}`}
-        {...(props as React.SelectHTMLAttributes<HTMLSelectElement>)}
-      >
-        <option value="">Select…</option>
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      <div className="relative">
+        <select
+          className={`h-[44px] w-full cursor-pointer appearance-none rounded-[10px] border bg-[var(--bg-input)] px-4 pr-10 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all hover:bg-[var(--bg-elevated)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] ${
+            error
+              ? "border-[var(--red)]"
+              : "border-[var(--border)] hover:border-[var(--border-hover)]"
+          } ${className}`}
+          {...(props as React.SelectHTMLAttributes<HTMLSelectElement>)}
+        >
+          <option value="">Select…</option>
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-dim)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
       {error && (
         <span className="mt-1 block text-xs text-[var(--red)]">{error}</span>
       )}

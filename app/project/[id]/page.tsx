@@ -68,21 +68,21 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   });
 
   return (
-    <section className="py-8 sm:py-12">
+    <section className="py-10 sm:py-14">
       <Container>
         {/* Back link */}
         <Link
           href="/explore"
-          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]"
+          className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]"
         >
           <ArrowLeft size={16} />
           Back to Explore
         </Link>
 
         {/* Two column layout */}
-        <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
+        <div className="grid gap-7 lg:grid-cols-[1fr_380px]">
           {/* ── Left Column ─────────────────── */}
-          <div className="space-y-6">
+          <div className="space-y-7">
             {/* Header */}
             <Card padding="lg" className="fade-in-up">
               <div className="flex flex-wrap items-start justify-between gap-4">
@@ -92,7 +92,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       {name}
                     </h1>
                     {tokenSymbol && (
-                      <span className="rounded-[var(--radius-sm)] bg-[var(--bg-elevated)] px-3 py-1 text-sm font-medium text-[var(--text-secondary)]">
+                      <span className="rounded-[8px] bg-[var(--bg-elevated)] px-3 py-1 text-sm font-medium text-[var(--text-secondary)]">
                         ${tokenSymbol}
                       </span>
                     )}
@@ -161,7 +161,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <dd className="flex items-center gap-2 text-sm font-mono font-medium text-[var(--text-main)]">
                     {creator}
                     <button
-                      className="text-[var(--text-dim)] transition-colors hover:text-[var(--accent)]"
+                      className="cursor-pointer text-[var(--text-dim)] transition-colors hover:text-[var(--accent)]"
                       title="Copy address"
                     >
                       <Copy size={14} />
@@ -198,9 +198,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
-                    <Globe size={15} />
+                    <Globe size={16} />
                     Website
                   </a>
                 )}
@@ -209,7 +209,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -227,7 +227,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -245,7 +245,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
 
           {/* ── Right Column (Sidebar) ──────── */}
-          <div className="space-y-6">
+          <div className="space-y-7">
             {/* AI Analysis */}
             <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
@@ -292,7 +292,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   )}
                 </div>
               ) : (
-                <div className="rounded-[var(--radius-md)] bg-[var(--bg-elevated)] p-4 text-center">
+                <div className="rounded-[10px] bg-[var(--bg-elevated)] p-5 text-center">
                   <p className="text-sm text-[var(--text-dim)]">
                     AI analysis pending — submitted projects are scored
                     automatically.
@@ -306,7 +306,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 Community Ratings
               </h2>
-              <div className="rounded-[var(--radius-md)] bg-[var(--bg-elevated)] p-5 text-center">
+              <div className="rounded-[10px] bg-[var(--bg-elevated)] p-5 text-center">
                 <Star
                   size={28}
                   className="mx-auto mb-3 text-[var(--text-dim)]"

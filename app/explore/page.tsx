@@ -44,7 +44,7 @@ export default function ExplorePage() {
     <>
       {/* Sticky search & filters */}
       <div className="sticky top-16 z-40 border-b border-[var(--border)] bg-[var(--bg-overlay)] backdrop-blur-xl">
-        <div className="mx-auto w-full max-w-6xl px-6 py-4 sm:px-8">
+        <div className="mx-auto w-full max-w-[1200px] px-5 py-4 sm:px-6 lg:px-8">
           {/* Search */}
           <div className="relative mb-4">
             <Search
@@ -56,7 +56,7 @@ export default function ExplorePage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search projects…"
-              className="w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-input)] py-2.5 pl-11 pr-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] sm:max-w-sm"
+              className="h-[44px] w-full rounded-[10px] border border-[var(--border)] bg-[var(--bg-input)] pl-11 pr-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] sm:max-w-sm"
             />
           </div>
 
@@ -68,7 +68,7 @@ export default function ExplorePage() {
                 <button
                   key={f.value}
                   onClick={() => setStatusFilter(f.value)}
-                  className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all ${
+                  className={`cursor-pointer rounded-full border px-4 py-2 text-xs font-medium transition-all duration-150 ${
                     statusFilter === f.value
                       ? "border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
@@ -87,7 +87,7 @@ export default function ExplorePage() {
                 <button
                   key={f.value}
                   onClick={() => setCategoryFilter(f.value)}
-                  className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all ${
+                  className={`cursor-pointer rounded-full border px-4 py-2 text-xs font-medium transition-all duration-150 ${
                     categoryFilter === f.value
                       ? "border-[var(--purple)] bg-[var(--purple-muted)] text-[var(--purple)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
@@ -114,13 +114,13 @@ export default function ExplorePage() {
 
         {/* Results */}
         {filtered.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         ) : (
-          <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] p-16 text-center shadow-[var(--shadow-sm)]">
+          <div className="rounded-[14px] border border-[var(--border)] bg-[var(--bg-card)] p-16 text-center shadow-[var(--shadow-sm)]">
             <p className="text-base text-[var(--text-dim)]">
               No projects match your filters.
             </p>
@@ -130,7 +130,7 @@ export default function ExplorePage() {
                 setCategoryFilter("all");
                 setSearch("");
               }}
-              className="mt-3 text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
+              className="mt-3 cursor-pointer text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
             >
               Clear all filters
             </button>

@@ -22,9 +22,9 @@ const variantStyles: Record<ButtonVariant, string> = {
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "h-9 px-4 text-sm gap-1.5 rounded-[var(--radius-sm)]",
-  md: "h-11 px-5 text-sm font-medium gap-2 rounded-[var(--radius-md)]",
-  lg: "h-12 px-7 text-base font-semibold gap-2 rounded-[var(--radius-md)]",
+  sm: "h-9 px-4 text-sm gap-1.5 rounded-[10px]",
+  md: "h-[44px] px-5 text-sm font-medium gap-2 rounded-[10px]",
+  lg: "h-[48px] px-6 text-base font-semibold gap-2 rounded-[12px]",
 };
 
 export function Button({

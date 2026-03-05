@@ -84,10 +84,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* ── Left Column ─────────────────── */}
           <div className="space-y-8">
             {/* Header */}
-            <Card
-              padding="lg"
-              className="fade-in-up dark:bg-[color:rgba(34,34,34,0.94)] dark:shadow-[0_14px_30px_-14px_rgba(0,0,0,0.62)]"
-            >
+            <Card padding="lg" className="fade-in-up">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-3">
@@ -122,10 +119,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </Card>
 
             {/* Description */}
-            <Card
-              padding="lg"
-              className="dark:bg-[color:rgba(34,34,34,0.92)]"
-            >
+            <Card padding="lg">
               <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 About
               </h2>
@@ -136,10 +130,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
             {/* Funding */}
             {fundingTarget && fundingTarget > 0 && (
-              <Card
-                padding="lg"
-                className="dark:bg-[color:rgba(34,34,34,0.92)]"
-              >
+              <Card padding="lg">
                 <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                   Funding Goal
                 </h2>
@@ -160,10 +151,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             )}
 
             {/* Details */}
-            <Card
-              padding="lg"
-              className="dark:bg-[color:rgba(34,34,34,0.92)]"
-            >
+            <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 Details
               </h2>
@@ -200,10 +188,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </Card>
 
             {/* Links */}
-            <Card
-              padding="lg"
-              className="dark:bg-[color:rgba(34,34,34,0.92)]"
-            >
+            <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 Links
               </h2>
@@ -262,10 +247,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* ── Right Column (Sidebar) ──────── */}
           <div className="space-y-8">
             {/* AI Analysis */}
-            <Card
-              padding="lg"
-              className="dark:bg-[color:rgba(34,34,34,0.94)] dark:shadow-[0_14px_30px_-14px_rgba(0,0,0,0.6)]"
-            >
+            <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 AI Analysis
               </h2>
@@ -320,10 +302,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </Card>
 
             {/* Community Ratings */}
-            <Card
-              padding="lg"
-              className="dark:bg-[color:rgba(34,34,34,0.94)] dark:shadow-[0_14px_30px_-14px_rgba(0,0,0,0.6)]"
-            >
+            <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 Community Ratings
               </h2>

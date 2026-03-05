@@ -80,20 +80,31 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:hidden">
+            {profileAvatar}
+            <div className="min-w-0 leading-tight">
+              <p className="max-w-[90px] truncate text-xs font-semibold text-[var(--text-main)]">
+                {profileName}
+              </p>
+            </div>
+          </div>
+
           <div className="hidden items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
             {profileAvatar}
             <div className="min-w-0 leading-tight">
               <p className="max-w-[140px] truncate text-xs font-semibold text-[var(--text-main)]">
                 {profileName}
               </p>
-             
+              <p className="max-w-[140px] truncate text-[11px] text-[var(--text-dim)]">
+                {isConnected ? shortAddress : "Auto-connecting..."}
+              </p>
             </div>
           </div>
 
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[5px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"
+            className="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-[5px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:flex"
             aria-label="Toggle theme"
           >
             {resolvedTheme === "dark" ? (
@@ -134,17 +145,14 @@ export function Navbar() {
             ))}
           </nav>
           <div className="mt-4 border-t border-[var(--border)] pt-4">
-            <div className="flex items-center gap-3 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2">
-              {profileAvatar}
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-[var(--text-main)]">
-                  {profileName}
-                </p>
-                <p className="truncate text-xs text-[var(--text-dim)]">
-                  {isConnected ? shortAddress : "Auto-connecting..."}
-                </p>
-              </div>
-            </div>
+            <button
+              onClick={toggleTheme}
+              className="flex w-full items-center justify-between rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:bg-[var(--bg-main)]"
+              aria-label="Toggle theme"
+            >
+              <span>Theme</span>
+              {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </div>
         </div>
       )}

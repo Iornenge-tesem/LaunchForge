@@ -57,7 +57,7 @@ const config: MiniKitConfig = {
   ogTitle: "LaunchForge",
   ogDescription: "A launchpad for real builders and experimental ideas.",
   ogImageUrl: `${rootUrl}/images/launchforge-icon.png`,
-  noindex: true,
+  noindex: false,
 };
 
 export default config;

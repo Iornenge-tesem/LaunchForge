@@ -4,11 +4,37 @@ import {
   type ReactNode,
   useEffect,
   useState,
+  useMemo,
   createContext,
   useContext,
   useCallback,
 } from "react";
 import { MiniKit } from "@worldcoin/minikit-js";
+import { sdk } from "@farcaster/miniapp-sdk";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { WagmiProvider, createConfig, http, useAccount } from "wagmi";
+import { base } from "wagmi/chains";
+import { baseAccount } from "wagmi/connectors";
+import { farcasterMiniApp } from "@farcaster/miniapp-wagmi-connector";
+
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.vercel.app";
+
+const wagmiConfig = createConfig({
+  chains: [base],
+  transports: {
+    [base.id]: http(),
+  },
+  connectors: [
+    farcasterMiniApp(),
+    baseAccount({
+      appName: "LaunchForge",
+      appLogoUrl: `${appUrl}/images/launchforge-icon.png`,
+    }),
+  ],
+});
+
+const queryClient = new QueryClient();
 
 /* ── Theme Context ──────────────────────────────────────── */
 type Theme = "light" | "dark" | "system";
@@ -26,6 +52,30 @@ const ThemeContext = createContext<ThemeContextValue>({
 });
 
 export const useTheme = () => useContext(ThemeContext);
+
+type MiniAppUser = {
+  fid?: number;
+  username?: string;
+  displayName?: string;
+  pfpUrl?: string;
+  bio?: string;
+};
+
+type MiniAppContextValue = {
+  user: MiniAppUser | null;
+  isMiniApp: boolean;
+  address?: `0x${string}`;
+  isConnected: boolean;
+};
+
+const MiniAppContext = createContext<MiniAppContextValue>({
+  user: null,
+  isMiniApp: false,
+  address: undefined,
+  isConnected: false,
+});
+
+export const useMiniAppProfile = () => useContext(MiniAppContext);
 
 function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("system");
@@ -92,18 +142,89 @@ function ThemeProvider({ children }: { children: ReactNode }) {
 
 /* ── MiniKit Provider ───────────────────────────────────── */
 function MiniKitProvider({ children }: { children: ReactNode }) {
+  const { address, isConnected } = useAccount();
+  const [user, setUser] = useState<MiniAppUser | null>(null);
+  const [isMiniApp, setIsMiniApp] = useState(false);
+
   useEffect(() => {
-    MiniKit.install();
+    if (typeof window === "undefined") return;
+    if (window.location.hostname.includes("localhost")) return;
+
+    import("eruda")
+      .then((mod) => {
+        const win = window as Window & { __ERUDA_INIT__?: boolean };
+        if (win.__ERUDA_INIT__) return;
+
+        mod.default.init();
+        win.__ERUDA_INIT__ = true;
+      })
+      .catch(() => {
+        // no-op: debug console is optional
+      });
   }, []);
 
-  return <>{children}</>;
+  useEffect(() => {
+    let mounted = true;
+
+    MiniKit.install();
+
+    async function loadContext() {
+      try {
+        const context = await sdk.context;
+        if (!mounted) return;
+
+        // sdk.context is async in the current SDK version.
+        const contextUser = context.user;
+        if (contextUser) {
+          setUser({
+            fid: contextUser.fid,
+            username: contextUser.username,
+            displayName: contextUser.displayName,
+            pfpUrl: contextUser.pfpUrl,
+          });
+          setIsMiniApp(true);
+        }
+
+        if (context.client || context.user) {
+          setIsMiniApp(true);
+        }
+
+        if (sdk.actions?.ready) {
+          await sdk.actions.ready();
+        }
+      } catch {
+        // no-op: app still runs outside Mini App host
+      }
+    }
+
+    loadContext();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({ user, isMiniApp, address, isConnected }),
+    [user, isMiniApp, address, isConnected]
+  );
+
+  return (
+    <MiniAppContext.Provider value={contextValue}>
+      {children}
+    </MiniAppContext.Provider>
+  );
 }
 
 /* ── Combined Providers ─────────────────────────────────── */
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
-      <MiniKitProvider>{children}</MiniKitProvider>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <MiniKitProvider>{children}</MiniKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </ThemeProvider>
   );
 }

@@ -4,8 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Container } from "@/components/Container";
-import { Button } from "@/components/ui/Button";
-import { useTheme } from "@/components/providers";
+import { useTheme, useMiniAppProfile } from "@/components/providers";
 import { Sun, Moon, Menu, X, Wallet } from "lucide-react";
 
 const navLinks = [
@@ -18,10 +17,28 @@ export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+  const { user, address, isConnected } = useMiniAppProfile();
 
   function toggleTheme() {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   }
+
+  const shortAddress = address
+    ? `${address.slice(0, 6)}...${address.slice(-4)}`
+    : "Base Account";
+  const profileName = user?.displayName || user?.username || shortAddress;
+
+  const profileAvatar = user?.pfpUrl ? (
+    <img
+      src={user.pfpUrl}
+      alt={profileName}
+      className="h-8 w-8 rounded-full object-cover"
+    />
+  ) : (
+    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
+      <Wallet size={14} />
+    </span>
+  );
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-main)]/95 backdrop-blur-xl dark:bg-[var(--bg-main)]/95">
@@ -76,14 +93,17 @@ export function Navbar() {
             )}
           </button>
 
-          <Button
-            variant="secondary"
-            size="md"
-            className="hidden gap-2 sm:inline-flex"
-          >
-            <Wallet size={16} />
-            Connect Wallet
-          </Button>
+          <div className="hidden items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
+            {profileAvatar}
+            <div className="min-w-0 leading-tight">
+              <p className="max-w-[140px] truncate text-xs font-semibold text-[var(--text-main)]">
+                {profileName}
+              </p>
+              <p className="max-w-[140px] truncate text-[11px] text-[var(--text-dim)]">
+                {isConnected ? shortAddress : "Auto-connecting..."}
+              </p>
+            </div>
+          </div>
 
           {/* Mobile menu button */}
           <button
@@ -116,10 +136,17 @@ export function Navbar() {
             ))}
           </nav>
           <div className="mt-4 border-t border-[var(--border)] pt-4">
-            <Button variant="secondary" size="md" fullWidth className="gap-2">
-              <Wallet size={16} />
-              Connect Wallet
-            </Button>
+            <div className="flex items-center gap-3 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2">
+              {profileAvatar}
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-[var(--text-main)]">
+                  {profileName}
+                </p>
+                <p className="truncate text-xs text-[var(--text-dim)]">
+                  {isConnected ? shortAddress : "Auto-connecting..."}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}

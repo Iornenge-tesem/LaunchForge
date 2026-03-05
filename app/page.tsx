@@ -47,7 +47,7 @@ export const metadata: Metadata = {
       button: {
         title: "Launch Project",
         action: {
-          type: "launch_frame",
+          type: "launch_miniapp",
           name: `Launch ${minikitConfig.appName}`,
           url: minikitConfig.homeUrl,
           splashImageUrl: minikitConfig.splashImageUrl,

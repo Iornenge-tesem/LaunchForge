@@ -23,6 +23,7 @@ export type MiniKitConfig = {
   ogTitle: string;
   ogDescription: string;
   ogImageUrl: string;
+  noindex: boolean;
 };
 
 const rootUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.vercel.app";
@@ -44,18 +45,19 @@ const config: MiniKitConfig = {
   tagline: "The launchpad for serious builders",
   iconUrl: `${rootUrl}/images/launchforge-icon.png`,
   homeUrl: rootUrl,
-  splashImageUrl: "https://placehold.co/200x200/png?text=LF",
-  splashBackgroundColor: "#0F0F0F",
-  heroImageUrl: "https://placehold.co/1200x630/png?text=LaunchForge+Hero",
+  splashImageUrl: `${rootUrl}/images/launchforge-icon.png`,
+  splashBackgroundColor: "#9CA3AF",
+  heroImageUrl: `${rootUrl}/images/screenshot1.png`,
   screenshotUrls: [
-    "https://placehold.co/1284x2778/png?text=LaunchForge+Screenshot+1",
-    "https://placehold.co/1284x2778/png?text=LaunchForge+Screenshot+2",
-    "https://placehold.co/1284x2778/png?text=LaunchForge+Screenshot+3",
+    `${rootUrl}/images/screenshot1.png`,
+    `${rootUrl}/images/screenshot2.png`,
+    `${rootUrl}/images/screenshot3.png`,
   ],
   webhookUrl: `${rootUrl}/api/webhook`,
   ogTitle: "LaunchForge",
   ogDescription: "A launchpad for real builders and experimental ideas.",
   ogImageUrl: `${rootUrl}/images/launchforge-icon.png`,
+  noindex: true,
 };
 
 export default config;

@@ -1,19 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-import { findProjectById } from "@/lib/projects";
+import { getProjectById, incrementViews } from "@/lib/db/projects";
 
 type Params = { params: Promise<{ id: string }> };
 
-/** GET /api/projects/:id — get project details */
+/** GET /api/projects/:id — get project details from Supabase */
 export async function GET(_request: NextRequest, { params }: Params) {
-  const { id } = await params;
-  const project = findProjectById(id);
+  try {
+    const { id } = await params;
+    const project = await getProjectById(id);
 
-  if (!project) {
-    return NextResponse.json(
-      { ok: false, error: "Project not found" },
-      { status: 404 }
-    );
+    if (!project) {
+      return NextResponse.json(
+        { ok: false, error: "Project not found" },
+        { status: 404 }
+      );
+    }
+
+    // Fire-and-forget view count — don't block the response
+    incrementViews(id).catch(() => {});
+
+    return NextResponse.json({ ok: true, project });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unexpected error";
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
-
-  return NextResponse.json({ ok: true, project });
 }

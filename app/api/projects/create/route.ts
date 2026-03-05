@@ -1,49 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-// TODO: import x402 middleware once installed
-// import { verifyPayment } from "@/lib/x402";
+import { createProject } from "@/lib/db/projects";
+import type { CreateProjectInput } from "@/lib/types";
 
 /**
  * POST /api/projects/create
  *
- * Creates a new project listing. In production, this endpoint is gated
- * by x402 micro-payment ($0.01 USDC on Base).
+ * Creates a new project listing saved to Supabase.
+ * In Phase 3, this will be gated by an x402 $0.01 USDC payment.
  *
- * Request body:
- * {
- *   name: string;
- *   description: string;
- *   tokenSymbol?: string;
- *   category: string;
- *   website?: string;
- *   twitter?: string;
- *   github?: string;
- *   fundingTarget?: number;
- * }
- *
- * Headers:
- *   X-PAYMENT: EIP-712 signed USDC payment (x402)
+ * Body: { name, description, tokenSymbol?, category, website?,
+ *         twitter?, github?, fundingTarget?, creatorWallet }
  */
 export async function POST(request: NextRequest) {
   try {
-    // ── x402 Payment Verification ──────────────────────────
-    // const paymentHeader = request.headers.get("X-PAYMENT");
-    // if (!paymentHeader) {
-    //   return NextResponse.json(
-    //     { ok: false, error: "Payment required", amount: "$0.01 USDC" },
-    //     { status: 402 }
-    //   );
-    // }
-    // const paymentValid = await verifyPayment(paymentHeader);
-    // if (!paymentValid) {
-    //   return NextResponse.json(
-    //     { ok: false, error: "Invalid payment" },
-    //     { status: 402 }
-    //   );
-    // }
-
     const body = await request.json();
 
-    // ── Validation ─────────────────────────────────────────
+    // ── Input validation ───────────────────────────────────
     if (!body.name || typeof body.name !== "string" || body.name.trim().length < 2) {
       return NextResponse.json(
         { ok: false, error: "Project name is required (min 2 characters)" },
@@ -60,40 +32,29 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    if (!body.creatorWallet || typeof body.creatorWallet !== "string") {
+      return NextResponse.json(
+        { ok: false, error: "Wallet address is required" },
+        { status: 400 }
+      );
+    }
 
-    // ── Create project (placeholder — swap with DB in production) ──
-    const newProject = {
-      id: body.name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, ""),
-      name: body.name.trim(),
-      description: body.description.trim(),
-      tokenSymbol: body.tokenSymbol?.trim() ?? "",
+    const input: CreateProjectInput = {
+      name: body.name,
+      description: body.description,
+      tokenSymbol: body.tokenSymbol,
       category: body.category ?? "other",
-      website: body.website?.trim() ?? "",
-      twitter: body.twitter?.trim() ?? "",
-      github: body.github?.trim() ?? "",
-      creator: "0x0000...0000", // TODO: extract from wallet signature
-      status: "Draft" as const,
-      likes: 0,
-      views: 0,
-      createdAt: new Date().toISOString(),
-      fundingTarget: body.fundingTarget ?? 0,
-      fundingRaised: 0,
+      website: body.website,
+      twitter: body.twitter,
+      github: body.github,
+      fundingTarget: body.fundingTarget ? Number(body.fundingTarget) : undefined,
     };
 
-    // TODO: save to database
-    // TODO: trigger AI scoring agent
+    const project = await createProject(input, body.creatorWallet);
 
-    return NextResponse.json(
-      { ok: true, project: newProject },
-      { status: 201 }
-    );
+    return NextResponse.json({ ok: true, project }, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { ok: false, error: "Invalid request body" },
-      { status: 400 }
-    );
+    const message = error instanceof Error ? error.message : "Unexpected error";
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

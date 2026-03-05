@@ -1,37 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mockProjects } from "@/lib/projects";
+import { listProjects } from "@/lib/db/projects";
 
-/** GET /api/projects — list all projects */
+/** GET /api/projects — list projects from Supabase */
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const status = searchParams.get("status");
-  const category = searchParams.get("category");
-  const search = searchParams.get("q");
+  try {
+    const { searchParams } = new URL(request.url);
+    const projects = await listProjects({
+      status: searchParams.get("status") ?? undefined,
+      category: searchParams.get("category") ?? undefined,
+      search: searchParams.get("q") ?? undefined,
+    });
 
-  let projects = [...mockProjects];
-
-  if (status) {
-    projects = projects.filter(
-      (p) => p.status.toLowerCase() === status.toLowerCase()
-    );
+    return NextResponse.json({ ok: true, count: projects.length, projects });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unexpected error";
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
-  if (category) {
-    projects = projects.filter(
-      (p) => p.category.toLowerCase() === category.toLowerCase()
-    );
-  }
-  if (search) {
-    const q = search.toLowerCase();
-    projects = projects.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q)
-    );
-  }
-
-  return NextResponse.json({
-    ok: true,
-    count: projects.length,
-    projects,
-  });
 }

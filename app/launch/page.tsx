@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Select } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { CATEGORY_LABELS, PAYMENT } from "@/lib/constants";
-import { Check, Rocket, ArrowRight } from "lucide-react";
+import { useMiniAppProfile } from "@/components/providers";
+import { Check, Rocket, ArrowRight, AlertCircle } from "lucide-react";
 
 type FormState = "idle" | "submitting" | "success";
 
@@ -19,13 +20,47 @@ const categoryOptions = Object.entries(CATEGORY_LABELS).map(
 
 export default function LaunchPage() {
   const [formState, setFormState] = useState<FormState>("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { address, isConnected } = useMiniAppProfile();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setErrorMsg(null);
     setFormState("submitting");
-    // TODO: connect to /api/projects/create with x402 payment
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setFormState("success");
+
+    const data = new FormData(e.currentTarget);
+
+    const body = {
+      name: data.get("name") as string,
+      description: data.get("description") as string,
+      tokenSymbol: (data.get("tokenSymbol") as string) || undefined,
+      category: (data.get("category") as string) || "other",
+      website: (data.get("website") as string) || undefined,
+      twitter: (data.get("twitter") as string) || undefined,
+      github: (data.get("github") as string) || undefined,
+      fundingTarget: data.get("fundingTarget")
+        ? Number(data.get("fundingTarget"))
+        : undefined,
+      creatorWallet: address ?? "anonymous",
+    };
+
+    try {
+      const res = await fetch("/api/projects/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const json = await res.json();
+
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error ?? "Submission failed");
+      }
+
+      setFormState("success");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+      setFormState("idle");
+    }
   }
 
   if (formState === "success") {
@@ -81,6 +116,22 @@ export default function LaunchPage() {
           via x402.
         </p>
       </div>
+
+      {/* Error banner */}
+      {errorMsg && (
+        <div className="mb-6 flex items-start gap-3 rounded-[5px] border border-[var(--red-border,rgba(248,113,113,0.3))] bg-[var(--red-muted)] px-4 py-3 text-sm text-[var(--red)]">
+          <AlertCircle size={16} className="mt-0.5 shrink-0" />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
+      {/* Wallet status */}
+      {!isConnected && (
+        <div className="mb-6 flex items-start gap-3 rounded-[5px] border border-[var(--accent-border,rgba(77,163,255,0.3))] bg-[var(--accent-muted)] px-4 py-3 text-sm text-[var(--accent)]">
+          <AlertCircle size={16} className="mt-0.5 shrink-0" />
+          <span>Your wallet is connecting automatically. Your address will be saved once connected.</span>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
         {/* Basic Info */}
@@ -174,10 +225,18 @@ export default function LaunchPage() {
         {/* Submit */}
         <Card padding="lg">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-[var(--text-dim)]">
-              By submitting, you agree to pay ${PAYMENT.PROJECT_CREATE} USDC and
-              accept the LaunchForge terms.
-            </p>
+            <div>
+              <p className="text-xs text-[var(--text-dim)]">
+                By submitting, you agree to pay ${PAYMENT.PROJECT_CREATE} USDC and
+                accept the LaunchForge terms.
+              </p>
+              {address && (
+                <p className="mt-1 text-[11px] text-[var(--text-dim)]">
+                  Submitting as{" "}
+                  <span className="font-mono text-[var(--text-secondary)]">{address.slice(0, 6)}&hellip;{address.slice(-4)}</span>
+                </p>
+              )}
+            </div>
             <Button
               type="submit"
               size="lg"

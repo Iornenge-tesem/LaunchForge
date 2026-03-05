@@ -80,6 +80,16 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
+            {profileAvatar}
+            <div className="min-w-0 leading-tight">
+              <p className="max-w-[140px] truncate text-xs font-semibold text-[var(--text-main)]">
+                {profileName}
+              </p>
+             
+            </div>
+          </div>
+
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
@@ -92,18 +102,6 @@ export function Navbar() {
               <Moon size={18} />
             )}
           </button>
-
-          <div className="hidden items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
-            {profileAvatar}
-            <div className="min-w-0 leading-tight">
-              <p className="max-w-[140px] truncate text-xs font-semibold text-[var(--text-main)]">
-                {profileName}
-              </p>
-              <p className="max-w-[140px] truncate text-[11px] text-[var(--text-dim)]">
-                {isConnected ? shortAddress : "Auto-connecting..."}
-              </p>
-            </div>
-          </div>
 
           {/* Mobile menu button */}
           <button

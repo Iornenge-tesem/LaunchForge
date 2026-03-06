@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/db/supabase";
+import { getSupabase } from "@/lib/db/supabase";
 import type { LaunchProject, CreateProjectInput, ProjectStatus } from "@/lib/types";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -47,6 +47,7 @@ export async function listProjects(opts?: {
   category?: string;
   search?: string;
 }): Promise<LaunchProject[]> {
+  const supabase = getSupabase();
   let query = supabase
     .from("projects")
     .select("*")
@@ -70,6 +71,7 @@ export async function listProjects(opts?: {
 }
 
 export async function getProjectById(id: string): Promise<LaunchProject | null> {
+  const supabase = getSupabase();
   const { data, error } = await supabase
     .from("projects")
     .select("*")
@@ -89,6 +91,7 @@ export async function createProject(
 ): Promise<LaunchProject> {
   const id = generateId(input.name);
 
+  const supabase = getSupabase();
   const { data, error } = await supabase
     .from("projects")
     .insert({
@@ -115,9 +118,9 @@ export async function createProject(
 }
 
 export async function incrementViews(id: string): Promise<void> {
-  await supabase.rpc("increment_views", { project_id: id });
+  await getSupabase().rpc("increment_views", { project_id: id });
 }
 
 export async function incrementLikes(id: string): Promise<void> {
-  await supabase.rpc("increment_likes", { project_id: id });
+  await getSupabase().rpc("increment_likes", { project_id: id });
 }

@@ -6,11 +6,10 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { findProjectById } from "@/lib/projects";
+import { getProjectById, incrementViews } from "@/lib/db/projects";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import {
   ArrowLeft,
-  Heart,
   Eye,
   Globe,
   Copy,
@@ -19,6 +18,7 @@ import {
   AlertTriangle,
   Calendar,
 } from "lucide-react";
+import { LikeButton } from "@/components/LikeButton";
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>;
@@ -36,11 +36,14 @@ const statusVariantMap: Record<
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params;
-  const project = findProjectById(id);
+  const project = await getProjectById(id);
 
   if (!project) {
     notFound();
   }
+
+  // Fire-and-forget view count
+  incrementViews(id).catch(() => {});
 
   const {
     name,
@@ -84,15 +87,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* ── Left Column ─────────────────── */}
           <div className="space-y-8">
             {/* Header */}
-            <Card padding="lg" className="fade-in-up">
-              <div className="flex flex-wrap items-start justify-between gap-4">
+            <Card padding="lg" className="relative overflow-hidden fade-in-up">
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-muted)] via-transparent to-transparent opacity-50" />
+              <div className="relative flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-3">
                     <h1 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
                       {name}
                     </h1>
                     {tokenSymbol && (
-                      <span className="rounded-[5px] bg-[var(--bg-elevated)] px-3 py-1 text-sm font-medium text-[var(--text-secondary)]">
+                      <span className="rounded-full bg-[var(--bg-elevated)] px-3 py-1 text-sm font-medium text-[var(--text-secondary)]">
                         ${tokenSymbol}
                       </span>
                     )}
@@ -174,10 +178,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     Engagement
                   </dt>
                   <dd className="flex items-center gap-4 text-sm text-[var(--text-secondary)]">
-                    <span className="flex items-center gap-1.5">
-                      <Heart size={14} className="text-[var(--red)]" />
-                      {likes} likes
-                    </span>
+                    <LikeButton projectId={id} initialLikes={likes} />
                     <span className="flex items-center gap-1.5">
                       <Eye size={14} className="text-[var(--accent)]" />
                       {views.toLocaleString()} views
@@ -198,7 +199,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <Globe size={16} />
                     Website
@@ -209,7 +210,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -227,7 +228,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -292,7 +293,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   )}
                 </div>
               ) : (
-                <div className="rounded-[5px] bg-[var(--bg-elevated)] p-5 text-center">
+                <div className="rounded-xl bg-[var(--bg-elevated)] p-5 text-center">
                   <p className="text-sm text-[var(--text-dim)]">
                     AI analysis pending — submitted projects are scored
                     automatically.

@@ -21,11 +21,11 @@ export function Card({
 }: CardProps) {
   return (
     <div
-      className={`rounded-[14px] border border-[var(--border)] bg-[var(--bg-card)] shadow-[var(--shadow-sm)] ${
+      className={`rounded-[16px] border border-[var(--border)] bg-[var(--bg-card)] shadow-[var(--shadow-sm)] ${
         paddingStyles[padding]
       } ${
         hover
-          ? "transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5 cursor-pointer"
+          ? "transition-all duration-200 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-1 cursor-pointer"
           : ""
       } ${className}`}
     >

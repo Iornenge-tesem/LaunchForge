@@ -49,7 +49,7 @@ export function Navbar() {
           className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
           onClick={() => setOpen(false)}
         >
-          <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-[5px] border border-[var(--border)] shadow-[var(--shadow-xs)]">
+          <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-[var(--border)] shadow-[var(--shadow-xs)]">
             <img
               src="/images/launchforge-icon.png"
               alt="LaunchForge"
@@ -67,7 +67,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-[5px] px-4 py-2 text-sm font-medium transition-all duration-150 ${
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 ${
                 pathname === link.href
                   ? "bg-[var(--accent-muted)] text-[var(--accent)]"
                   : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"
@@ -80,7 +80,7 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:hidden">
+          <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:hidden">
             {profileAvatar}
             <div className="min-w-0 leading-tight">
               <p className="max-w-[90px] truncate text-xs font-semibold text-[var(--text-main)]">
@@ -89,7 +89,7 @@ export function Navbar() {
             </div>
           </div>
 
-          <div className="hidden items-center gap-2 rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
+          <div className="hidden items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
             {profileAvatar}
             <div className="min-w-0 leading-tight">
               <p className="max-w-[140px] truncate text-xs font-semibold text-[var(--text-main)]">
@@ -104,7 +104,7 @@ export function Navbar() {
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
-            className="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-[5px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:flex"
+            className="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:flex"
             aria-label="Toggle theme"
           >
             {resolvedTheme === "dark" ? (
@@ -117,7 +117,7 @@ export function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setOpen(!open)}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[5px] text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:hidden"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:hidden"
             aria-label="Menu"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
@@ -134,7 +134,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className={`rounded-[5px] px-4 py-3 text-sm font-medium transition-all duration-150 ${
+                className={`rounded-lg px-4 py-3 text-sm font-medium transition-all duration-150 ${
                   pathname === link.href
                     ? "bg-[var(--accent-muted)] text-[var(--accent)]"
                     : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"
@@ -147,7 +147,7 @@ export function Navbar() {
           <div className="mt-4 border-t border-[var(--border)] pt-4">
             <button
               onClick={toggleTheme}
-              className="flex w-full items-center justify-between rounded-[5px] border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:bg-[var(--bg-main)]"
+              className="flex w-full items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:bg-[var(--bg-main)]"
               aria-label="Toggle theme"
             >
               <span>Theme</span>

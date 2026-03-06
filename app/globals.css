@@ -53,10 +53,10 @@
   --primary-btn-shadow-hover: 0 0 0 2px rgba(59,130,246,0.15);
 
   /* Radii */
-  --radius-sm: 5px;
-  --radius-md: 5px;
-  --radius-lg: 5px;
-  --radius-xl: 5px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 }
 
@@ -71,14 +71,14 @@
   --bg-overlay: rgba(11, 15, 25, 0.94);
 
   /* Brand */
-  --accent: #3B82F6;
-  --accent-hover: #2563EB;
-  --accent-muted: #DBEAFE;
-  --accent-glow: rgba(59, 130, 246, 0.15);
+  --accent: #60A5FA;
+  --accent-hover: #3B82F6;
+  --accent-muted: rgba(59, 130, 246, 0.15);
+  --accent-glow: rgba(59, 130, 246, 0.20);
 
-  --ember: #F59E0B;
-  --ember-hover: #D97706;
-  --ember-muted: #FEF3C7;
+  --ember: #FBBF24;
+  --ember-hover: #F59E0B;
+  --ember-muted: rgba(245, 158, 11, 0.15);
 
   /* Semantic */
   --green: #10B981;
@@ -138,6 +138,18 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
   line-height: 1.5;
   letter-spacing: -0.01em;
+}
+
+/* Top gradient accent line */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--purple, #6366F1), var(--accent));
+  z-index: 9999;
 }
 
 a {

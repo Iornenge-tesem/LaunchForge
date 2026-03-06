@@ -101,7 +101,7 @@ export default function LaunchPage() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-[5px] bg-[var(--accent-muted)] text-[var(--accent)]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--accent-muted)] text-[var(--accent)]">
             <Rocket size={20} />
           </div>
           <h1 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
@@ -119,7 +119,7 @@ export default function LaunchPage() {
 
       {/* Error banner */}
       {errorMsg && (
-        <div className="mb-6 flex items-start gap-3 rounded-[5px] border border-[var(--red-border,rgba(248,113,113,0.3))] bg-[var(--red-muted)] px-4 py-3 text-sm text-[var(--red)]">
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-[var(--red-border,rgba(248,113,113,0.3))] bg-[var(--red-muted)] px-4 py-3 text-sm text-[var(--red)]">
           <AlertCircle size={16} className="mt-0.5 shrink-0" />
           <span>{errorMsg}</span>
         </div>
@@ -127,7 +127,7 @@ export default function LaunchPage() {
 
       {/* Wallet status */}
       {!isConnected && (
-        <div className="mb-6 flex items-start gap-3 rounded-[5px] border border-[var(--accent-border,rgba(77,163,255,0.3))] bg-[var(--accent-muted)] px-4 py-3 text-sm text-[var(--accent)]">
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-[var(--accent-border,rgba(77,163,255,0.3))] bg-[var(--accent-muted)] px-4 py-3 text-sm text-[var(--accent)]">
           <AlertCircle size={16} className="mt-0.5 shrink-0" />
           <span>Your wallet is connecting automatically. Your address will be saved once connected.</span>
         </div>
@@ -136,9 +136,12 @@ export default function LaunchPage() {
       <form onSubmit={handleSubmit}>
         {/* Basic Info */}
         <Card padding="lg" className="mb-6">
-          <h2 className="mb-6 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
-            Basic Info
-          </h2>
+          <div className="mb-6 flex items-center gap-3">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">1</span>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
+              Basic Info
+            </h2>
+          </div>
           <div className="space-y-6">
             <Input
               label="Project Name"
@@ -171,9 +174,12 @@ export default function LaunchPage() {
 
         {/* Links */}
         <Card padding="lg" className="mb-6">
-          <h2 className="mb-6 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
-            Links
-          </h2>
+          <div className="mb-6 flex items-center gap-3">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">2</span>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
+              Links
+            </h2>
+          </div>
           <div className="space-y-6">
             <div className="grid gap-6 sm:grid-cols-2">
               <Input
@@ -200,9 +206,12 @@ export default function LaunchPage() {
 
         {/* Funding */}
         <Card padding="lg" className="mb-6">
-          <h2 className="mb-6 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
-            Funding & Tokenomics
-          </h2>
+          <div className="mb-6 flex items-center gap-3">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">3</span>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
+              Funding & Tokenomics
+            </h2>
+          </div>
           <div className="space-y-6">
             <Input
               label="Funding Target (USDC)"

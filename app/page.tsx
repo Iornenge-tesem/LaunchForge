@@ -16,6 +16,8 @@ import {
   Brain,
   Users,
   ArrowRight,
+  Sparkles,
+  Shield,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -63,16 +65,22 @@ const features = [
     icon: <Zap size={22} />,
     title: "Launch Tokens",
     desc: "Deploy ERC-20 tokens with built-in anti-rug mechanics, liquidity locks, and vesting schedules — all on Base.",
+    color: "text-[var(--accent)]",
+    bg: "bg-[var(--accent-muted)]",
   },
   {
     icon: <Brain size={22} />,
     title: "AI Analysis",
     desc: "Every project gets an AI-powered reputation score, risk analysis, and community trust signal before launch.",
+    color: "text-[var(--purple)]",
+    bg: "bg-[var(--purple-muted)]",
   },
   {
-    icon: <Users size={22} />,
-    title: "Discover Builders",
-    desc: "Browse serious projects from verified builders. Ratings, engagement, and community feedback at a glance.",
+    icon: <Shield size={22} />,
+    title: "Trust & Safety",
+    desc: "Every project is scored for risk. Community ratings, engagement metrics, and on-chain verification built in.",
+    color: "text-[var(--green)]",
+    bg: "bg-[var(--green-muted)]",
   },
 ];
 
@@ -106,33 +114,49 @@ export default function Home() {
       <GlowBackground />
 
       {/* ── Hero ──────────────────────────────── */}
-      <Section className="relative z-10 pt-16 pb-4 sm:pt-24 sm:pb-6">
+      <Section className="relative z-10 pt-20 pb-6 sm:pt-28 sm:pb-10">
         <div className="mx-auto max-w-2xl text-center fade-in-up">
-          <Badge variant="info" className="mb-5">
+          <Badge variant="info" className="mb-6 gap-1.5">
+            <Sparkles size={12} />
             Built on Base
           </Badge>
-          <h1 className="text-4xl font-extrabold tracking-tight text-[var(--text-main)] sm:text-[56px] sm:leading-[1.08]">
-            The launchpad for
-            <br />
-            <span className="text-[var(--accent)]">serious builders.</span>
+          <h1 className="text-[2.5rem] font-extrabold leading-[1.1] tracking-tight text-[var(--text-main)] sm:text-[3.5rem] sm:leading-[1.08]">
+            The launchpad for{" "}
+            <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--purple)] bg-clip-text text-transparent">
+              serious builders
+            </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg sm:mt-5">
-            Launch tokens, get AI analysis, and discover real crypto projects —
-            all on Base.
+          <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg sm:mt-6">
+            Launch tokens, get AI-powered analysis, and connect with real crypto
+            builders — all on Base.
           </p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Link href="/launch">
+              <Button size="lg" className="gap-2.5 px-8 shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)]">
+                <Rocket size={18} />
+                Launch Project
+              </Button>
+            </Link>
+            <Link href="/explore">
+              <Button variant="secondary" size="lg" className="gap-2">
+                Explore Projects
+                <ArrowRight size={16} />
+              </Button>
+            </Link>
+          </div>
         </div>
       </Section>
 
       {/* ── Stats ─────────────────────────────── */}
-      <Section className="relative z-10 py-8 sm:py-10">
-        <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-4 sm:grid-cols-3">
+      <Section className="relative z-10 py-8 sm:py-12">
+        <div className="mx-auto grid max-w-[860px] grid-cols-1 gap-4 sm:grid-cols-3">
           {stats.map((stat) => (
             <Card key={stat.label} padding="md" className="flex items-center gap-4">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
                 {stat.icon}
               </div>
               <div>
-                <div className="text-2xl font-bold text-[var(--text-main)]">
+                <div className="text-2xl font-bold tracking-tight text-[var(--text-main)]">
                   {stat.value}
                 </div>
                 <div className="text-xs text-[var(--text-dim)]">
@@ -144,21 +168,9 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ── CTA Button ────────────────────────── */}
-      <Section className="relative z-10 py-8 sm:py-10">
-        <div className="flex justify-center">
-          <Link href="/launch">
-            <Button size="lg" className="gap-2.5 px-8 shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)]">
-              <Rocket size={18} />
-              Launch Project
-            </Button>
-          </Link>
-        </div>
-      </Section>
-
       {/* ── Features ──────────────────────────── */}
       <Section className="relative z-10">
-        <div className="mb-10 text-center">
+        <div className="mb-12 text-center">
           <h2 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
             Everything you need to launch
           </h2>
@@ -170,7 +182,7 @@ export default function Home() {
         <div className="grid gap-6 sm:grid-cols-3">
           {features.map((f) => (
             <Card key={f.title} hover padding="lg" className="flex flex-col">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
+              <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl ${f.bg} ${f.color}`}>
                 {f.icon}
               </div>
               <h3 className="text-base font-semibold text-[var(--text-main)]">
@@ -219,27 +231,30 @@ export default function Home() {
       </Section>
 
       {/* ── CTA ───────────────────────────────── */}
-      <Section className="relative z-10 pb-16 sm:pb-20">
-        <Card padding="lg" className="text-center">
-          <h2 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
-            Ready to build?
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm text-[var(--text-secondary)] sm:text-base">
-            Launch your project on Base in minutes. Get AI-powered analysis and
-            reach serious crypto builders.
-          </p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link href="/launch">
-              <Button size="lg" className="gap-2">
-                <Rocket size={18} />
-                Start Building
-              </Button>
-            </Link>
-            <Link href="/explore">
-              <Button variant="secondary" size="lg">
-                Explore Projects
-              </Button>
-            </Link>
+      <Section className="relative z-10 pb-16 sm:pb-24">
+        <Card padding="lg" className="relative overflow-hidden text-center">
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-muted)] via-transparent to-[var(--purple-muted)] opacity-40" />
+          <div className="relative z-10">
+            <h2 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
+              Ready to build?
+            </h2>
+            <p className="mx-auto mt-3 max-w-md text-sm text-[var(--text-secondary)] sm:text-base">
+              Launch your project on Base in minutes. Get AI-powered analysis and
+              reach serious crypto builders.
+            </p>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Link href="/launch">
+                <Button size="lg" className="gap-2">
+                  <Rocket size={18} />
+                  Start Building
+                </Button>
+              </Link>
+              <Link href="/explore">
+                <Button variant="secondary" size="lg">
+                  Explore Projects
+                </Button>
+              </Link>
+            </div>
           </div>
         </Card>
       </Section>

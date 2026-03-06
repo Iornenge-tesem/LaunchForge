@@ -30,7 +30,7 @@ const rootUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.ver
 
 const config: MiniKitConfig = {
   appId: "69a3c763955255bb0fb04e07",
-  appName: "LaunchForge",
+  appName: "Launch Forge",
   subtitle: "Launch serious crypto projects",
   description: "A launchpad for real builders and experimental ideas.",
   version: "1",
@@ -54,7 +54,7 @@ const config: MiniKitConfig = {
     `${rootUrl}/images/screenshot3.png`,
   ],
   webhookUrl: `${rootUrl}/api/webhook`,
-  ogTitle: "LaunchForge",
+  ogTitle: "Forge",
   ogDescription: "A launchpad for real builders and experimental ideas.",
   ogImageUrl: `${rootUrl}/images/launchforge-icon.png`,
   noindex: false,

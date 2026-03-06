@@ -34,7 +34,7 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
   return (
     <Link
       href={`/project/${id}`}
-      className="group flex flex-col rounded-[5px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-[var(--shadow-sm)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5 cursor-pointer sm:p-6"
+      className="group flex flex-col rounded-[16px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-[var(--shadow-sm)] transition-all duration-200 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-1 cursor-pointer sm:p-6"
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
@@ -44,7 +44,7 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
               {name}
             </h3>
             {tokenSymbol && (
-              <span className="shrink-0 rounded-[5px] bg-[var(--bg-elevated)] px-2 py-0.5 text-xs font-medium text-[var(--text-secondary)]">
+              <span className="shrink-0 rounded-full bg-[var(--bg-elevated)] px-2.5 py-0.5 text-xs font-medium text-[var(--text-secondary)]">
                 ${tokenSymbol}
               </span>
             )}

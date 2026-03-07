@@ -40,6 +40,9 @@ function rowToProject(row: any): LaunchProject {
     logoUrl: row.logo_url ?? undefined,
     fundingTarget: row.funding_target ?? undefined,
     fundingRaised: row.funding_raised ?? 0,
+    tokenAddress: row.token_address ?? undefined,
+    tokenTxHash: row.token_tx_hash ?? undefined,
+    tokenSupply: row.token_supply ?? undefined,
   };
 }
 
@@ -186,4 +189,51 @@ export async function getProjectsByCreator(
 
   if (error) throw new Error(error.message);
   return (data ?? []).map(rowToProject);
+}
+
+/** Save token deployment info to a project */
+export async function updateProjectToken(
+  projectId: string,
+  tokenAddress: string,
+  txHash: string,
+  tokenSupply: number
+): Promise<void> {
+  const supabase = getSupabase();
+  const { error } = await supabase
+    .from("projects")
+    .update({
+      token_address: tokenAddress,
+      token_tx_hash: txHash,
+      token_supply: tokenSupply,
+      status: "Live",
+    })
+    .eq("id", projectId);
+  if (error) throw new Error(error.message);
+}
+
+/** Record a launch transaction */
+export async function recordLaunchTransaction(tx: {
+  walletAddress: string;
+  projectId?: string;
+  txHash: string;
+  amountPaid: number;
+  tokenAddress?: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenSupply: number;
+  status: "pending" | "confirmed" | "failed";
+}): Promise<void> {
+  const supabase = getSupabase();
+  const { error } = await supabase.from("launch_transactions").insert({
+    wallet_address: tx.walletAddress.toLowerCase(),
+    project_id: tx.projectId ?? null,
+    tx_hash: tx.txHash,
+    amount_paid: tx.amountPaid,
+    token_address: tx.tokenAddress ?? null,
+    token_name: tx.tokenName,
+    token_symbol: tx.tokenSymbol,
+    token_supply: tx.tokenSupply,
+    status: tx.status,
+  });
+  if (error) throw new Error(error.message);
 }

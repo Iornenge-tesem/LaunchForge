@@ -40,6 +40,26 @@ export type LaunchProject = {
   fundingTarget?: number;
   /** Funding raised so far in USDC */
   fundingRaised?: number;
+  /** Deployed token contract address */
+  tokenAddress?: string;
+  /** Token deployment tx hash */
+  tokenTxHash?: string;
+  /** Token total supply (whole tokens) */
+  tokenSupply?: number;
+};
+
+export type LaunchTransaction = {
+  id: string;
+  walletAddress: string;
+  projectId?: string;
+  txHash: string;
+  amountPaid: number;
+  tokenAddress?: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenSupply: number;
+  status: "pending" | "confirmed" | "failed";
+  createdAt: string;
 };
 
 export type CreateProjectInput = {

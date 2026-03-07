@@ -18,6 +18,9 @@ create table if not exists projects (
   ai_score        integer,
   risk_flags      text[],
   logo_url        text,
+  token_address   text,
+  token_tx_hash   text,
+  token_supply    bigint,
   created_at      timestamptz not null default now()
 );
 
@@ -40,3 +43,33 @@ create or replace function increment_likes(project_id text)
 returns void language sql as $$
   update projects set likes = likes + 1 where id = project_id;
 $$;
+
+-- ─── Token Launch: launch_transactions table ───────────────────
+create table if not exists launch_transactions (
+  id              uuid primary key default gen_random_uuid(),
+  wallet_address  text not null,
+  project_id      text references projects(id) on delete set null,
+  tx_hash         text not null,
+  amount_paid     numeric(10,2) not null,
+  token_address   text,
+  token_name      text not null,
+  token_symbol    text not null,
+  token_supply    bigint not null,
+  status          text not null default 'pending',
+  created_at      timestamptz not null default now()
+);
+
+alter table launch_transactions enable row level security;
+
+create policy "Public read" on launch_transactions
+  for select using (true);
+
+create policy "Service role write" on launch_transactions
+  for all using (auth.role() = 'service_role');
+
+-- ─── Migration: add token columns to existing projects table ───
+-- Run these if the projects table already exists without token columns.
+-- They are safe to run multiple times (IF NOT EXISTS / idempotent).
+alter table projects add column if not exists token_address text;
+alter table projects add column if not exists token_tx_hash text;
+alter table projects add column if not exists token_supply  bigint;

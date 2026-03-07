@@ -20,6 +20,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { LikeButton } from "@/components/LikeButton";
+import { ProjectTokenSection } from "@/components/ProjectTokenSection";
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>;
@@ -113,6 +114,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     status,
     category,
     tokenSymbol,
+    tokenAddress,
+    tokenTxHash,
+    tokenSupply,
     website,
     twitter,
     github,
@@ -368,6 +372,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
               )}
             </Card>
+
+            {/* Token */}
+            <ProjectTokenSection
+              projectId={id}
+              projectName={name}
+              tokenSymbol={tokenSymbol}
+              tokenAddress={tokenAddress}
+              tokenSupply={tokenSupply}
+              tokenTxHash={tokenTxHash}
+              creatorWallet={creator}
+            />
 
             {/* Community Ratings */}
             <Card padding="lg">

@@ -1,7 +1,8 @@
 require("@nomicfoundation/hardhat-ethers");
 require("dotenv/config");
 
-const DEPLOYER_PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY ?? "";
+const rawKey = process.env.DEPLOYER_PRIVATE_KEY ?? "";
+const DEPLOYER_PRIVATE_KEY = rawKey.startsWith("0x") ? rawKey : rawKey ? "0x" + rawKey : "";
 
 const config = {
   solidity: {

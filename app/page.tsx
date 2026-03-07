@@ -130,7 +130,7 @@ export default function Home() {
             Launch tokens, get AI-powered analysis, and connect with real crypto
             builders — all on Base.
           </p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <div className="mt-8 flex flex-row items-center justify-center gap-3">
             <Link href="/launch">
               <Button size="lg" className="gap-2.5 px-8 shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)]">
                 <Rocket size={18} />
@@ -242,7 +242,7 @@ export default function Home() {
               Launch your project on Base in minutes. Get AI-powered analysis and
               reach serious crypto builders.
             </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <div className="mt-8 flex flex-row items-center justify-center gap-3">
               <Link href="/launch">
                 <Button size="lg" className="gap-2">
                   <Rocket size={18} />

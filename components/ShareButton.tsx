@@ -41,7 +41,7 @@ export function ShareButton({
   const shareText = `Check out "${projectName}" on LaunchForge 🚀`;
 
   const farcasterUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(projectUrl)}`;
-  const twitterUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(projectUrl)}`;
+  const twitterUrl = `https://x.com/intent/post?text=${encodeURIComponent(`${shareText}\n${projectUrl}`)}`;
 
   async function copyLink() {
     try {
@@ -84,7 +84,7 @@ export function ShareButton({
               setOpen(false);
             }}
           />
-          <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-1.5 shadow-[var(--shadow-lg)]">
+          <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-1.5 shadow-[var(--shadow-lg)] sm:right-0 sm:left-auto left-0">
             <a
               href={farcasterUrl}
               target="_blank"

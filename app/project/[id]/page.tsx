@@ -14,7 +14,6 @@ import {
   ArrowLeft,
   Eye,
   Globe,
-  Copy,
   Star,
   ShieldCheck,
   AlertTriangle,
@@ -145,9 +144,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </Link>
 
         {/* Two column layout */}
-        <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+        <div className="grid min-w-0 gap-8 lg:grid-cols-[1fr_380px]">
           {/* ── Left Column ─────────────────── */}
-          <div className="space-y-8">
+          <div className="min-w-0 space-y-8">
             {/* Header */}
             <Card padding="lg" className="relative overflow-hidden fade-in-up">
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-muted)] via-transparent to-transparent opacity-50" />
@@ -224,14 +223,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <dl className="space-y-4">
                 <div className="flex items-center justify-between">
                   <dt className="text-sm text-[var(--text-dim)]">Creator</dt>
-                  <dd className="flex items-center gap-2 text-sm font-mono font-medium text-[var(--text-main)]">
-                    {creator}
-                    <button
-                      className="cursor-pointer text-[var(--text-dim)] transition-colors hover:text-[var(--accent)]"
-                      title="Copy address"
-                    >
-                      <Copy size={14} />
-                    </button>
+                  <dd className="flex items-center gap-2 text-sm font-medium text-[var(--text-main)]">
+                    {project.creatorPfpUrl && (
+                      <img
+                        src={project.creatorPfpUrl}
+                        alt=""
+                        className="h-5 w-5 rounded-full object-cover"
+                      />
+                    )}
+                    {project.creatorDisplayName ?? project.creatorUsername ?? `${creator.slice(0, 6)}...${creator.slice(-4)}`}
                   </dd>
                 </div>
                 <div className="h-px bg-[var(--border)]" />
@@ -313,7 +313,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
 
           {/* ── Right Column (Sidebar) ──────── */}
-          <div className="space-y-8">
+          <div className="min-w-0 space-y-8">
             {/* AI Analysis */}
             <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">

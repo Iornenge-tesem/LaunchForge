@@ -103,9 +103,9 @@ export default function ExplorePage() {
     <>
       {/* Sticky search & filters */}
       <div className="sticky top-16 z-40 border-b border-[var(--border)] bg-[var(--bg-overlay)] backdrop-blur-xl">
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1200px] px-5 py-2.5 sm:px-6 lg:px-8">
           {/* Search + Sort row */}
-          <div className="mb-4 flex items-center gap-3">
+          <div className="mb-3 flex items-center gap-3">
             <div className="relative flex-1 sm:max-w-sm">
               <input
                 type="text"
@@ -163,7 +163,7 @@ export default function ExplorePage() {
           </div>
 
           {/* Filter chips row */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+          <div className="mb-1 flex flex-wrap items-center gap-x-4 gap-y-3">
             {/* Status pills */}
             <div className="flex flex-wrap gap-2">
               {statusFilters.map((f) => (

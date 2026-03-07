@@ -31,7 +31,7 @@ const statusVariantMap: Record<string, "success" | "info" | "default" | "danger"
 };
 
 export default function DashboardPage() {
-  const { address, isConnected } = useMiniAppProfile();
+  const { address, isConnected, user } = useMiniAppProfile();
   const [projects, setProjects] = useState<LaunchProject[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -95,7 +95,7 @@ export default function DashboardPage() {
               My Projects
             </h1>
             <p className="text-sm text-[var(--text-dim)]">
-              {address?.slice(0, 6)}...{address?.slice(-4)}
+              {user?.displayName ?? user?.username ?? `${address?.slice(0, 6)}...${address?.slice(-4)}`}
             </p>
           </div>
         </div>
@@ -201,7 +201,7 @@ export default function DashboardPage() {
           </div>
         </Card>
       ) : (
-        <div className="space-y-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <Link
               key={project.id}

@@ -204,6 +204,22 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  // Save user profile to DB when wallet is connected and user data is available
+  useEffect(() => {
+    if (!address || !user) return;
+    fetch("/api/users/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        wallet: address,
+        fid: user.fid,
+        username: user.username,
+        displayName: user.displayName,
+        pfpUrl: user.pfpUrl,
+      }),
+    }).catch(() => {});
+  }, [address, user]);
+
   const contextValue = useMemo(
     () => ({ user, isMiniApp, address, isConnected }),
     [user, isMiniApp, address, isConnected]

@@ -153,6 +153,19 @@ export async function createProject(
   return rowToProject(data);
 }
 
+export async function updateProjectScore(
+  id: string,
+  score: number,
+  riskFlags: string[]
+): Promise<void> {
+  const supabase = getSupabase();
+  const { error } = await supabase
+    .from("projects")
+    .update({ ai_score: score, risk_flags: riskFlags })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
 export async function incrementViews(id: string): Promise<void> {
   await getSupabase().rpc("increment_views", { project_id: id });
 }

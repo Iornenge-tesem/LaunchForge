@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createProject } from "@/lib/db/projects";
+import { createProject, updateProjectScore } from "@/lib/db/projects";
+import { scoreProject } from "@/lib/ai/scoreProject";
 import type { CreateProjectInput } from "@/lib/types";
 
 /**
@@ -54,6 +55,13 @@ export async function POST(request: NextRequest) {
     };
 
     const project = await createProject(input, body.creatorWallet);
+
+    // Run AI scoring in the background (don't block the response)
+    scoreProject(input, body.creatorWallet)
+      .then(async (result) => {
+        await updateProjectScore(project.id, result.score, result.riskFlags);
+      })
+      .catch(() => {});
 
     return NextResponse.json({ ok: true, project }, { status: 201 });
   } catch (error) {

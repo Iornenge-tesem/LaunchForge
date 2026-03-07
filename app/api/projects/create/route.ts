@@ -48,6 +48,9 @@ export async function POST(request: NextRequest) {
       twitter: body.twitter,
       github: body.github,
       fundingTarget: body.fundingTarget ? Number(body.fundingTarget) : undefined,
+      creatorUsername: body.creatorUsername,
+      creatorDisplayName: body.creatorDisplayName,
+      creatorPfpUrl: body.creatorPfpUrl,
     };
 
     const project = await createProject(input, body.creatorWallet);

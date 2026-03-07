@@ -9,8 +9,8 @@ import { Sun, Moon, Menu, X, Wallet } from "lucide-react";
 
 const navLinks = [
   { href: "/explore", label: "Explore" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/launch", label: "Launch" },
-  { href: "#", label: "Docs" },
 ];
 
 export function Navbar() {

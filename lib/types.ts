@@ -17,6 +17,9 @@ export type LaunchProject = {
   name: string;
   description: string;
   creator: string;
+  creatorUsername?: string;
+  creatorDisplayName?: string;
+  creatorPfpUrl?: string;
   status: ProjectStatus;
   tokenSymbol: string;
   category: ProjectCategory;
@@ -48,6 +51,9 @@ export type CreateProjectInput = {
   twitter?: string;
   github?: string;
   fundingTarget?: number;
+  creatorUsername?: string;
+  creatorDisplayName?: string;
+  creatorPfpUrl?: string;
 };
 
 export type AIScoreResult = {

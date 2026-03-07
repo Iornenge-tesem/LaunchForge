@@ -23,6 +23,9 @@ function rowToProject(row: any): LaunchProject {
     name: row.name,
     description: row.description,
     creator: row.creator_wallet,
+    creatorUsername: row.creator_username ?? undefined,
+    creatorDisplayName: row.creator_display_name ?? undefined,
+    creatorPfpUrl: row.creator_pfp_url ?? undefined,
     status: (row.status as ProjectStatus) ?? "Draft",
     tokenSymbol: row.token_symbol ?? "",
     category: row.category,
@@ -42,16 +45,40 @@ function rowToProject(row: any): LaunchProject {
 
 // ── queries ───────────────────────────────────────────────────────────────────
 
+export type SortOption = "newest" | "oldest" | "most_funded" | "most_liked" | "most_viewed" | "highest_score";
+
 export async function listProjects(opts?: {
   status?: string;
   category?: string;
   search?: string;
+  sort?: SortOption;
+  minFunding?: number;
+  maxFunding?: number;
 }): Promise<LaunchProject[]> {
   const supabase = getSupabase();
-  let query = supabase
-    .from("projects")
-    .select("*")
-    .order("created_at", { ascending: false });
+  let query = supabase.from("projects").select("*");
+
+  // Sorting
+  const sort = opts?.sort ?? "newest";
+  switch (sort) {
+    case "oldest":
+      query = query.order("created_at", { ascending: true });
+      break;
+    case "most_funded":
+      query = query.order("funding_raised", { ascending: false });
+      break;
+    case "most_liked":
+      query = query.order("likes", { ascending: false });
+      break;
+    case "most_viewed":
+      query = query.order("views", { ascending: false });
+      break;
+    case "highest_score":
+      query = query.order("ai_score", { ascending: false, nullsFirst: false });
+      break;
+    default:
+      query = query.order("created_at", { ascending: false });
+  }
 
   if (opts?.status) {
     query = query.ilike("status", opts.status);
@@ -63,6 +90,12 @@ export async function listProjects(opts?: {
     query = query.or(
       `name.ilike.%${opts.search}%,description.ilike.%${opts.search}%`
     );
+  }
+  if (opts?.minFunding !== undefined) {
+    query = query.gte("funding_target", opts.minFunding);
+  }
+  if (opts?.maxFunding !== undefined) {
+    query = query.lte("funding_target", opts.maxFunding);
   }
 
   const { data, error } = await query;
@@ -106,6 +139,9 @@ export async function createProject(
       funding_target: input.fundingTarget ?? null,
       funding_raised: 0,
       creator_wallet: creatorWallet,
+      creator_username: input.creatorUsername ?? null,
+      creator_display_name: input.creatorDisplayName ?? null,
+      creator_pfp_url: input.creatorPfpUrl ?? null,
       status: "Draft",
       likes: 0,
       views: 0,
@@ -123,4 +159,18 @@ export async function incrementViews(id: string): Promise<void> {
 
 export async function incrementLikes(id: string): Promise<void> {
   await getSupabase().rpc("increment_likes", { project_id: id });
+}
+
+export async function getProjectsByCreator(
+  wallet: string
+): Promise<LaunchProject[]> {
+  const supabase = getSupabase();
+  const { data, error } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("creator_wallet", wallet)
+    .order("created_at", { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return (data ?? []).map(rowToProject);
 }

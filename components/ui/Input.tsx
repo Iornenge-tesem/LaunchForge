@@ -25,7 +25,7 @@ export function Input({
         </span>
       )}
       <input
-        className={`h-[44px] w-full rounded-xl border bg-[var(--bg-input)] px-3.5 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none ${
+        className={`h-[44px] w-full rounded-xl border bg-[var(--bg-input)] px-4 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none ${
           error
             ? "border-[var(--red)]"
             : "border-[var(--input-border)] hover:border-[var(--border-hover)]"

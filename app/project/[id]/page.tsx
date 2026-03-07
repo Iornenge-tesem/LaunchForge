@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/Container";
 import { Card } from "@/components/ui/Card";
@@ -6,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { ShareButton } from "@/components/ShareButton";
 import { getProjectById, incrementViews } from "@/lib/db/projects";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import {
@@ -33,6 +35,66 @@ const statusVariantMap: Record<
   Draft: "default",
   Ended: "danger",
 };
+
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.vercel.app";
+
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const project = await getProjectById(id);
+
+  if (!project) {
+    return { title: "Project Not Found | LaunchForge" };
+  }
+
+  const title = `${project.name} — LaunchForge`;
+  const description = project.description.slice(0, 160);
+  const url = `${appUrl}/project/${id}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "LaunchForge",
+      type: "website",
+      images: [
+        {
+          url: project.logoUrl ?? `${appUrl}/images/launchforge-icon.png`,
+          width: 1200,
+          height: 630,
+          alt: project.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [project.logoUrl ?? `${appUrl}/images/launchforge-icon.png`],
+    },
+    other: {
+      "fc:frame": JSON.stringify({
+        version: "next",
+        imageUrl: project.logoUrl ?? `${appUrl}/images/launchforge-icon.png`,
+        button: {
+          title: `View ${project.name}`,
+          action: {
+            type: "launch_miniapp",
+            name: "LaunchForge",
+            url: `${appUrl}/project/${id}`,
+            splashImageUrl: `${appUrl}/images/launchforge-icon.png`,
+            splashBackgroundColor: "#0B0F19",
+          },
+        },
+      }),
+    },
+  };
+}
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params;
@@ -194,6 +256,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 Links
               </h2>
               <div className="flex flex-wrap gap-3">
+                <ShareButton
+                  projectId={id}
+                  projectName={name}
+                  variant="full"
+                />
                 {website && (
                   <a
                     href={website}

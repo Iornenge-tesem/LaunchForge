@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/Badge";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { CATEGORY_LABELS } from "@/lib/constants";
-import { Heart, Eye } from "lucide-react";
+import { Heart, Eye, User } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
 
 type StatusVariant = "success" | "info" | "default" | "danger";
 
@@ -21,6 +22,9 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
     name,
     description,
     creator,
+    creatorUsername,
+    creatorDisplayName,
+    creatorPfpUrl,
     status,
     category,
     tokenSymbol,
@@ -31,10 +35,13 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
     fundingRaised,
   } = project;
 
+  const displayName =
+    creatorDisplayName || (creatorUsername ? `@${creatorUsername}` : `${creator.slice(0, 6)}…${creator.slice(-4)}`);
+
   return (
     <Link
       href={`/project/${id}`}
-      className="group flex flex-col rounded-[16px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-[var(--shadow-sm)] transition-all duration-200 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-1 cursor-pointer sm:p-6"
+      className="group flex flex-col overflow-hidden rounded-[16px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-[var(--shadow-sm)] transition-all duration-200 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-1 cursor-pointer sm:p-6"
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
@@ -79,7 +86,20 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
 
       {/* Footer */}
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--border)] pt-4 mt-5 text-xs text-[var(--text-dim)]">
-        <span className="truncate font-mono">{creator}</span>
+        <div className="flex min-w-0 items-center gap-2">
+          {creatorPfpUrl ? (
+            <img
+              src={creatorPfpUrl}
+              alt={displayName}
+              className="h-5 w-5 shrink-0 rounded-full object-cover"
+            />
+          ) : (
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
+              <User size={10} />
+            </span>
+          )}
+          <span className="truncate">{displayName}</span>
+        </div>
         <div className="flex items-center gap-3.5 shrink-0">
           <span className="flex items-center gap-1">
             <Heart size={13} />
@@ -89,6 +109,7 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
             <Eye size={13} />
             {views >= 1000 ? `${(views / 1000).toFixed(1)}k` : views}
           </span>
+          <ShareButton projectId={id} projectName={name} variant="icon" />
         </div>
       </div>
     </Link>

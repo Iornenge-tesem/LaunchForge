@@ -21,7 +21,7 @@ const categoryOptions = Object.entries(CATEGORY_LABELS).map(
 export default function LaunchPage() {
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const { address, isConnected } = useMiniAppProfile();
+  const { address, isConnected, user } = useMiniAppProfile();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,6 +42,9 @@ export default function LaunchPage() {
         ? Number(data.get("fundingTarget"))
         : undefined,
       creatorWallet: address ?? "anonymous",
+      creatorUsername: user?.username,
+      creatorDisplayName: user?.displayName,
+      creatorPfpUrl: user?.pfpUrl,
     };
 
     try {

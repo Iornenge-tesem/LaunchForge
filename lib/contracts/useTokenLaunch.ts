@@ -5,8 +5,9 @@ import {
   useAccount,
   useReadContract,
   useWriteContract,
-  useWaitForTransactionReceipt,
+  useConfig,
 } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
 import {
   FACTORY_ADDRESS,
   FACTORY_ABI,
@@ -41,6 +42,9 @@ export function useTokenLaunch() {
   const [approveTxHash, setApproveTxHash] = useState<`0x${string}` | undefined>();
   const [createTxHash, setCreateTxHash] = useState<`0x${string}` | undefined>();
 
+  // wagmi config — needed for waitForTransactionReceipt which handles Smart Wallet UserOp hashes
+  const config = useConfig();
+
   // Read USDC allowance for the factory
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
     address: USDC_ADDRESS,
@@ -60,22 +64,6 @@ export function useTokenLaunch() {
   });
 
   const { writeContractAsync } = useWriteContract();
-
-  // Wait for approval tx
-  useWaitForTransactionReceipt({
-    hash: approveTxHash,
-    query: {
-      enabled: !!approveTxHash,
-    },
-  });
-
-  // Wait for create tx
-  const { data: createReceipt } = useWaitForTransactionReceipt({
-    hash: createTxHash,
-    query: {
-      enabled: !!createTxHash,
-    },
-  });
 
   const launch = useCallback(
     async (
@@ -128,10 +116,9 @@ export function useTokenLaunch() {
           });
           setApproveTxHash(approveHash);
 
-          // Wait for approval confirmation
+          // Wait for approval confirmation (wagmi handles Smart Wallet UserOp hashes)
           setStep("waiting-approval");
-          // Poll until receipt is available
-          await waitForTx(approveHash);
+          await waitForTransactionReceipt(config, { hash: approveHash });
           await refetchAllowance();
         }
 
@@ -145,9 +132,9 @@ export function useTokenLaunch() {
         });
         setCreateTxHash(createHash);
 
-        // Step 4: Wait for creation confirmation
+        // Step 4: Wait for creation confirmation (wagmi handles Smart Wallet UserOp hashes)
         setStep("waiting-creation");
-        const receipt = await waitForTx(createHash);
+        const receipt = await waitForTransactionReceipt(config, { hash: createHash });
 
         // Step 5: Parse TokenCreated event to get token address
         let tokenAddress = "";
@@ -193,7 +180,7 @@ export function useTokenLaunch() {
         setStep("error");
       }
     },
-    [address, allowance, usdcBalance, writeContractAsync, refetchAllowance]
+    [address, allowance, usdcBalance, writeContractAsync, refetchAllowance, config]
   );
 
   const reset = useCallback(() => {
@@ -214,32 +201,4 @@ export function useTokenLaunch() {
     hasEnoughUsdc:
       usdcBalance !== undefined ? usdcBalance >= LAUNCH_FEE : undefined,
   };
-}
-
-/* ── Helper: poll for tx receipt ──────────────────────────── */
-
-async function waitForTx(
-  hash: `0x${string}`,
-  maxAttempts = 60,
-  intervalMs = 2000
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Promise<any> {
-  const { createPublicClient, http } = await import("viem");
-  const { base } = await import("viem/chains");
-
-  const client = createPublicClient({
-    chain: base,
-    transport: http(),
-  });
-
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const receipt = await client.getTransactionReceipt({ hash });
-      if (receipt) return receipt;
-    } catch {
-      // not mined yet
-    }
-    await new Promise((r) => setTimeout(r, intervalMs));
-  }
-  throw new Error("Transaction confirmation timed out");
 }

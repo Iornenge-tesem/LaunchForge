@@ -1,97 +1,52 @@
 /**
- * x402 Micro-Payment Utilities for LaunchForge
+ * x402 Payment Configuration for LaunchForge
  *
- * Integrates @x402/core, @x402/express, @x402/evm for
- * USDC micro-payments on Base.
+ * Uses @x402/next + @x402/evm for USDC micro-payments on Base mainnet.
+ * The Coinbase facilitator handles payment verification & settlement.
  *
  * Endpoints that require payment:
  *   /api/projects/create  → $0.01 USDC
- *   /api/analytics/fetch  → $0.001 USDC
- *
- * Payment flow:
- *   1. Client makes request without payment → 402 Payment Required
- *   2. Client signs EIP-712 payment and sends in X-PAYMENT header
- *   3. Server verifies payment via facilitator
- *   4. Request proceeds if valid
- *   5. USDC settled to payTo wallet on Base
- *
- * Install dependencies:
- *   npm install @x402/core @x402/express @x402/evm
  */
 
-import { CHAINS, PAYMENT } from "@/lib/constants";
+import { PAYMENT } from "@/lib/constants";
+import { withX402 } from "@x402/next";
+import { x402ResourceServer } from "@x402/next";
+import { ExactEvmScheme } from "@x402/evm/exact/server";
+import type { RouteConfig } from "@x402/next";
+import type { NextRequest, NextResponse } from "next/server";
 
-/** Wallet address to receive payments */
+/** Treasury wallet — receives all x402 payments */
 export const PAY_TO_ADDRESS =
-  process.env.X402_PAY_TO_ADDRESS ?? "0x0000000000000000000000000000000000000000";
+  "0x01491D527190528ccBC340De80bf2E447dCc4fe3" as `0x${string}`;
 
-/** Current chain (toggle testnet/mainnet via env) */
-export const CHAIN_ID =
-  process.env.NEXT_PUBLIC_CHAIN_ENV === "mainnet"
-    ? CHAINS.BASE_MAINNET
-    : CHAINS.BASE_TESTNET;
+/** Base mainnet network identifier */
+const NETWORK = "eip155:8453" as const;
 
-/**
- * Verify an x402 payment header.
- *
- * In production, this calls the x402 facilitator to validate
- * the EIP-712 signed USDC payment.
- *
- * @param paymentHeader - The raw X-PAYMENT header value
- * @param requiredAmount - Amount in USDC (e.g. 0.01)
- * @returns true if valid, false otherwise
- */
-export async function verifyPayment(
-  paymentHeader: string,
-  requiredAmount: number
-): Promise<boolean> {
-  // TODO: implement with @x402/core
-  //
-  // Example integration:
-  // import { x402 } from "@x402/core";
-  // import { baseSepolia } from "@x402/evm/chains";
-  //
-  // const result = await x402.verifyPayment({
-  //   paymentHeader,
-  //   payTo: PAY_TO_ADDRESS,
-  //   amount: requiredAmount,
-  //   chainId: CHAIN_ID,
-  // });
-  //
-  // return result.isValid;
+/** x402 resource server (uses Coinbase public facilitator by default) */
+const server = new x402ResourceServer().register(
+  NETWORK,
+  new ExactEvmScheme()
+);
 
-  console.log("[x402] Payment verification placeholder", {
-    requiredAmount,
-    chainId: CHAIN_ID,
-  });
-
-  return true; // Placeholder — always passes in dev
-}
+/** Route config for project creation — $0.01 USDC */
+export const projectCreateRouteConfig: RouteConfig = {
+  accepts: {
+    scheme: "exact",
+    network: NETWORK,
+    payTo: PAY_TO_ADDRESS,
+    price: `$${PAYMENT.PROJECT_CREATE}`,
+  },
+  description: "Create a LaunchForge project listing",
+};
 
 /**
- * Generate a 402 Payment Required response.
- *
- * Returns the response clients need to know how much to pay
- * and where to send payment.
+ * Wraps a Next.js route handler with x402 payment protection.
+ * Payment is only settled after the handler returns a successful response.
  */
-export function createPaymentRequiredResponse(endpoint: string) {
-  const amount =
-    endpoint === "/api/projects/create"
-      ? PAYMENT.PROJECT_CREATE
-      : PAYMENT.ANALYTICS_FETCH;
-
-  return {
-    status: 402,
-    body: {
-      ok: false,
-      error: "Payment Required",
-      payment: {
-        amount,
-        currency: "USDC",
-        chain: CHAIN_ID,
-        payTo: PAY_TO_ADDRESS,
-        protocol: "x402",
-      },
-    },
-  };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function withPaymentGate(
+  handler: (request: NextRequest) => Promise<NextResponse<any>>,
+  routeConfig: RouteConfig = projectCreateRouteConfig
+) {
+  return withX402(handler, routeConfig, server);
 }

@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createProject, updateProjectScore } from "@/lib/db/projects";
 import { scoreProject } from "@/lib/ai/scoreProject";
+import { withPaymentGate } from "@/lib/x402";
 import type { CreateProjectInput } from "@/lib/types";
 
 /**
  * POST /api/projects/create
  *
  * Creates a new project listing saved to Supabase.
- * In Phase 3, this will be gated by an x402 $0.01 USDC payment.
+ * Gated by an x402 $0.01 USDC payment — settled to treasury on success.
  *
  * Body: { name, description, tokenSymbol?, category, website?,
  *         twitter?, github?, fundingTarget?, creatorWallet }
  */
-export async function POST(request: NextRequest) {
+async function handler(request: NextRequest) {
   try {
     const body = await request.json();
 
@@ -69,3 +70,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
+
+export const POST = withPaymentGate(handler);

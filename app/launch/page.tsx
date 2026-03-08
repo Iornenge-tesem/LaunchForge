@@ -7,6 +7,7 @@ import { Input, Textarea, Select } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { CATEGORY_LABELS, PAYMENT } from "@/lib/constants";
 import { useMiniAppProfile } from "@/components/providers";
+import { useX402Fetch } from "@/lib/hooks/useX402Fetch";
 import { Check, Rocket, ArrowRight, AlertCircle } from "lucide-react";
 
 type FormState = "idle" | "submitting" | "success";
@@ -22,6 +23,7 @@ export default function LaunchPage() {
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { address, isConnected, user } = useMiniAppProfile();
+  const { paidFetch, step: paymentStep, error: paymentError } = useX402Fetch();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,7 +50,7 @@ export default function LaunchPage() {
     };
 
     try {
-      const res = await fetch("/api/projects/create", {
+      const res = await paidFetch("/api/projects/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -61,7 +63,10 @@ export default function LaunchPage() {
 
       setFormState("success");
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+      setErrorMsg(
+        paymentError ??
+        (err instanceof Error ? err.message : "Something went wrong")
+      );
       setFormState("idle");
     }
   }
@@ -259,7 +264,11 @@ export default function LaunchPage() {
               {formState === "submitting" ? (
                 <span className="flex items-center gap-2">
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  Submitting…
+                  {paymentStep === "submitting" && "Submitting…"}
+                  {paymentStep === "payment-required" && "Payment required…"}
+                  {paymentStep === "signing" && "Sign USDC payment…"}
+                  {paymentStep === "confirming" && "Confirming…"}
+                  {(paymentStep === "idle" || paymentStep === "done" || paymentStep === "error") && "Submitting…"}
                 </span>
               ) : (
                 <>

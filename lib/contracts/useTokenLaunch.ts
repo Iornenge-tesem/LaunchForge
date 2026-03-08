@@ -6,8 +6,9 @@ import {
   useReadContract,
   useWriteContract,
   useConfig,
+  useBalance,
 } from "wagmi";
-import { waitForTransactionReceipt } from "@wagmi/core";
+import { waitForTransactionReceipt, readContract } from "@wagmi/core";
 import {
   FACTORY_ADDRESS,
   FACTORY_ABI,
@@ -34,6 +35,9 @@ export type LaunchResult = {
   txHash: string;
 };
 
+/** Human-readable launch fee */
+const LAUNCH_FEE_DISPLAY = "0.4 USDC";
+
 export function useTokenLaunch() {
   const { address } = useAccount();
   const [step, setStep] = useState<LaunchStep>("idle");
@@ -55,13 +59,16 @@ export function useTokenLaunch() {
   });
 
   // Read USDC balance
-  const { data: usdcBalance } = useReadContract({
+  const { data: usdcBalance, refetch: refetchBalance } = useReadContract({
     address: USDC_ADDRESS,
     abi: USDC_ABI,
     functionName: "balanceOf",
     args: address ? [address] : undefined,
     query: { enabled: !!address },
   });
+
+  // Read native ETH balance (needed for gas)
+  const { data: ethBalance } = useBalance({ address });
 
   const { writeContractAsync } = useWriteContract();
 
@@ -96,17 +103,33 @@ export function useTokenLaunch() {
         if (BigInt(totalSupply) > MAX_SUPPLY)
           throw new Error(`Supply cannot exceed ${MAX_SUPPLY.toLocaleString()}`);
 
-        // Step 1: Check balance
+        // Step 1: Fresh on-chain balance check (don't rely on potentially stale cache)
         setStep("checking");
-        if (usdcBalance !== undefined && usdcBalance < LAUNCH_FEE) {
+        const freshBalance = await readContract(config, {
+          address: USDC_ADDRESS,
+          abi: USDC_ABI,
+          functionName: "balanceOf",
+          args: [address],
+        });
+        // Update the cached value
+        refetchBalance();
+
+        if (freshBalance < LAUNCH_FEE) {
+          const have = (Number(freshBalance) / 1e6).toFixed(4);
           throw new Error(
-            "Insufficient USDC balance. You need at least 0.4 USDC to launch."
+            `Insufficient USDC. You have ${have} USDC but need ${LAUNCH_FEE_DISPLAY} to launch.`
           );
         }
 
-        // Step 2: Approve USDC if needed
-        const currentAllowance = allowance ?? BigInt(0);
-        if (currentAllowance < LAUNCH_FEE) {
+        // Step 2: Fresh allowance check & approve if needed
+        const freshAllowance = await readContract(config, {
+          address: USDC_ADDRESS,
+          abi: USDC_ABI,
+          functionName: "allowance",
+          args: [address, FACTORY_ADDRESS],
+        });
+
+        if (freshAllowance < LAUNCH_FEE) {
           setStep("approving");
           const approveHash = await writeContractAsync({
             address: USDC_ADDRESS,
@@ -157,7 +180,6 @@ export function useTokenLaunch() {
         }
 
         if (!tokenAddress) {
-          // Fallback: if we can't parse the event, still save what we have
           throw new Error("Token created but couldn't parse token address from receipt");
         }
 
@@ -171,16 +193,31 @@ export function useTokenLaunch() {
         const message =
           err instanceof Error ? err.message : "Unknown error occurred";
 
-        // Handle user rejection
+        // Translate generic wallet/bundler errors into actionable messages
         if (message.includes("rejected") || message.includes("denied")) {
-          setError("Transaction was rejected");
+          setError("Transaction was rejected in your wallet.");
+        } else if (
+          message.toLowerCase().includes("insufficient funds") ||
+          message.toLowerCase().includes("enough funds") ||
+          message.toLowerCase().includes("error generating transaction")
+        ) {
+          // The wallet simulation detected the tx would revert — usually means
+          // not enough USDC for the fee or not enough ETH for gas.
+          const bal = usdcBalance !== undefined
+            ? (Number(usdcBalance) / 1e6).toFixed(4) + " USDC"
+            : "unknown";
+          setError(
+            `Transaction cannot be completed. Your USDC balance is ${bal} ` +
+            `but the launch fee is ${LAUNCH_FEE_DISPLAY}. ` +
+            `Make sure you have at least ${LAUNCH_FEE_DISPLAY} and a small amount of ETH for gas on Base.`
+          );
         } else {
           setError(message);
         }
         setStep("error");
       }
     },
-    [address, allowance, usdcBalance, writeContractAsync, refetchAllowance, config]
+    [address, usdcBalance, writeContractAsync, refetchAllowance, refetchBalance, config]
   );
 
   const reset = useCallback(() => {
@@ -198,6 +235,7 @@ export function useTokenLaunch() {
     launch,
     reset,
     usdcBalance,
+    ethBalance: ethBalance?.value,
     hasEnoughUsdc:
       usdcBalance !== undefined ? usdcBalance >= LAUNCH_FEE : undefined,
   };

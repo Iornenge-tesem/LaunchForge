@@ -147,23 +147,6 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
   const [isMiniApp, setIsMiniApp] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.location.hostname.includes("localhost")) return;
-
-    import("eruda")
-      .then((mod) => {
-        const win = window as Window & { __ERUDA_INIT__?: boolean };
-        if (win.__ERUDA_INIT__) return;
-
-        mod.default.init();
-        win.__ERUDA_INIT__ = true;
-      })
-      .catch(() => {
-        // no-op: debug console is optional
-      });
-  }, []);
-
-  useEffect(() => {
     let mounted = true;
 
     MiniKit.install();

@@ -12,6 +12,9 @@ create table if not exists projects (
   funding_target  numeric,
   funding_raised  numeric not null default 0,
   creator_wallet  text not null,
+  creator_username    text,
+  creator_display_name text,
+  creator_pfp_url     text,
   status          text not null default 'Draft',
   likes           integer not null default 0,
   views           integer not null default 0,
@@ -73,3 +76,6 @@ create policy "Service role write" on launch_transactions
 alter table projects add column if not exists token_address text;
 alter table projects add column if not exists token_tx_hash text;
 alter table projects add column if not exists token_supply  bigint;
+alter table projects add column if not exists creator_username     text;
+alter table projects add column if not exists creator_display_name text;
+alter table projects add column if not exists creator_pfp_url      text;

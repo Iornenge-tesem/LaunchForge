@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Badge } from "@/components/ui/Badge";
-import { getTopProjects, mockProjects } from "@/lib/projects";
+import { listProjects } from "@/lib/db/projects";
 import minikitConfig from "@/minikit.config";
 import {
   Rocket,
@@ -19,6 +19,8 @@ import {
   Sparkles,
   Shield,
 } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: minikitConfig.appName,
@@ -84,30 +86,33 @@ const features = [
   },
 ];
 
-const stats = [
-  {
-    icon: <Rocket size={20} />,
-    label: "Projects Launched",
-    value: mockProjects.length.toString(),
-  },
-  {
-    icon: <DollarSign size={20} />,
-    label: "Total Funding",
-    value:
-      "$" +
-      mockProjects
-        .reduce((sum, p) => sum + (p.fundingRaised ?? 0), 0)
-        .toLocaleString(),
-  },
-  {
-    icon: <Radio size={20} />,
-    label: "Live Projects",
-    value: mockProjects.filter((p) => p.status === "Live").length.toString(),
-  },
-];
+export default async function Home() {
+  const projects = await listProjects();
+  const topProjects = [...projects]
+    .sort((a, b) => (b.aiScore ?? 0) - (a.aiScore ?? 0))
+    .slice(0, 3);
 
-export default function Home() {
-  const topProjects = getTopProjects(3);
+  const stats = [
+    {
+      icon: <Rocket size={20} />,
+      label: "Projects Launched",
+      value: projects.length.toString(),
+    },
+    {
+      icon: <DollarSign size={20} />,
+      label: "Total Funding",
+      value:
+        "$" +
+        projects
+          .reduce((sum, p) => sum + (p.fundingRaised ?? 0), 0)
+          .toLocaleString(),
+    },
+    {
+      icon: <Radio size={20} />,
+      label: "Live Projects",
+      value: projects.filter((p) => p.status === "Live").length.toString(),
+    },
+  ];
 
   return (
     <div className="relative isolate overflow-hidden">

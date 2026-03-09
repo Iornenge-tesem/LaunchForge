@@ -79,3 +79,18 @@ alter table projects add column if not exists token_supply  bigint;
 alter table projects add column if not exists creator_username     text;
 alter table projects add column if not exists creator_display_name text;
 alter table projects add column if not exists creator_pfp_url      text;
+
+-- ─── Notification tokens for Farcaster push notifications ──────
+create table if not exists notification_tokens (
+  fid       bigint not null,
+  app_fid   bigint not null,
+  token     text not null,
+  url       text not null,
+  updated_at timestamptz not null default now(),
+  primary key (fid, app_fid)
+);
+
+alter table notification_tokens enable row level security;
+
+create policy "Service role only" on notification_tokens
+  for all using (auth.role() = 'service_role');

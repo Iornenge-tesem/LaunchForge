@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateProjectToken, recordLaunchTransaction } from "@/lib/db/projects";
+import { broadcastNotification } from "@/lib/notifications";
 
 /** POST /api/projects/:id/token — save token deployment info */
 export async function POST(
@@ -45,6 +46,13 @@ export async function POST(
       tokenSupply: tokenSupply ?? 0,
       status: "confirmed",
     });
+
+    // Notify all users about token deployment (fire-and-forget)
+    broadcastNotification({
+      title: "Token Deployed!",
+      body: `$${tokenSymbol ?? "Token"} is now live on Base!`,
+      targetUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.vercel.app"}/project/${id}`,
+    }).catch(() => {});
 
     return NextResponse.json({ ok: true, tokenAddress });
   } catch (error) {

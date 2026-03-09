@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createProject, updateProjectScore } from "@/lib/db/projects";
 import { scoreProject } from "@/lib/ai/scoreProject";
 import { withPaymentGate } from "@/lib/x402";
+import { broadcastNotification } from "@/lib/notifications";
 import type { CreateProjectInput } from "@/lib/types";
 
 /**
@@ -63,6 +64,13 @@ async function handler(request: NextRequest) {
         await updateProjectScore(project.id, result.score, result.riskFlags);
       })
       .catch(() => {});
+
+    // Notify all users about new project (fire-and-forget)
+    broadcastNotification({
+      title: "New Project Launched",
+      body: `${input.name} just launched on LaunchForge!`,
+      targetUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.vercel.app"}/project/${project.id}`,
+    }).catch(() => {});
 
     return NextResponse.json({ ok: true, project }, { status: 201 });
   } catch (error) {

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Share2, Check, Link2 } from "lucide-react";
+import sdk from "@farcaster/miniapp-sdk";
 
 type ShareButtonProps = {
   projectId: string;
@@ -31,6 +32,11 @@ export function ShareButton({
 }: ShareButtonProps) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [inMiniApp, setInMiniApp] = useState(false);
+
+  useEffect(() => {
+    sdk.isInMiniApp().then(setInMiniApp).catch(() => {});
+  }, []);
 
   const appUrl =
     typeof window !== "undefined"
@@ -42,6 +48,25 @@ export function ShareButton({
 
   const farcasterUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(projectUrl)}`;
   const twitterUrl = `https://x.com/intent/post?text=${encodeURIComponent(`${shareText}\n${projectUrl}`)}`;
+
+  async function handleFarcasterShare(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (inMiniApp) {
+      try {
+        await sdk.actions.composeCast({
+          text: shareText,
+          embeds: [projectUrl],
+        });
+        setOpen(false);
+      } catch {
+        // Fall back to external link
+        window.open(farcasterUrl, "_blank", "noopener,noreferrer");
+      }
+    } else {
+      window.open(farcasterUrl, "_blank", "noopener,noreferrer");
+    }
+  }
 
   async function copyLink() {
     try {
@@ -85,16 +110,14 @@ export function ShareButton({
             }}
           />
           <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-1.5 shadow-[var(--shadow-lg)] sm:right-0 sm:left-auto left-0">
-            <a
-              href={farcasterUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[var(--text-main)] transition-colors hover:bg-[var(--bg-elevated)]"
+            <button
+              type="button"
+              onClick={handleFarcasterShare}
+              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[var(--text-main)] transition-colors hover:bg-[var(--bg-elevated)] cursor-pointer"
             >
               {FARCASTER_ICON}
               Cast on Farcaster
-            </a>
+            </button>
             <a
               href={twitterUrl}
               target="_blank"

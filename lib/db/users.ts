@@ -61,3 +61,40 @@ export async function recordLike(
   await supabase.rpc("increment_likes", { project_id: projectId });
   return true;
 }
+
+/** Check if a wallet has already viewed a project. */
+export async function hasViewed(
+  projectId: string,
+  wallet: string
+): Promise<boolean> {
+  const supabase = getSupabase();
+  const { data } = await supabase
+    .from("project_views")
+    .select("id")
+    .eq("project_id", projectId)
+    .eq("wallet", wallet.toLowerCase())
+    .maybeSingle();
+  return !!data;
+}
+
+/** Record a view (insert into project_views + increment counter). Returns false if already viewed. */
+export async function recordView(
+  projectId: string,
+  wallet: string
+): Promise<boolean> {
+  const supabase = getSupabase();
+  const { error } = await supabase.from("project_views").insert({
+    project_id: projectId,
+    wallet: wallet.toLowerCase(),
+  });
+
+  if (error) {
+    // unique constraint violation means already viewed
+    if (error.code === "23505") return false;
+    throw new Error(error.message);
+  }
+
+  // Increment the counter on the projects table
+  await supabase.rpc("increment_views", { project_id: projectId });
+  return true;
+}

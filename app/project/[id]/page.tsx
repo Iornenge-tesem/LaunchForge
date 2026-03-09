@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/Button";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { ShareButton } from "@/components/ShareButton";
-import { getProjectById, incrementViews } from "@/lib/db/projects";
+import { ViewTracker } from "@/components/ViewTracker";
+import { getProjectById } from "@/lib/db/projects";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import {
   ArrowLeft,
@@ -104,9 +105,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  // Fire-and-forget view count
-  incrementViews(id).catch(() => {});
-
   const {
     name,
     description,
@@ -138,6 +136,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <section className="py-10 sm:py-14">
       <Container>
+        <ViewTracker projectId={id} />
         {/* Back link */}
         <Link
           href="/explore"

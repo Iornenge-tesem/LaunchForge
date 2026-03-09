@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProjectById, incrementViews } from "@/lib/db/projects";
+import { getProjectById } from "@/lib/db/projects";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -15,9 +15,6 @@ export async function GET(_request: NextRequest, { params }: Params) {
         { status: 404 }
       );
     }
-
-    // Fire-and-forget view count — don't block the response
-    incrementViews(id).catch(() => {});
 
     return NextResponse.json({ ok: true, project });
   } catch (error) {

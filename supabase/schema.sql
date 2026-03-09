@@ -94,3 +94,20 @@ alter table notification_tokens enable row level security;
 
 create policy "Service role only" on notification_tokens
   for all using (auth.role() = 'service_role');
+
+-- ─── Project views (one view per wallet per project) ───────────
+create table if not exists project_views (
+  id          uuid primary key default gen_random_uuid(),
+  project_id  text not null references projects(id) on delete cascade,
+  wallet      text not null,
+  created_at  timestamptz not null default now(),
+  unique (project_id, wallet)
+);
+
+alter table project_views enable row level security;
+
+create policy "Public read" on project_views
+  for select using (true);
+
+create policy "Service role write" on project_views
+  for all using (auth.role() = 'service_role');

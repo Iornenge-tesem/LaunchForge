@@ -114,11 +114,7 @@ export default function LaunchPage() {
           </h1>
         </div>
         <p className="mt-2 text-sm text-[var(--text-secondary)] sm:text-base">
-          Fill in your project details to get listed. Submission costs{" "}
-          <span className="font-semibold text-[var(--accent)]">
-            ${PAYMENT.PROJECT_CREATE} USDC
-          </span>{" "}
-          via x402.
+          Fill in your project details to get listed on LaunchForge.
         </p>
       </div>
 

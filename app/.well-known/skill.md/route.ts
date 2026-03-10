@@ -14,7 +14,7 @@ ${rootUrl}
 ## Authentication
 - Most read endpoints are public (no auth required).
 - Project creation requires x402 payment ($0.01 USDC on Base).
-- Token deployment requires 0.4 USDC on Base (paid via smart contract).
+- Token deployment requires 0.1 USDC on Base (paid via smart contract).
 
 ## Endpoints
 
@@ -90,7 +90,7 @@ ${rootUrl}
   - \`tokenSymbol\` (string, optional): Token symbol
   - \`tokenSupply\` (number, optional): Total token supply
 - **Output:** JSON \`{ ok: true, tokenAddress: string }\`
-- **Payment:** None (API is free, but the on-chain createToken call costs 0.4 USDC)
+- **Payment:** None (API is free, but the on-chain createToken call costs 0.1 USDC)
 - **Side effects:** Updates project status to "Live", records launch transaction.
 
 ### GET /api/projects/mine
@@ -150,7 +150,7 @@ ${rootUrl}
 ## Smart Contracts (Base Mainnet)
 
 - **LaunchForge Factory:** \`0xF992bBCCcDcd22387eB68db7daAcE2dE76716A49\`
-  - \`createToken(name, symbol, totalSupply)\` — Deploys ERC-20, costs 0.4 USDC
+  - \`createToken(name, symbol, totalSupply)\` — Deploys ERC-20, costs 0.1 USDC
   - Emits \`TokenCreated(tokenAddress, creator, name, symbol, totalSupply)\`
 - **USDC (Base):** \`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\`
 - **Treasury:** \`0x01491D527190528ccBC340De80bf2E447dCc4fe3\`

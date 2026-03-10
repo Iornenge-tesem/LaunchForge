@@ -58,7 +58,9 @@ export function useX402Fetch() {
         if (res.status !== 402) {
           setStep(res.ok ? "done" : "error");
           if (!res.ok) {
-            const body = await res.json().catch(() => ({}));
+            // Clone before reading so callers can still read the body
+            const cloned = res.clone();
+            const body = await cloned.json().catch(() => ({}));
             setError(body.error ?? `Request failed (${res.status})`);
           }
           return res;

@@ -30,8 +30,8 @@ contract LaunchForgeFactory {
     /// @notice Wallet that receives launch fees
     address public immutable treasury;
 
-    /// @notice Launch fee in USDC (6 decimals). 0.4 USDC = 400_000
-    uint256 public constant LAUNCH_FEE = 400_000;
+    /// @notice Launch fee in USDC (6 decimals). 0.1 USDC = 100_000
+    uint256 public constant LAUNCH_FEE = 100_000;
 
     /// @notice Max supply a creator can mint (10 billion tokens)
     uint256 public constant MAX_SUPPLY = 10_000_000_000;

@@ -169,7 +169,7 @@ export function TokenLauncher({
         <div className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--red)] bg-[var(--red-muted)] p-3">
           <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--red)]" />
           <p className="text-sm text-[var(--red)]">
-            Insufficient USDC. You need at least 0.4 USDC on Base to launch.
+            Insufficient USDC. You need at least 0.1 USDC on Base to launch.
           </p>
         </div>
       )}
@@ -247,7 +247,7 @@ export function TokenLauncher({
 
         {/* Fee notice */}
         <p className="text-xs text-[var(--text-dim)]">
-          Launch fee: <span className="font-medium text-[var(--text-secondary)]">0.4 USDC</span> (paid on Base)
+          Launch fee: <span className="font-medium text-[var(--text-secondary)]">0.1 USDC</span> (paid on Base)
         </p>
 
         {/* Launch button */}
@@ -266,7 +266,7 @@ export function TokenLauncher({
           ) : (
             <>
               <Rocket size={18} />
-              Launch Token — 0.4 USDC
+              Launch Token — 0.1 USDC
             </>
           )}
         </Button>

@@ -39,7 +39,7 @@ export async function POST(
       walletAddress: wallet,
       projectId: id,
       txHash,
-      amountPaid: 0.4,
+      amountPaid: 0.1,
       tokenAddress,
       tokenName: tokenName ?? "",
       tokenSymbol: tokenSymbol ?? "",

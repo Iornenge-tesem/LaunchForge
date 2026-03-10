@@ -36,7 +36,7 @@ export type LaunchResult = {
 };
 
 /** Human-readable launch fee */
-const LAUNCH_FEE_DISPLAY = "0.4 USDC";
+const LAUNCH_FEE_DISPLAY = "0.1 USDC";
 
 export function useTokenLaunch() {
   const { address } = useAccount();

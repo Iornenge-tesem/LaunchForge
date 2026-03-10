@@ -53,7 +53,7 @@ const config: MiniKitConfig = {
     `${rootUrl}/images/screenshot2.png`,
     `${rootUrl}/images/screenshot3.png`,
   ],
-  webhookUrl: `${rootUrl}/api/webhook`,
+  webhookUrl: "https://api.neynar.com/f/app/7053ce87-5037-498c-a08d-b91a5f0c9ae2/event",
   ogTitle: "Forge",
   ogDescription: "A launchpad for real builders and experimental ideas.",
   ogImageUrl: `${rootUrl}/images/launchforge-icon.png`,

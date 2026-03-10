@@ -237,8 +237,7 @@ export default function LaunchPage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs text-[var(--text-dim)]">
-                By submitting, you agree to pay ${PAYMENT.PROJECT_CREATE} USDC and
-                accept the LaunchForge terms.
+                By submitting, you accept the LaunchForge terms.
               </p>
               {address && (
                 <p className="mt-1 text-[11px] text-[var(--text-dim)]">
@@ -257,11 +256,7 @@ export default function LaunchPage() {
               {formState === "submitting" ? (
                 <span className="flex items-center gap-2">
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  {paymentStep === "submitting" && "Submitting…"}
-                  {paymentStep === "payment-required" && "Payment required…"}
-                  {paymentStep === "signing" && "Sign USDC payment…"}
-                  {paymentStep === "confirming" && "Confirming…"}
-                  {(paymentStep === "idle" || paymentStep === "done" || paymentStep === "error") && "Submitting…"}
+                  Submitting…
                 </span>
               ) : (
                 <>

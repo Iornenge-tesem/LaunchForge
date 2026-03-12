@@ -135,7 +135,7 @@ export default function LaunchPage() {
         </div>
       )}
 
-      <Card padding="md" className="mb-6 border-[var(--accent)]/20">
+      <Card padding="md" className="mb-6 border-[var(--accent-border-soft)]/40">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold text-[var(--text-main)]">Need USDC on Base to launch?</p>

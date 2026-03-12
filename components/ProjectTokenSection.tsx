@@ -92,7 +92,7 @@ export function ProjectTokenSection({
                 href={`https://basescan.org/token/${tokenAddress}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--accent)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-90"
+                className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--accent-border-soft)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-90"
               >
                 <ExternalLink size={14} />
                 Open on BaseScan
@@ -119,7 +119,7 @@ export function ProjectTokenSection({
                   href={`https://basescan.org/tx/${tokenTxHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--accent)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-90"
+                  className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--accent-border-soft)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-90"
                 >
                   <ExternalLink size={14} />
                   View transaction

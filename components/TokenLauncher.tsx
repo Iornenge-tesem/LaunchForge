@@ -115,7 +115,7 @@ export function TokenLauncher({
   // Success state
   if (step === "done" && result) {
     return (
-      <Card padding="lg" className="border-[var(--green)] bg-[var(--green-muted)]">
+      <Card padding="lg" className="border-[var(--green-border-soft)] bg-[var(--green-muted)]">
         <div className="flex items-start gap-3">
           <CheckCircle2 size={24} className="mt-0.5 shrink-0 text-[var(--green)]" />
           <div className="min-w-0 flex-1">
@@ -174,7 +174,7 @@ export function TokenLauncher({
 
       {/* USDC balance warning */}
       {hasEnoughUsdc === false && (
-        <div className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--red)] bg-[var(--red-muted)] p-3">
+        <div className="mb-4 flex items-start gap-2 rounded-xl border border-[var(--red-border-soft)] bg-[var(--red-muted)] p-3">
           <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--red)]" />
           <p className="text-sm text-[var(--red)]">
             Insufficient USDC. You need at least 0.1 USDC on Base to launch.
@@ -194,7 +194,7 @@ export function TokenLauncher({
             onChange={(e) => setTokenName(e.target.value)}
             placeholder="e.g. ForgeToken"
             disabled={isProcessing}
-            className="h-[44px] w-full rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-4 text-sm text-[var(--text-main)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] disabled:opacity-50"
+            className="h-[44px] w-full rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-4 text-sm text-[var(--text-main)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent-border-soft)] focus:ring-2 focus:ring-[var(--accent-muted)] disabled:opacity-50"
           />
         </div>
 
@@ -210,7 +210,7 @@ export function TokenLauncher({
             placeholder="e.g. FRG"
             maxLength={10}
             disabled={isProcessing}
-            className="h-[44px] w-full rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-4 text-sm font-mono uppercase text-[var(--text-main)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] disabled:opacity-50"
+            className="h-[44px] w-full rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-4 text-sm font-mono uppercase text-[var(--text-main)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent-border-soft)] focus:ring-2 focus:ring-[var(--accent-muted)] disabled:opacity-50"
           />
         </div>
 
@@ -228,7 +228,7 @@ export function TokenLauncher({
             }}
             placeholder="e.g. 1000000"
             disabled={isProcessing}
-            className="h-[44px] w-full rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-4 text-sm font-mono text-[var(--text-main)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)] disabled:opacity-50"
+            className="h-[44px] w-full rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-4 text-sm font-mono text-[var(--text-main)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent-border-soft)] focus:ring-2 focus:ring-[var(--accent-muted)] disabled:opacity-50"
           />
           <p className="mt-1 text-xs text-[var(--text-dim)]">
             Entire supply minted to your wallet. No additional minting possible.
@@ -237,7 +237,7 @@ export function TokenLauncher({
 
         {/* Form error */}
         {(formError || error) && (
-          <div className="flex items-start gap-2 rounded-xl border border-[var(--red)] bg-[var(--red-muted)] p-3">
+          <div className="flex items-start gap-2 rounded-xl border border-[var(--red-border-soft)] bg-[var(--red-muted)] p-3">
             <AlertCircle size={16} className="mt-0.5 shrink-0 text-[var(--red)]" />
             <p className="text-sm text-[var(--red)]">{formError || error}</p>
           </div>

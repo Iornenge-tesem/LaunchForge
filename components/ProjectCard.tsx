@@ -41,7 +41,7 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
   return (
     <Link
       href={`/project/${id}`}
-      className="group flex flex-col overflow-hidden rounded-[16px] border border-[var(--border)] bg-[var(--bg-card)] p-5 shadow-[var(--shadow-sm)] transition-all duration-200 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-1 cursor-pointer sm:p-6"
+      className="group flex flex-col overflow-hidden rounded-[16px] border border-[var(--border)] bg-[var(--bg-card)] p-6 shadow-[var(--shadow-sm)] transition-all duration-200 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-lg)] hover:-translate-y-1 cursor-pointer sm:p-7"
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3">

@@ -103,16 +103,16 @@ export default function ExplorePage() {
     <>
       {/* Sticky search & filters */}
       <div className="sticky top-16 z-40 border-b border-[var(--border)] bg-[var(--bg-overlay)] backdrop-blur-xl">
-        <div className="mx-auto w-full max-w-[1200px] px-5 py-2.5 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1200px] px-5 pb-2.5 pt-0 sm:px-6 lg:px-8">
           {/* Search + Sort row */}
-          <div className="mb-3 flex items-center gap-3">
+          <div className="mb-2.5 flex items-center gap-3">
             <div className="relative flex-1 sm:max-w-sm">
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search projects…"
-                className="h-[44px] w-full rounded-xl border border-[var(--border)] bg-[var(--bg-input)] px-4 pr-11 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent)] focus-visible:outline-none"
+                className="h-[44px] w-full rounded-xl border border-[var(--border)] bg-[var(--bg-input)] px-4 pr-11 text-sm text-[var(--text-main)] shadow-[var(--shadow-xs)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent-border-soft)] focus-visible:outline-none"
               />
               <Search
                 size={16}
@@ -172,7 +172,7 @@ export default function ExplorePage() {
                   onClick={() => setStatusFilter(f.value)}
                   className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-150 ${
                     statusFilter === f.value
-                      ? "border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)] shadow-[var(--shadow-xs)]"
+                      ? "border-[var(--accent-border-soft)] bg-[var(--accent-muted)] text-[var(--accent)] shadow-[var(--shadow-xs)]"
                       : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
                   }`}
                 >
@@ -228,7 +228,7 @@ export default function ExplorePage() {
                       onClick={() => setCategoryFilter(f.value)}
                       className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-150 ${
                         categoryFilter === f.value
-                          ? "border-[var(--purple)] bg-[var(--purple-muted)] text-[var(--purple)] shadow-[var(--shadow-xs)]"
+                          ? "border-[var(--purple-border-soft)] bg-[var(--purple-muted)] text-[var(--purple)] shadow-[var(--shadow-xs)]"
                           : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
                       }`}
                     >
@@ -250,7 +250,7 @@ export default function ExplorePage() {
                       onClick={() => setFundingIdx(i)}
                       className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-150 ${
                         fundingIdx === i
-                          ? "border-[var(--green)] bg-[var(--green-muted)] text-[var(--green)] shadow-[var(--shadow-xs)]"
+                          ? "border-[var(--green-border-soft)] bg-[var(--green-muted)] text-[var(--green)] shadow-[var(--shadow-xs)]"
                           : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
                       }`}
                     >

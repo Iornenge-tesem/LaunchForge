@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import { LikeButton } from "@/components/LikeButton";
 import { ProjectTokenSection } from "@/components/ProjectTokenSection";
+import { CreatorIdentity } from "@/components/CreatorIdentity";
+import { ProjectSwapWidget } from "@/components/ProjectSwapWidget";
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>;
@@ -226,15 +228,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <dl className="space-y-5">
                 <div className="flex items-center justify-between">
                   <dt className="text-sm text-[var(--text-dim)]">Creator</dt>
-                  <dd className="flex items-center gap-2 text-sm font-medium text-[var(--text-main)]">
-                    {project.creatorPfpUrl && (
-                      <img
-                        src={project.creatorPfpUrl}
-                        alt=""
-                        className="h-5 w-5 rounded-full object-cover"
-                      />
-                    )}
-                    {project.creatorDisplayName ?? project.creatorUsername ?? `${creator.slice(0, 6)}...${creator.slice(-4)}`}
+                  <dd className="max-w-[65%] truncate">
+                    <CreatorIdentity
+                      address={creator as `0x${string}`}
+                      displayName={project.creatorDisplayName ?? undefined}
+                      username={project.creatorUsername ?? undefined}
+                      pfpUrl={project.creatorPfpUrl ?? undefined}
+                      size="sm"
+                    />
                   </dd>
                 </div>
                 <div className="h-px bg-[var(--border)]" />
@@ -382,6 +383,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               tokenTxHash={tokenTxHash}
               creatorWallet={creator}
             />
+
+            {tokenAddress && (
+              <ProjectSwapWidget
+                tokenAddress={tokenAddress}
+                tokenSymbol={tokenSymbol}
+                tokenName={name}
+              />
+            )}
 
             {/* Community Ratings */}
             <Card padding="lg">

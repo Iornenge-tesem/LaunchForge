@@ -111,3 +111,28 @@ create policy "Public read" on project_views
 
 create policy "Service role write" on project_views
   for all using (auth.role() = 'service_role');
+
+-- ─── Fishnet Auth tables (AI agent reverse CAPTCHA auth) ─────────
+create table if not exists fishnet_auth_agents (
+  id          text primary key,
+  name        text not null,
+  api_key     text not null unique,
+  created_at  timestamptz not null default now(),
+  expires_at  timestamptz not null
+);
+
+create table if not exists fishnet_auth_log (
+  seed         text not null,
+  name         text not null,
+  completed_at timestamptz not null default now(),
+  primary key (seed, name)
+);
+
+alter table fishnet_auth_agents enable row level security;
+alter table fishnet_auth_log enable row level security;
+
+create policy "Service role only agents" on fishnet_auth_agents
+  for all using (auth.role() = 'service_role');
+
+create policy "Service role only auth log" on fishnet_auth_log
+  for all using (auth.role() = 'service_role');

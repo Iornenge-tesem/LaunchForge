@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "node -e \"const fs=require('fs');fs.writeFileSync('node_modules/tsconfig.base.json',JSON.stringify({'$schema':'https://json.schemastore.org/tsconfig',compilerOptions:{strict:true,esModuleInterop:true,lib:['ESNext','DOM','DOM.Iterable'],module:'ESNext',moduleResolution:'Bundler',resolveJsonModule:true,skipLibCheck:true,target:'ESNext'}},null,2))\"",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

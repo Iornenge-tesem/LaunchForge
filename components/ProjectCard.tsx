@@ -4,8 +4,9 @@ import { Badge } from "@/components/ui/Badge";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { CATEGORY_LABELS } from "@/lib/constants";
-import { Heart, Eye, User } from "lucide-react";
+import { Heart, Eye } from "lucide-react";
 import { ShareButton } from "@/components/ShareButton";
+import { CreatorIdentity } from "@/components/CreatorIdentity";
 
 type StatusVariant = "success" | "info" | "default" | "danger";
 
@@ -34,9 +35,6 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
     fundingTarget,
     fundingRaised,
   } = project;
-
-  const displayName =
-    creatorDisplayName || (creatorUsername ? `@${creatorUsername}` : `${creator.slice(0, 6)}…${creator.slice(-4)}`);
 
   return (
     <Link
@@ -86,19 +84,14 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
 
       {/* Footer */}
       <div className="mt-auto flex items-center justify-between gap-3 border-t border-[var(--border)] pt-4 mt-5 text-xs text-[var(--text-dim)]">
-        <div className="flex min-w-0 items-center gap-2">
-          {creatorPfpUrl ? (
-            <img
-              src={creatorPfpUrl}
-              alt={displayName}
-              className="h-5 w-5 shrink-0 rounded-full object-cover"
-            />
-          ) : (
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
-              <User size={10} />
-            </span>
-          )}
-          <span className="truncate">{displayName}</span>
+        <div className="min-w-0 truncate">
+          <CreatorIdentity
+            address={creator as `0x${string}`}
+            displayName={creatorDisplayName ?? undefined}
+            username={creatorUsername ?? undefined}
+            pfpUrl={creatorPfpUrl ?? undefined}
+            size="sm"
+          />
         </div>
         <div className="flex items-center gap-3.5 shrink-0">
           <span className="flex items-center gap-1">

@@ -1,0 +1,58 @@
+"use client";
+
+import { SwapDefault } from "@coinbase/onchainkit/swap";
+import type { Token } from "@coinbase/onchainkit/token";
+import { base } from "wagmi/chains";
+import { ArrowLeftRight } from "lucide-react";
+
+const USDC: Token = {
+  address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  chainId: base.id,
+  decimals: 6,
+  image:
+    "https://dynamic-assets.coinbase.com/3c15df5e2ac7d4abbe9499ed60f4be95e5f17e7b3b5b2c5c2f7a6e5e9d9b2a8/asset_icons/9d67b728b6c8f457717154b3a35f9ddc702eae7e76c4684ee39b3a7034e424b6.png",
+  name: "USDC",
+  symbol: "USDC",
+};
+
+type Props = {
+  tokenAddress: string;
+  tokenSymbol?: string;
+  tokenName?: string;
+};
+
+/**
+ * Inline swap widget (OnchainKit SwapDefault) for trading USDC ↔ a project token.
+ * Only rendered when the token address is known.
+ */
+export function ProjectSwapWidget({ tokenAddress, tokenSymbol, tokenName }: Props) {
+  const projectToken: Token = {
+    address: tokenAddress as `0x${string}`,
+    chainId: base.id,
+    decimals: 18,
+    image: null,
+    name: tokenName ?? tokenSymbol ?? "Project Token",
+    symbol: tokenSymbol?.toUpperCase() ?? "TOKEN",
+  };
+
+  return (
+    <div className="rounded-2xl border border-[var(--accent-border-soft)] bg-[var(--bg-card)] overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center gap-2 border-b border-[var(--border)] px-5 py-3.5">
+        <ArrowLeftRight size={15} className="text-[var(--accent)]" />
+        <span className="text-sm font-semibold text-[var(--text-main)]">
+          Swap USDC → ${tokenSymbol?.toUpperCase() ?? "TOKEN"}
+        </span>
+      </div>
+
+      {/* SwapDefault widget */}
+      <div className="p-4">
+        <SwapDefault
+          from={[USDC]}
+          to={[projectToken]}
+          className="w-full"
+        />
+      </div>
+    </div>
+  );
+}

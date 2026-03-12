@@ -15,6 +15,7 @@ ${rootUrl}
 - Most read endpoints are public (no auth required).
 - Project creation requires x402 payment ($0.01 USDC on Base).
 - Token deployment requires 0.1 USDC on Base (paid via smart contract).
+- AI agents can authenticate using Fishnet reverse-CAPTCHA at \`/api/agent-auth\`.
 
 ## Endpoints
 
@@ -101,9 +102,21 @@ ${rootUrl}
 - **Payment:** None (free)
 
 ### GET /api/analytics
-- **Description:** Get platform-wide analytics: total projects, live count, views, likes, funding, and top projects.
-- **Output:** JSON \`{ ok: true, analytics: { totalProjects, liveProjects, totalViews, totalLikes, totalFunding, topProjects } }\`
-- **Payment:** None currently (x402 gate planned)
+- **Description:** Get platform analytics. Public callers receive summary metrics; Fishnet-authenticated agents receive full analytics including top projects.
+- **Output:** JSON \`{ ok: true, analytics: { totalProjects, liveProjects, totalViews, totalLikes, totalFunding } }\` (public) or full analytics with \`topProjects\` (Fishnet-authenticated)
+- **Payment:** None
+
+### GET /api/agent
+- **Description:** Returns ERC-8004-style agent metadata for onchain/agent directory discovery.
+- **Output:** JSON metadata including capabilities, auth methods, and payment requirements.
+- **Payment:** None
+
+### GET/POST /api/agent-auth
+- **Description:** Fishnet Auth endpoint for AI agent authentication (reverse CAPTCHA).
+- **GET Output:** Challenge seed and task details.
+- **POST Input:** Agent name + solved challenge answers.
+- **POST Output:** Agent credentials (API key/session) when verification passes.
+- **Payment:** None
 
 ### POST /api/users/save
 - **Description:** Save or update a user profile on wallet connect.

@@ -42,11 +42,11 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-main)]/95 backdrop-blur-xl dark:bg-[var(--bg-main)]/95">
-      <Container className="flex h-16 items-center justify-between">
+      <Container className="flex h-16 items-center gap-3">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
+          className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80"
           onClick={() => setOpen(false)}
         >
           <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-[var(--border)] shadow-[var(--shadow-xs)]">
@@ -56,13 +56,13 @@ export function Navbar() {
               className="h-full w-full object-cover"
             />
           </span>
-          <span className="text-base font-bold tracking-tight text-[var(--text-main)]">
+          <span className="text-sm font-bold tracking-tight text-[var(--text-main)] sm:text-[15px]">
             LaunchForge
           </span>
         </Link>
 
         {/* Center Nav (desktop) */}
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 sm:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 sm:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -79,7 +79,7 @@ export function Navbar() {
         </nav>
 
         {/* Right side */}
-        <div className="flex items-center gap-3">
+        <div className="ml-auto flex shrink-0 items-center gap-2.5">
           <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:hidden">
             {profileAvatar}
             <div className="min-w-0 leading-tight">

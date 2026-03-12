@@ -42,11 +42,11 @@
   --border: #E2E8F0;
   --border-hover: #CBD5E1;
   --input-border: #CBD5F5;
-  --accent-border-soft: color-mix(in srgb, var(--accent) 50%, var(--border) 50%);
-  --amber-border-soft: color-mix(in srgb, var(--amber) 50%, var(--border) 50%);
-  --green-border-soft: color-mix(in srgb, var(--green) 50%, var(--border) 50%);
-  --purple-border-soft: color-mix(in srgb, var(--purple) 50%, var(--border) 50%);
-  --red-border-soft: color-mix(in srgb, var(--red) 50%, var(--border) 50%);
+  --accent-border-soft: color-mix(in srgb, var(--accent) 35%, var(--border) 65%);
+  --amber-border-soft: color-mix(in srgb, var(--amber) 35%, var(--border) 65%);
+  --green-border-soft: color-mix(in srgb, var(--green) 35%, var(--border) 65%);
+  --purple-border-soft: color-mix(in srgb, var(--purple) 35%, var(--border) 65%);
+  --red-border-soft: color-mix(in srgb, var(--red) 35%, var(--border) 65%);
 
   /* Shadows */
   --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
@@ -104,11 +104,11 @@
   --border: #374151;
   --border-hover: #4B5563;
   --input-border: #374151;
-  --accent-border-soft: color-mix(in srgb, var(--accent) 50%, var(--border) 50%);
-  --amber-border-soft: color-mix(in srgb, var(--amber) 50%, var(--border) 50%);
-  --green-border-soft: color-mix(in srgb, var(--green) 50%, var(--border) 50%);
-  --purple-border-soft: color-mix(in srgb, var(--purple) 50%, var(--border) 50%);
-  --red-border-soft: color-mix(in srgb, var(--red) 50%, var(--border) 50%);
+  --accent-border-soft: color-mix(in srgb, var(--accent) 35%, var(--border) 65%);
+  --amber-border-soft: color-mix(in srgb, var(--amber) 35%, var(--border) 65%);
+  --green-border-soft: color-mix(in srgb, var(--green) 35%, var(--border) 65%);
+  --purple-border-soft: color-mix(in srgb, var(--purple) 35%, var(--border) 65%);
+  --red-border-soft: color-mix(in srgb, var(--red) 35%, var(--border) 65%);
 
   /* Shadows */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);

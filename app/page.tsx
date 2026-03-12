@@ -187,15 +187,17 @@ export default async function Home() {
         <div className="grid gap-6 sm:grid-cols-3">
           {features.map((f) => (
             <Card key={f.title} hover padding="lg" className="flex flex-col">
-              <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl ${f.bg} ${f.color}`}>
-                {f.icon}
+              <div className="px-1.5 py-1">
+                <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${f.bg} ${f.color}`}>
+                  {f.icon}
+                </div>
+                <h3 className="text-base font-semibold text-[var(--text-main)]">
+                  {f.title}
+                </h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-[var(--text-secondary)]">
+                  {f.desc}
+                </p>
               </div>
-              <h3 className="text-base font-semibold text-[var(--text-main)]">
-                {f.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
-                {f.desc}
-              </p>
             </Card>
           ))}
         </div>

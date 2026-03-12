@@ -12,13 +12,13 @@ type ButtonProps = {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-[var(--accent)] text-white font-semibold hover:bg-[var(--accent-hover)] shadow-[var(--primary-btn-shadow)] hover:shadow-[var(--primary-btn-shadow-hover)]",
+    "bg-[var(--accent)] text-white font-semibold hover:bg-[var(--accent-hover)] active:bg-[var(--accent-hover)] shadow-[var(--primary-btn-shadow)] hover:shadow-[var(--primary-btn-shadow-hover)]",
   secondary:
-    "bg-transparent text-[var(--text-main)] border border-[var(--input-border)] hover:border-[var(--border-hover)] hover:bg-[var(--accent-muted)]",
+    "bg-transparent text-[var(--text-main)] border border-[var(--input-border)] hover:border-[var(--border-hover)] hover:bg-[var(--accent-muted)] active:bg-[var(--accent-muted)]",
   ghost:
-    "bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:bg-[var(--bg-elevated)]",
+    "bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:bg-[var(--bg-elevated)] active:bg-[var(--bg-elevated)]",
   danger:
-    "bg-[var(--red-muted)] text-[var(--red)] border border-transparent hover:border-[var(--red-border-soft)]",
+    "bg-[var(--red-muted)] text-[var(--red)] border border-transparent hover:border-[var(--red-border-soft)] active:bg-[var(--red-muted)]",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -37,7 +37,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`inline-flex cursor-pointer items-center justify-center transition-all duration-200 ease-out active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40 ${
+      className={`inline-flex cursor-pointer items-center justify-center transition-all duration-200 ease-out active:scale-[0.97] active:brightness-[0.97] disabled:pointer-events-none disabled:opacity-40 ${
         fullWidth ? "w-full" : ""
       } ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
       {...props}

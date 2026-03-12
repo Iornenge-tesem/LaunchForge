@@ -129,7 +129,6 @@ export function TokenLauncher({
               <TokenLiquidityPanel
                 tokenAddress={result.tokenAddress}
                 tokenSymbol={tokenSymbol}
-                canManageLiquidity={true}
               />
             </div>
 

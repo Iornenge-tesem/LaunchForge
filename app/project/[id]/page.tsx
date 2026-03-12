@@ -232,6 +232,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       username={project.creatorUsername ?? undefined}
                       pfpUrl={project.creatorPfpUrl ?? undefined}
                       size="sm"
+                      linkToBaseProfile
                     />
                   </dd>
                 </div>

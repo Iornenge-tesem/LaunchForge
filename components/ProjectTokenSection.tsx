@@ -101,11 +101,12 @@ export function ProjectTokenSection({
             </div>
           </div>
 
-          <TokenLiquidityPanel
-            tokenAddress={tokenAddress}
-            tokenSymbol={tokenSymbol}
-            canManageLiquidity={Boolean(isCreator)}
-          />
+          {isCreator && (
+            <TokenLiquidityPanel
+              tokenAddress={tokenAddress}
+              tokenSymbol={tokenSymbol}
+            />
+          )}
         </div>
       </Card>
     );

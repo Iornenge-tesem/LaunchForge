@@ -5,9 +5,10 @@ import { Section } from "@/components/Section";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Select } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
+import { FundButton } from "@coinbase/onchainkit/fund";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { useMiniAppProfile } from "@/components/providers";
-import { Check, Rocket, ArrowRight, AlertCircle } from "lucide-react";
+import { Check, Rocket, ArrowRight, AlertCircle, Wallet, ExternalLink } from "lucide-react";
 
 type FormState = "idle" | "submitting" | "success";
 
@@ -133,6 +134,34 @@ export default function LaunchPage() {
           <span>Your wallet is connecting automatically. Your address will be saved once connected.</span>
         </div>
       )}
+
+      <Card padding="md" className="mb-6 border-[var(--accent)]/20">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold text-[var(--text-main)]">Need USDC on Base to launch?</p>
+            <p className="mt-1 text-sm text-[var(--text-secondary)]">
+              Use Base funding tools, then return to submit and launch.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <FundButton
+              text="Fund Wallet"
+              openIn="tab"
+              className="!min-h-[44px] !rounded-xl !bg-[var(--accent)] !px-4 !font-semibold !text-white"
+            />
+            <a
+              href="https://docs.base.org/base-chain/network-information/bridges"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2 text-sm font-medium text-[var(--text-main)] transition-colors hover:border-[var(--border-hover)]"
+            >
+              <Wallet size={15} />
+              Bridge to Base
+              <ExternalLink size={14} />
+            </a>
+          </div>
+        </div>
+      </Card>
 
       <form onSubmit={handleSubmit}>
         {/* Basic Info */}

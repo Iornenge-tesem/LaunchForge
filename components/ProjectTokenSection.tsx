@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { TokenLauncher } from "@/components/TokenLauncher";
+import { TokenLiquidityPanel } from "@/components/TokenLiquidityPanel";
 import { useMiniAppProfile } from "@/components/providers";
-import { Coins, ExternalLink } from "lucide-react";
+import { Coins, ExternalLink, Copy, Check } from "lucide-react";
 
 type Props = {
   projectId: string;
@@ -29,73 +31,104 @@ export function ProjectTokenSection({
   creatorWallet,
 }: Props) {
   const { address } = useMiniAppProfile();
+  const [copiedField, setCopiedField] = useState<"token" | "tx" | null>(null);
+
+  async function copyValue(value: string, field: "token" | "tx") {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 1400);
+    } catch {
+      // no-op
+    }
+  }
 
   // Token already deployed — show info
   if (tokenAddress) {
     return (
       <Card padding="lg">
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
+        <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
           Token
         </h2>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-[var(--text-dim)]">Name</span>
-            <span className="text-sm font-medium text-[var(--text-main)]">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between rounded-xl bg-[var(--bg-elevated)] px-4 py-3">
+            <span className="text-sm font-medium text-[var(--text-dim)]">Name</span>
+            <span className="text-sm font-semibold text-[var(--text-main)]">
               {projectName}
             </span>
           </div>
           {tokenSymbol && (
-            <>
-              <div className="h-px bg-[var(--border)]" />
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[var(--text-dim)]">Symbol</span>
-                <span className="text-sm font-mono font-medium text-[var(--text-main)]">
-                  ${tokenSymbol}
-                </span>
-              </div>
-            </>
+            <div className="flex items-center justify-between rounded-xl bg-[var(--bg-elevated)] px-4 py-3">
+              <span className="text-sm font-medium text-[var(--text-dim)]">Symbol</span>
+              <span className="text-sm font-mono font-semibold text-[var(--text-main)]">
+                ${tokenSymbol}
+              </span>
+            </div>
           )}
           {tokenSupply && (
-            <>
-              <div className="h-px bg-[var(--border)]" />
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[var(--text-dim)]">Supply</span>
-                <span className="text-sm font-medium text-[var(--text-main)]">
-                  {tokenSupply.toLocaleString()}
-                </span>
-              </div>
-            </>
+            <div className="flex items-center justify-between rounded-xl bg-[var(--bg-elevated)] px-4 py-3">
+              <span className="text-sm font-medium text-[var(--text-dim)]">Supply</span>
+              <span className="text-sm font-semibold text-[var(--text-main)]">
+                {tokenSupply.toLocaleString()}
+              </span>
+            </div>
           )}
-          <div className="h-px bg-[var(--border)]" />
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-[var(--text-dim)]">Contract</span>
-            <a
-              href={`https://basescan.org/token/${tokenAddress}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm text-[var(--accent)] hover:underline"
-            >
-              {tokenAddress.slice(0, 6)}...{tokenAddress.slice(-4)}
-              <ExternalLink size={12} />
-            </a>
+
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-dim)]">Contract Address</p>
+            <p className="mt-2 break-all rounded-lg bg-[var(--bg-elevated)] px-3 py-2 font-mono text-xs text-[var(--text-main)]">
+              {tokenAddress}
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => copyValue(tokenAddress, "token")}
+                className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--text-main)] transition-colors hover:border-[var(--border-hover)]"
+              >
+                {copiedField === "token" ? <Check size={14} /> : <Copy size={14} />}
+                {copiedField === "token" ? "Copied" : "Copy address"}
+              </button>
+              <a
+                href={`https://basescan.org/token/${tokenAddress}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--accent)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-90"
+              >
+                <ExternalLink size={14} />
+                Open on BaseScan
+              </a>
+            </div>
           </div>
+
           {tokenTxHash && (
-            <>
-              <div className="h-px bg-[var(--border)]" />
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-[var(--text-dim)]">Tx</span>
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-dim)]">Deployment Tx</p>
+              <p className="mt-2 break-all rounded-lg bg-[var(--bg-elevated)] px-3 py-2 font-mono text-xs text-[var(--text-main)]">
+                {tokenTxHash}
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => copyValue(tokenTxHash, "tx")}
+                  className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--text-main)] transition-colors hover:border-[var(--border-hover)]"
+                >
+                  {copiedField === "tx" ? <Check size={14} /> : <Copy size={14} />}
+                  {copiedField === "tx" ? "Copied" : "Copy tx hash"}
+                </button>
                 <a
                   href={`https://basescan.org/tx/${tokenTxHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-sm text-[var(--accent)] hover:underline"
+                  className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--accent)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-90"
                 >
-                  View on BaseScan
-                  <ExternalLink size={12} />
+                  <ExternalLink size={14} />
+                  View transaction
                 </a>
               </div>
-            </>
+            </div>
           )}
+
+          <TokenLiquidityPanel tokenAddress={tokenAddress} tokenSymbol={tokenSymbol} />
         </div>
       </Card>
     );

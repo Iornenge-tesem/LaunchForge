@@ -127,7 +127,7 @@ export default async function Home() {
           </Badge>
           <h1 className="text-[2.5rem] font-extrabold leading-[1.1] tracking-tight text-[var(--text-main)] sm:text-[3.5rem] sm:leading-[1.08]">
             The launchpad for{" "}
-            <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--purple)] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--ember)] bg-clip-text text-transparent">
               serious builders
             </span>
           </h1>
@@ -238,7 +238,7 @@ export default async function Home() {
       {/* ── CTA ───────────────────────────────── */}
       <Section className="relative z-10 pb-16 sm:pb-24">
         <Card padding="lg" className="relative overflow-hidden text-center">
-          <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-muted)] via-transparent to-[var(--purple-muted)] opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-muted)] via-transparent to-[var(--ember-muted)] opacity-40" />
           <div className="relative z-10">
             <h2 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
               Ready to build?

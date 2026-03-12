@@ -134,7 +134,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   });
 
   return (
-    <section className="py-10 sm:py-14">
+    <section className="py-12 sm:py-16">
       <Container>
         <ViewTracker projectId={id} />
         {/* Back link */}
@@ -147,9 +147,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </Link>
 
         {/* Two column layout */}
-        <div className="grid min-w-0 gap-8 lg:grid-cols-[1fr_380px]">
+        <div className="grid min-w-0 gap-10 lg:grid-cols-[1fr_400px]">
           {/* ── Left Column ─────────────────── */}
-          <div className="min-w-0 space-y-8">
+          <div className="min-w-0 space-y-9">
             {/* Header */}
             <Card padding="lg" className="relative overflow-hidden fade-in-up">
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-muted)] via-transparent to-transparent opacity-50" />
@@ -223,7 +223,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 Details
               </h2>
-              <dl className="space-y-4">
+              <dl className="space-y-5">
                 <div className="flex items-center justify-between">
                   <dt className="text-sm text-[var(--text-dim)]">Creator</dt>
                   <dd className="flex items-center gap-2 text-sm font-medium text-[var(--text-main)]">
@@ -242,7 +242,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <dt className="text-sm text-[var(--text-dim)]">
                     Engagement
                   </dt>
-                  <dd className="flex items-center gap-4 text-sm text-[var(--text-secondary)]">
+                  <dd className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-secondary)]">
                     <LikeButton projectId={id} initialLikes={likes} />
                     <span className="flex items-center gap-1.5">
                       <Eye size={14} className="text-[var(--accent)]" />
@@ -258,7 +258,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
                 Links
               </h2>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3.5">
                 <ShareButton
                   projectId={id}
                   projectName={name}
@@ -269,7 +269,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <Globe size={16} />
                     Website
@@ -280,7 +280,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -298,7 +298,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     href={github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-5 py-2.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:border-[var(--border-hover)] hover:shadow-[var(--shadow-sm)]"
                   >
                     <svg
                       width="15"
@@ -316,7 +316,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
 
           {/* ── Right Column (Sidebar) ──────── */}
-          <div className="min-w-0 space-y-8">
+          <div className="min-w-0 space-y-9">
             {/* AI Analysis */}
             <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">

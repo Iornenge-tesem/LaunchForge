@@ -129,6 +129,7 @@ export function TokenLauncher({
               <TokenLiquidityPanel
                 tokenAddress={result.tokenAddress}
                 tokenSymbol={tokenSymbol}
+                canManageLiquidity={true}
               />
             </div>
 
@@ -145,17 +146,6 @@ export function TokenLauncher({
                   className="text-[var(--accent)] hover:underline"
                 >
                   <ExternalLink size={12} />
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-[var(--text-dim)]">Tx:</span>
-                <a
-                  href={`https://basescan.org/tx/${result.txHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-[var(--accent)] hover:underline"
-                >
-                  View on BaseScan
                 </a>
               </div>
             </div>

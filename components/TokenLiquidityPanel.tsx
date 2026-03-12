@@ -7,9 +7,14 @@ import { Droplets, ExternalLink, Copy, Check } from "lucide-react";
 type TokenLiquidityPanelProps = {
   tokenAddress: string;
   tokenSymbol?: string;
+  canManageLiquidity?: boolean;
 };
 
-export function TokenLiquidityPanel({ tokenAddress, tokenSymbol }: TokenLiquidityPanelProps) {
+export function TokenLiquidityPanel({
+  tokenAddress,
+  tokenSymbol,
+  canManageLiquidity = false,
+}: TokenLiquidityPanelProps) {
   const [copied, setCopied] = useState(false);
 
   const addLiquidityUrl = `https://app.uniswap.org/positions/create/v2?chain=base&currencyA=${USDC_ADDRESS}&currencyB=${tokenAddress}`;
@@ -32,26 +37,32 @@ export function TokenLiquidityPanel({ tokenAddress, tokenSymbol }: TokenLiquidit
         Newly deployed tokens are not tradable until you add a pool (for example USDC/{tokenSymbol?.toUpperCase() || "TOKEN"}) on Base.
       </p>
 
-      <div className="mt-4 grid gap-2 sm:grid-cols-2">
-        <a
-          href={addLiquidityUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-[var(--amber-border-soft)] bg-[var(--bg-card)] px-4 py-2.5 text-sm font-semibold text-[var(--amber)] transition-opacity hover:opacity-90"
-        >
-          <Droplets size={15} />
-          Add Liquidity
-        </a>
-        <a
-          href={swapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-[var(--accent-border-soft)] bg-[var(--bg-card)] px-4 py-2.5 text-sm font-semibold text-[var(--accent)] transition-opacity hover:opacity-90"
-        >
-          <ExternalLink size={15} />
-          Open Swap
-        </a>
-      </div>
+      {canManageLiquidity ? (
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <a
+            href={addLiquidityUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-[var(--amber-border-soft)] bg-[var(--bg-card)] px-4 py-2.5 text-sm font-semibold text-[var(--amber)] transition-opacity hover:opacity-90"
+          >
+            <Droplets size={15} />
+            Add Liquidity
+          </a>
+          <a
+            href={swapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-[var(--accent-border-soft)] bg-[var(--bg-card)] px-4 py-2.5 text-sm font-semibold text-[var(--accent)] transition-opacity hover:opacity-90"
+          >
+            <ExternalLink size={15} />
+            Open Swap
+          </a>
+        </div>
+      ) : (
+        <div className="mt-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+          Liquidity setup is restricted to the token creator.
+        </div>
+      )}
 
       <button
         type="button"

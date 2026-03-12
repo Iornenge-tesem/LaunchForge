@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/Container";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { ShareButton } from "@/components/ShareButton";
@@ -15,7 +14,6 @@ import {
   ArrowLeft,
   Eye,
   Globe,
-  Star,
   ShieldCheck,
   AlertTriangle,
   Calendar,
@@ -115,7 +113,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     category,
     tokenSymbol,
     tokenAddress,
-    tokenTxHash,
     tokenSupply,
     website,
     twitter,
@@ -380,7 +377,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               tokenSymbol={tokenSymbol}
               tokenAddress={tokenAddress}
               tokenSupply={tokenSupply}
-              tokenTxHash={tokenTxHash}
               creatorWallet={creator}
             />
 
@@ -391,27 +387,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 tokenName={name}
               />
             )}
-
-            {/* Community Ratings */}
-            <Card padding="lg">
-              <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
-                Community Ratings
-              </h2>
-              <div className="rounded-[5px] bg-[var(--bg-elevated)] p-5 text-center">
-                <Star
-                  size={28}
-                  className="mx-auto mb-3 text-[var(--text-dim)]"
-                />
-                <p className="text-sm text-[var(--text-secondary)]">
-                  Community ratings will be available once the project goes live.
-                </p>
-                <div className="mt-4">
-                  <Button variant="secondary" size="sm" disabled>
-                    Rate This Project
-                  </Button>
-                </div>
-              </div>
-            </Card>
           </div>
         </div>
       </Container>

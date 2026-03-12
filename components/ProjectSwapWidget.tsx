@@ -1,6 +1,12 @@
 "use client";
 
-import { SwapDefault } from "@coinbase/onchainkit/swap";
+import {
+  Swap,
+  SwapAmountInput,
+  SwapButton,
+  SwapMessage,
+  SwapToast,
+} from "@coinbase/onchainkit/swap";
 import type { Token } from "@coinbase/onchainkit/token";
 import { base } from "wagmi/chains";
 import { ArrowLeftRight } from "lucide-react";
@@ -36,22 +42,35 @@ export function ProjectSwapWidget({ tokenAddress, tokenSymbol, tokenName }: Prop
   };
 
   return (
-    <div className="rounded-2xl border border-[var(--accent-border-soft)] bg-[var(--bg-card)] overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-[var(--accent-border-soft)] bg-[var(--bg-card)] shadow-[var(--shadow-sm)]">
       {/* Header */}
-      <div className="flex items-center gap-2 border-b border-[var(--border)] px-5 py-3.5">
+      <div className="flex items-center gap-2 border-b border-[var(--border)] bg-[var(--accent-muted)]/35 px-5 py-3.5">
         <ArrowLeftRight size={15} className="text-[var(--accent)]" />
         <span className="text-sm font-semibold text-[var(--text-main)]">
-          Swap USDC → ${tokenSymbol?.toUpperCase() ?? "TOKEN"}
+          Swap USDC for ${tokenSymbol?.toUpperCase() ?? "TOKEN"}
         </span>
       </div>
 
-      {/* SwapDefault widget */}
-      <div className="p-4">
-        <SwapDefault
-          from={[USDC]}
-          to={[projectToken]}
-          className="w-full"
-        />
+      <div className="p-4 sm:p-5">
+        <Swap className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-3 sm:p-4">
+          <SwapAmountInput
+            label="Pay"
+            token={USDC}
+            type="from"
+            className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)]"
+          />
+          <SwapAmountInput
+            label="Receive"
+            token={projectToken}
+            type="to"
+            className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]"
+          />
+          <SwapButton
+            className="mt-3 min-h-[44px] rounded-xl bg-[var(--accent)] text-sm font-semibold text-[var(--button-text)]"
+          />
+          <SwapMessage className="mt-2 text-xs text-[var(--text-secondary)]" />
+          <SwapToast position="bottom-center" />
+        </Swap>
       </div>
     </div>
   );

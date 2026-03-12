@@ -13,7 +13,6 @@ type Props = {
   tokenSymbol?: string;
   tokenAddress?: string;
   tokenSupply?: number;
-  tokenTxHash?: string;
   creatorWallet: string;
 };
 
@@ -27,13 +26,15 @@ export function ProjectTokenSection({
   tokenSymbol,
   tokenAddress,
   tokenSupply,
-  tokenTxHash,
   creatorWallet,
 }: Props) {
   const { address } = useMiniAppProfile();
-  const [copiedField, setCopiedField] = useState<"token" | "tx" | null>(null);
+  const [copiedField, setCopiedField] = useState<"token" | null>(null);
 
-  async function copyValue(value: string, field: "token" | "tx") {
+  const isCreator =
+    address && creatorWallet && address.toLowerCase() === creatorWallet.toLowerCase();
+
+  async function copyValue(value: string, field: "token") {
     try {
       await navigator.clipboard.writeText(value);
       setCopiedField(field);
@@ -100,44 +101,17 @@ export function ProjectTokenSection({
             </div>
           </div>
 
-          {tokenTxHash && (
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-dim)]">Deployment Tx</p>
-              <p className="mt-2 break-all rounded-lg bg-[var(--bg-elevated)] px-3 py-2 font-mono text-xs text-[var(--text-main)]">
-                {tokenTxHash}
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                <button
-                  type="button"
-                  onClick={() => copyValue(tokenTxHash, "tx")}
-                  className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--text-main)] transition-colors hover:border-[var(--border-hover)]"
-                >
-                  {copiedField === "tx" ? <Check size={14} /> : <Copy size={14} />}
-                  {copiedField === "tx" ? "Copied" : "Copy tx hash"}
-                </button>
-                <a
-                  href={`https://basescan.org/tx/${tokenTxHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-xl border border-[var(--accent-border-soft)] bg-[var(--bg-elevated)] px-3 py-2 text-sm font-medium text-[var(--accent)] transition-opacity hover:opacity-90"
-                >
-                  <ExternalLink size={14} />
-                  View transaction
-                </a>
-              </div>
-            </div>
-          )}
-
-          <TokenLiquidityPanel tokenAddress={tokenAddress} tokenSymbol={tokenSymbol} />
+          <TokenLiquidityPanel
+            tokenAddress={tokenAddress}
+            tokenSymbol={tokenSymbol}
+            canManageLiquidity={Boolean(isCreator)}
+          />
         </div>
       </Card>
     );
   }
 
   // Only the project creator can launch a token
-  const isCreator =
-    address && creatorWallet && address.toLowerCase() === creatorWallet.toLowerCase();
-
   if (!isCreator) {
     return (
       <Card padding="lg">

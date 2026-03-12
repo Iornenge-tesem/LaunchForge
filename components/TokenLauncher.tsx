@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useTokenLaunch, type LaunchStep } from "@/lib/contracts/useTokenLaunch";
 import { useMiniAppProfile } from "@/components/providers";
+import { USDC_ADDRESS } from "@/lib/contracts/tokenFactory";
 import {
   Rocket,
   Loader2,
@@ -12,6 +13,7 @@ import {
   AlertCircle,
   Coins,
   ExternalLink,
+  Droplets,
 } from "lucide-react";
 
 type TokenLauncherProps = {
@@ -113,6 +115,9 @@ export function TokenLauncher({
 
   // Success state
   if (step === "done" && result) {
+    const addLiquidityUrl = `https://app.uniswap.org/positions/create/v2?chain=base&currencyA=${USDC_ADDRESS}&currencyB=${result.tokenAddress}`;
+    const swapUrl = `https://app.uniswap.org/swap?chain=base&inputCurrency=${USDC_ADDRESS}&outputCurrency=${result.tokenAddress}`;
+
     return (
       <Card padding="lg" className="border-[var(--green)] bg-[var(--green-muted)]">
         <div className="flex items-start gap-3">
@@ -124,6 +129,36 @@ export function TokenLauncher({
             <p className="mt-1 text-sm text-[var(--text-secondary)]">
               Your {tokenSymbol.toUpperCase()} token is live on Base.
             </p>
+
+            <div className="mt-3 rounded-xl border border-[var(--amber)] bg-[var(--amber-muted)] p-3">
+              <p className="text-sm font-medium text-[var(--amber)]">
+                Trading is not live yet
+              </p>
+              <p className="mt-1 text-xs text-[var(--amber)]">
+                New tokens cannot be bought until you add liquidity to a DEX pool (for example USDC/{tokenSymbol.toUpperCase()}).
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a
+                  href={addLiquidityUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-lg border border-[var(--amber)] bg-[var(--bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--amber)] hover:opacity-90"
+                >
+                  <Droplets size={12} />
+                  Add Liquidity
+                </a>
+                <a
+                  href={swapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-lg border border-[var(--accent)] bg-[var(--bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--accent)] hover:opacity-90"
+                >
+                  <ExternalLink size={12} />
+                  Open Swap Page
+                </a>
+              </div>
+            </div>
+
             <div className="mt-3 space-y-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-[var(--text-dim)]">Address:</span>

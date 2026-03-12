@@ -8,7 +8,7 @@ import {
   useConfig,
   useBalance,
 } from "wagmi";
-import { waitForTransactionReceipt, readContract } from "@wagmi/core";
+import { waitForTransactionReceipt, readContract, sendCalls, waitForCallsStatus } from "@wagmi/core";
 import {
   FACTORY_ADDRESS,
   FACTORY_ABI,
@@ -17,7 +17,20 @@ import {
   LAUNCH_FEE,
   MAX_SUPPLY,
 } from "@/lib/contracts/tokenFactory";
-import { decodeEventLog } from "viem";
+import { decodeEventLog, encodeFunctionData, maxUint256 } from "viem";
+
+/** Returns true if the error means the wallet doesn't support wallet_sendCalls (EIP-5792) */
+function isBatchNotSupported(err: unknown): boolean {
+  if (!(err instanceof Error)) return false;
+  const msg = err.message.toLowerCase();
+  return (
+    msg.includes("method not found") ||
+    msg.includes("not supported") ||
+    msg.includes("wallet_sendcalls") ||
+    msg.includes("4200") ||
+    (err as { code?: number }).code === 4200
+  );
+}
 
 export type LaunchStep =
   | "idle"
@@ -121,7 +134,88 @@ export function useTokenLaunch() {
           );
         }
 
-        // Step 2: Fresh allowance check & approve if needed
+        // Step 2: Prepare call args
+        const nameArg = tokenName.trim();
+        const symbolArg = tokenSymbol.trim().toUpperCase();
+        const supplyArg = BigInt(totalSupply);
+
+        // Step 3: Try atomic batch first (Coinbase Smart Wallet / EIP-5792)
+        // This submits approve + createToken as ONE tx → one confirmation dialog
+        setStep("approving");
+        let usedBatch = false;
+        let batchTokenAddress = "";
+        let batchTxHash = "" as `0x${string}`;
+        try {
+          const batchId = await sendCalls(config, {
+            calls: [
+              {
+                to: USDC_ADDRESS,
+                data: encodeFunctionData({
+                  abi: USDC_ABI,
+                  functionName: "approve",
+                  args: [FACTORY_ADDRESS, maxUint256],
+                }),
+              },
+              {
+                to: FACTORY_ADDRESS,
+                data: encodeFunctionData({
+                  abi: FACTORY_ABI,
+                  functionName: "createToken",
+                  args: [nameArg, symbolArg, supplyArg],
+                }),
+              },
+            ],
+          });
+
+          setStep("waiting-creation");
+          const callsResult = await waitForCallsStatus(config, {
+            id: (batchId as { id: string }).id,
+            timeout: 120_000,
+          });
+
+          // Scan all receipts for the TokenCreated event
+          for (const receipt of callsResult.receipts ?? []) {
+            for (const log of receipt.logs ?? []) {
+              try {
+                const decoded = decodeEventLog({
+                  abi: FACTORY_ABI,
+                  data: log.data as `0x${string}`,
+                  topics: log.topics as unknown as [`0x${string}`, ...`0x${string}`[]],
+                });
+                if (decoded.eventName === "TokenCreated") {
+                  batchTokenAddress = (decoded.args as { tokenAddress: string }).tokenAddress;
+                  batchTxHash = receipt.transactionHash as `0x${string}`;
+                  break;
+                }
+              } catch {
+                // not our event
+              }
+            }
+            if (batchTokenAddress) break;
+          }
+
+          if (batchTokenAddress && batchTxHash) {
+            usedBatch = true;
+          }
+        } catch (batchErr) {
+          if (!isBatchNotSupported(batchErr)) throw batchErr;
+          // Wallet doesn't support wallet_sendCalls → fall through to sequential
+        }
+
+        if (usedBatch) {
+          setCreateTxHash(batchTxHash);
+          if (!batchTokenAddress) {
+            throw new Error("Token created but couldn't parse token address from batch receipt");
+          }
+          setStep("saving");
+          await onSave(batchTokenAddress, batchTxHash);
+          setResult({ tokenAddress: batchTokenAddress, txHash: batchTxHash });
+          setStep("done");
+          return;
+        }
+
+        // Step 4 (sequential fallback): approve maxUint256 if needed, then createToken
+        // Approving maxUint256 means users only ever need to approve USDC once
         const freshAllowance = await readContract(config, {
           address: USDC_ADDRESS,
           abi: USDC_ABI,
@@ -135,7 +229,7 @@ export function useTokenLaunch() {
             address: USDC_ADDRESS,
             abi: USDC_ABI,
             functionName: "approve",
-            args: [FACTORY_ADDRESS, LAUNCH_FEE],
+            args: [FACTORY_ADDRESS, maxUint256],
           });
           setApproveTxHash(approveHash);
 
@@ -145,21 +239,21 @@ export function useTokenLaunch() {
           await refetchAllowance();
         }
 
-        // Step 3: Call createToken
+        // Step 5: Call createToken
         setStep("creating");
         const createHash = await writeContractAsync({
           address: FACTORY_ADDRESS,
           abi: FACTORY_ABI,
           functionName: "createToken",
-          args: [tokenName.trim(), tokenSymbol.trim().toUpperCase(), BigInt(totalSupply)],
+          args: [nameArg, symbolArg, supplyArg],
         });
         setCreateTxHash(createHash);
 
-        // Step 4: Wait for creation confirmation (wagmi handles Smart Wallet UserOp hashes)
+        // Step 6: Wait for creation confirmation (wagmi handles Smart Wallet UserOp hashes)
         setStep("waiting-creation");
         const receipt = await waitForTransactionReceipt(config, { hash: createHash });
 
-        // Step 5: Parse TokenCreated event to get token address
+        // Step 7: Parse TokenCreated event to get token address
         let tokenAddress = "";
         if (receipt?.logs) {
           for (const log of receipt.logs) {
@@ -183,7 +277,7 @@ export function useTokenLaunch() {
           throw new Error("Token created but couldn't parse token address from receipt");
         }
 
-        // Step 6: Save to database
+        // Step 8: Save to database
         setStep("saving");
         await onSave(tokenAddress, createHash);
 

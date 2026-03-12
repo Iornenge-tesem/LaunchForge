@@ -66,6 +66,8 @@ type MiniAppContextValue = {
   isMiniApp: boolean;
   address?: `0x${string}`;
   isConnected: boolean;
+  notificationsEnabled: boolean;
+  promptAddMiniApp: () => Promise<void>;
 };
 
 const MiniAppContext = createContext<MiniAppContextValue>({
@@ -73,6 +75,8 @@ const MiniAppContext = createContext<MiniAppContextValue>({
   isMiniApp: false,
   address: undefined,
   isConnected: false,
+  notificationsEnabled: false,
+  promptAddMiniApp: async () => {},
 });
 
 export const useMiniAppProfile = () => useContext(MiniAppContext);
@@ -145,6 +149,19 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
   const { address, isConnected } = useAccount();
   const [user, setUser] = useState<MiniAppUser | null>(null);
   const [isMiniApp, setIsMiniApp] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+
+  const promptAddMiniApp = useCallback(async () => {
+    try {
+      if (!sdk.actions?.addMiniApp) return;
+      const result = await sdk.actions.addMiniApp();
+      if ("added" in result && result.added && result.notificationDetails) {
+        setNotificationsEnabled(true);
+      }
+    } catch {
+      // user rejected or not in mini app context
+    }
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -156,7 +173,6 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
         const context = await sdk.context;
         if (!mounted) return;
 
-        // sdk.context is async in the current SDK version.
         const contextUser = context.user;
         if (contextUser) {
           setUser({
@@ -174,6 +190,18 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
 
         if (sdk.actions?.ready) {
           await sdk.actions.ready();
+        }
+
+        // Auto-prompt to add mini app & enable notifications
+        if (sdk.actions?.addMiniApp && mounted) {
+          try {
+            const result = await sdk.actions.addMiniApp();
+            if ("added" in result && result.added && result.notificationDetails) {
+              setNotificationsEnabled(true);
+            }
+          } catch {
+            // user may have already added or rejected
+          }
         }
       } catch {
         // no-op: app still runs outside Mini App host
@@ -204,8 +232,8 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
   }, [address, user]);
 
   const contextValue = useMemo(
-    () => ({ user, isMiniApp, address, isConnected }),
-    [user, isMiniApp, address, isConnected]
+    () => ({ user, isMiniApp, address, isConnected, notificationsEnabled, promptAddMiniApp }),
+    [user, isMiniApp, address, isConnected, notificationsEnabled, promptAddMiniApp]
   );
 
   return (

@@ -149,7 +149,7 @@ ${rootUrl}
 
 ## Smart Contracts (Base Mainnet)
 
-- **LaunchForge Factory:** \`0xF992bBCCcDcd22387eB68db7daAcE2dE76716A49\`
+- **LaunchForge Factory:** \`0x4C969A286193e8935d8105D4D970630ae797bA3D\`
   - \`createToken(name, symbol, totalSupply)\` — Deploys ERC-20, costs 0.1 USDC
   - Emits \`TokenCreated(tokenAddress, creator, name, symbol, totalSupply)\`
 - **USDC (Base):** \`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\`

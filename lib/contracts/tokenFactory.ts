@@ -7,7 +7,7 @@ export const USDC_ADDRESS = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as cons
 export const TREASURY_ADDRESS = "0x01491D527190528ccBC340De80bf2E447dCc4fe3" as const;
 
 // Factory address (deployed on Base mainnet)
-export const FACTORY_ADDRESS = "0xF992bBCCcDcd22387eB68db7daAcE2dE76716A49" as `0x${string}`;
+export const FACTORY_ADDRESS = "0x4C969A286193e8935d8105D4D970630ae797bA3D" as `0x${string}`;
 
 // Launch fee: 0.1 USDC = 100_000 (6 decimals)
 export const LAUNCH_FEE = BigInt(100_000);

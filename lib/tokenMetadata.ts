@@ -4,6 +4,7 @@ import {
   http,
   isAddress,
   type Address,
+  type PublicClient,
 } from "viem";
 
 export type TokenProjectMetadata = {
@@ -93,7 +94,7 @@ export function getWebsiteUrl(metadata: Record<string, unknown>): string | undef
 }
 
 async function readOptionalString(
-  client: ReturnType<typeof createPublicClient>,
+  client: PublicClient,
   tokenAddress: Address,
   functionName: "name" | "symbol" | "tokenURI" | "contractURI"
 ): Promise<string | null> {

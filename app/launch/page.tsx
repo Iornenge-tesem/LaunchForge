@@ -21,6 +21,7 @@ const categoryOptions = Object.entries(CATEGORY_LABELS).map(
 
 export default function LaunchPage() {
   const [formState, setFormState] = useState<FormState>("idle");
+  const [imageMode, setImageMode] = useState<"url" | "upload">("url");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const {
     address,
@@ -52,10 +53,38 @@ export default function LaunchPage() {
 
     const data = new FormData(e.currentTarget);
 
+    let logoUrl: string | undefined;
+
+    if (imageMode === "url") {
+      logoUrl = ((data.get("logoUrl") as string) || "").trim() || undefined;
+    } else {
+      const uploadFile = data.get("logoFile");
+      if (!(uploadFile instanceof File) || uploadFile.size === 0) {
+        setErrorMsg("Please select an image to upload.");
+        setFormState("idle");
+        return;
+      }
+
+      const uploadForm = new FormData();
+      uploadForm.set("file", uploadFile);
+
+      const uploadRes = await fetch("/api/uploads/project-image", {
+        method: "POST",
+        body: uploadForm,
+      });
+      const uploadJson = await uploadRes.json();
+
+      if (!uploadRes.ok || !uploadJson.ok || !uploadJson.url) {
+        throw new Error(uploadJson.error ?? "Image upload failed");
+      }
+
+      logoUrl = uploadJson.url;
+    }
+
     const body = {
       name: data.get("name") as string,
       description: data.get("description") as string,
-      logoUrl: (data.get("logoUrl") as string) || undefined,
+      logoUrl,
       tokenSymbol: (data.get("tokenSymbol") as string) || undefined,
       category: (data.get("category") as string) || "other",
       website: (data.get("website") as string) || undefined,
@@ -226,13 +255,59 @@ export default function LaunchPage() {
                 placeholder="Describe what your project does, the problem it solves, and why it matters."
                 required
               />
-              <Input
-                label="Project Image URL"
-                name="logoUrl"
-                type="url"
-                placeholder="https://.../project-logo.png"
-                hint="Optional — this image will appear on project cards and the token page"
-              />
+              <div>
+                <p className="mb-2 text-sm font-medium text-[var(--text-main)]">
+                  Project Image Source
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setImageMode("url")}
+                    className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
+                      imageMode === "url"
+                        ? "border-[var(--accent-border-soft)] bg-[var(--accent-muted)] text-[var(--accent)]"
+                        : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)]"
+                    }`}
+                  >
+                    Use URL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setImageMode("upload")}
+                    className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
+                      imageMode === "upload"
+                        ? "border-[var(--accent-border-soft)] bg-[var(--accent-muted)] text-[var(--accent)]"
+                        : "border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)]"
+                    }`}
+                  >
+                    Upload Image
+                  </button>
+                </div>
+              </div>
+              {imageMode === "url" ? (
+                <Input
+                  label="Project Image URL"
+                  name="logoUrl"
+                  type="url"
+                  placeholder="https://.../project-logo.png"
+                  hint="Paste an image URL"
+                />
+              ) : (
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-[var(--text-secondary)]">
+                    Upload Project Image
+                  </label>
+                  <input
+                    type="file"
+                    name="logoFile"
+                    accept="image/*"
+                    className="h-[44px] w-full cursor-pointer rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-3 text-sm text-[var(--text-main)] file:mr-3 file:rounded-lg file:border-0 file:bg-[var(--accent-muted)] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[var(--accent)]"
+                  />
+                  <p className="mt-1 text-xs text-[var(--text-dim)]">
+                    Max file size: 5MB (jpg, png, webp, gif)
+                  </p>
+                </div>
+              )}
               <div className="grid gap-6 sm:grid-cols-2">
                 <Input
                   label="Token Symbol"

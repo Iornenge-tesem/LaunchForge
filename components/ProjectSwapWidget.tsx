@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Swap,
   SwapAmountInput,
@@ -74,6 +74,22 @@ export function ProjectSwapWidget({
   tokenImage,
 }: Props) {
   const [swapError, setSwapError] = useState<string | null>(null);
+  const [swapResetKey, setSwapResetKey] = useState(0);
+  const [hasPendingApproval, setHasPendingApproval] = useState(false);
+
+  useEffect(() => {
+    if (!hasPendingApproval) return;
+
+    const timeoutId = window.setTimeout(() => {
+      // Some wallet paths can linger on `transactionApproved` even after
+      // execution; remount Swap to return the button to idle state.
+      setSwapResetKey((prev) => prev + 1);
+      setHasPendingApproval(false);
+      setSwapError(null);
+    }, 20000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [hasPendingApproval]);
 
   const projectToken: Token = {
     address: tokenAddress as `0x${string}`,
@@ -137,13 +153,23 @@ export function ProjectSwapWidget({
         )}
 
         <Swap
-          onError={(error) => setSwapError(getFriendlySwapError(error))}
+          key={swapResetKey}
+          onError={(error) => {
+            setHasPendingApproval(false);
+            setSwapError(getFriendlySwapError(error));
+          }}
           onStatus={(status) => {
+            if (status.statusName === "transactionApproved") {
+              setHasPendingApproval(true);
+            }
+
             if (
               status.statusName === "init" ||
               status.statusName === "amountChange" ||
-              status.statusName === "success"
+              status.statusName === "success" ||
+              status.statusName === "error"
             ) {
+              setHasPendingApproval(false);
               setSwapError(null);
             }
           }}

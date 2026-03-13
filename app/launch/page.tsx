@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { FundButton, getOnrampBuyUrl } from "@coinbase/onchainkit/fund";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { useMiniAppProfile } from "@/components/providers";
+import { TokenMetadataLookup } from "@/components/TokenMetadataLookup";
 import { Check, Rocket, ArrowRight, AlertCircle } from "lucide-react";
 
 type FormState = "idle" | "submitting" | "success";
@@ -230,6 +231,10 @@ export default function LaunchPage() {
           </div>
         </div>
       </Card>
+
+      <div className="mb-8">
+        <TokenMetadataLookup />
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Basic Info */}

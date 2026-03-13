@@ -121,6 +121,7 @@ export function useTokenLaunch() {
       tokenName: string,
       tokenSymbol: string,
       totalSupply: number,
+      metadataUri: string,
       onSave: (tokenAddress: string, txHash: string) => Promise<void>
     ) => {
       if (!address) {
@@ -144,6 +145,7 @@ export function useTokenLaunch() {
         // Validate inputs
         if (!tokenName.trim()) throw new Error("Token name is required");
         if (!tokenSymbol.trim()) throw new Error("Token symbol is required");
+        if (!metadataUri.trim()) throw new Error("Metadata URI is required");
         if (totalSupply <= 0) throw new Error("Supply must be greater than 0");
         if (BigInt(totalSupply) > MAX_SUPPLY)
           throw new Error(`Supply cannot exceed ${MAX_SUPPLY.toLocaleString()}`);
@@ -170,6 +172,7 @@ export function useTokenLaunch() {
         const nameArg = tokenName.trim();
         const symbolArg = tokenSymbol.trim().toUpperCase();
         const supplyArg = BigInt(totalSupply);
+        const metadataUriArg = metadataUri.trim();
 
         // Step 3: Try atomic batch first (Coinbase Smart Wallet / EIP-5792)
         // This submits approve + createToken as ONE tx → one confirmation dialog
@@ -193,7 +196,7 @@ export function useTokenLaunch() {
                 data: encodeFunctionData({
                   abi: FACTORY_ABI,
                   functionName: "createToken",
-                  args: [nameArg, symbolArg, supplyArg],
+                  args: [nameArg, symbolArg, supplyArg, metadataUriArg],
                 }),
               },
             ],
@@ -278,7 +281,7 @@ export function useTokenLaunch() {
           address: FACTORY_ADDRESS,
           abi: FACTORY_ABI,
           functionName: "createToken",
-          args: [nameArg, symbolArg, supplyArg],
+          args: [nameArg, symbolArg, supplyArg, metadataUriArg],
         });
         setCreateTxHash(createHash);
         void pollFlashblocksStatus(createHash);

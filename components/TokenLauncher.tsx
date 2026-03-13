@@ -50,6 +50,7 @@ export function TokenLauncher({
   const [tokenName, setTokenName] = useState(projectName);
   const [tokenSymbol, setTokenSymbol] = useState(defaultSymbol);
   const [totalSupply, setTotalSupply] = useState("1000000");
+  const [metadataUri, setMetadataUri] = useState("");
   const [formError, setFormError] = useState("");
 
   const isProcessing =
@@ -70,6 +71,10 @@ export function TokenLauncher({
       setFormError("Symbol must be 10 characters or less");
       return;
     }
+    if (!metadataUri.trim()) {
+      setFormError("Metadata URI is required (ipfs://...)");
+      return;
+    }
 
     const supply = parseInt(totalSupply.replace(/,/g, ""), 10);
     if (isNaN(supply) || supply <= 0) {
@@ -81,7 +86,7 @@ export function TokenLauncher({
       return;
     }
 
-    await launch(tokenName.trim(), tokenSymbol.trim(), supply, async (tokenAddress, txHash) => {
+    await launch(tokenName.trim(), tokenSymbol.trim(), supply, metadataUri.trim(), async (tokenAddress, txHash) => {
       // Save to DB via API
       await fetch(`/api/projects/${encodeURIComponent(projectId)}/token`, {
         method: "POST",
@@ -234,6 +239,24 @@ export function TokenLauncher({
           />
           <p className="mt-1 text-xs text-[var(--text-dim)]">
             Entire supply minted to your wallet. No additional minting possible.
+          </p>
+        </div>
+
+        {/* Metadata URI */}
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-[var(--text-secondary)]">
+            Metadata URI (required)
+          </label>
+          <input
+            type="text"
+            value={metadataUri}
+            onChange={(e) => setMetadataUri(e.target.value)}
+            placeholder="ipfs://bafy.../metadata.json"
+            disabled={isProcessing}
+            className="h-[44px] w-full rounded-xl border border-[var(--input-border)] bg-[var(--bg-elevated)] px-4 text-sm text-[var(--text-main)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--accent-border-soft)] focus:ring-2 focus:ring-[var(--accent-muted)] disabled:opacity-50"
+          />
+          <p className="mt-1 text-xs text-[var(--text-dim)]">
+            Use immutable decentralized storage (IPFS/Arweave). This URI is embedded permanently in the token.
           </p>
         </div>
 

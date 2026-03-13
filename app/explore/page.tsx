@@ -102,10 +102,10 @@ export default function ExplorePage() {
   return (
     <>
       {/* Sticky search & filters */}
-      <div className="sticky top-16 z-40 border-b border-[var(--border)] bg-[var(--bg-main)] shadow-[var(--shadow-sm)]">
+      <div className="sticky top-[63px] z-40 border-b border-[var(--border)] bg-[var(--bg-main)] shadow-[var(--shadow-sm)]">
         <div className="mx-auto w-full max-w-[1200px] px-5 pb-2.5 pt-0 sm:px-6 lg:px-8">
           {/* Search + Sort row */}
-          <div className="mb-2.5 flex items-center gap-3">
+          <div className="mb-3.5 flex items-center gap-3">
             <div className="relative flex-1 sm:max-w-sm">
               <input
                 type="text"

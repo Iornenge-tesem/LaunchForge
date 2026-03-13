@@ -100,7 +100,10 @@ export default function DashboardPage() {
           </div>
         </div>
         <Link href="/launch">
-          <Button size="md" className="gap-2">
+          <Button
+            size="md"
+            className="gap-2 border border-[var(--accent-border-soft)] text-white shadow-[var(--shadow-sm)]"
+          >
             <Plus size={16} />
             New Project
           </Button>

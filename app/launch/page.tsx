@@ -315,7 +315,7 @@ export default function LaunchPage() {
                 type="submit"
                 size="lg"
                 fullWidth
-                className="sm:w-auto gap-2"
+                className="sm:w-auto gap-2 border border-[var(--accent-border-soft)]"
                 disabled={formState === "submitting"}
               >
                 {formState === "submitting" ? (

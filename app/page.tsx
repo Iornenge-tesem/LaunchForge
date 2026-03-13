@@ -137,7 +137,7 @@ export default async function Home() {
           </p>
           <div className="mt-8 flex flex-row items-center justify-center gap-3">
             <Link href="/launch">
-              <Button size="lg" className="gap-2.5 px-8 shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)]">
+              <Button size="lg" className="gap-2.5 border border-[var(--accent-border-soft)] px-8 shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)]">
                 <Rocket size={18} />
                 Launch Project
               </Button>
@@ -251,7 +251,7 @@ export default async function Home() {
             </p>
             <div className="mt-8 flex flex-row items-center justify-center gap-3">
               <Link href="/launch">
-                <Button size="lg" className="gap-2">
+                <Button size="lg" className="gap-2 border border-[var(--accent-border-soft)]">
                   <Rocket size={18} />
                   Start Building
                 </Button>

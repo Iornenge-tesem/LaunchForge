@@ -91,7 +91,7 @@ export async function listProjects(opts?: {
   }
   if (opts?.search) {
     query = query.or(
-      `name.ilike.%${opts.search}%,description.ilike.%${opts.search}%`
+      `name.ilike.%${opts.search}%,description.ilike.%${opts.search}%,token_symbol.ilike.%${opts.search}%,token_address.ilike.%${opts.search}%`
     );
   }
   if (opts?.minFunding !== undefined) {

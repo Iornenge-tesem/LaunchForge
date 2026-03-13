@@ -2,9 +2,7 @@
 
 import {
   Avatar,
-  useName,
 } from "@coinbase/onchainkit/identity";
-import { base } from "wagmi/chains";
 
 type Props = {
   address: `0x${string}`;
@@ -33,14 +31,10 @@ export function CreatorIdentity({
   linkToBaseProfile = false,
 }: Props) {
   const avatarSize = size === "sm" ? "h-6 w-6" : "h-8 w-8";
-  const { data: basename } = useName({ address, chain: base });
   const fallbackName =
-    displayName ||
-    (username
-      ? `@${username}`
-      : basename || `${address.slice(0, 6)}…${address.slice(-4)}`);
-  const profileHref = basename
-    ? `https://www.base.org/name/${encodeURIComponent(basename)}`
+    displayName || username || `${address.slice(0, 6)}…${address.slice(-4)}`;
+  const profileHref = username
+    ? `https://www.base.org/name/${encodeURIComponent(username)}`
     : `https://basescan.org/address/${address}`;
 
   const content = (
@@ -54,7 +48,6 @@ export function CreatorIdentity({
       ) : (
         <Avatar
           address={address}
-          chain={base}
           className={`${avatarSize} rounded-full object-cover`}
           defaultComponent={
             <span

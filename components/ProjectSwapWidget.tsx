@@ -57,13 +57,13 @@ export function ProjectSwapWidget({ tokenAddress, tokenSymbol, tokenName }: Prop
             label="Pay"
             token={USDC}
             type="from"
-            className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)]"
+            className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] [&_input]:!text-[1.25rem] sm:[&_input]:!text-[1.4rem]"
           />
           <SwapAmountInput
             label="Receive"
             token={projectToken}
             type="to"
-            className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]"
+            className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] [&_input]:!text-[1.25rem] sm:[&_input]:!text-[1.4rem]"
           />
           <SwapButton
             className="mt-3 min-h-[44px] rounded-xl bg-[var(--accent)] text-sm font-semibold text-[var(--button-text)]"

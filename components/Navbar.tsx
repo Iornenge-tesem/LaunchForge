@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Container } from "@/components/Container";
 import { useTheme, useMiniAppProfile } from "@/components/providers";
-import { Sun, Moon, Menu, X, Wallet } from "lucide-react";
+import { Sun, Moon, ChevronDown, ChevronUp, Wallet } from "lucide-react";
 import { CreatorIdentity } from "@/components/CreatorIdentity";
 
 const navLinks = [
@@ -81,7 +81,13 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="ml-auto flex shrink-0 items-center gap-2.5">
-          <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:hidden">
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 transition-all duration-150 hover:border-[var(--border-hover)] sm:hidden"
+            aria-label="Open navigation menu"
+            aria-expanded={open}
+          >
             {address ? (
               <div className="max-w-[120px] truncate">
                 <CreatorIdentity
@@ -102,7 +108,12 @@ export function Navbar() {
                 </div>
               </>
             )}
-          </div>
+            {open ? (
+              <ChevronUp size={16} className="shrink-0 text-[var(--text-dim)]" />
+            ) : (
+              <ChevronDown size={16} className="shrink-0 text-[var(--text-dim)]" />
+            )}
+          </button>
 
           <div className="hidden items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
             {address ? (
@@ -148,14 +159,6 @@ export function Navbar() {
             )}
           </button>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:hidden"
-            aria-label="Menu"
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
       </Container>
 

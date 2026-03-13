@@ -4,7 +4,6 @@ import {
   http,
   isAddress,
   type Address,
-  type PublicClient,
 } from "viem";
 
 export type TokenProjectMetadata = {
@@ -50,6 +49,14 @@ const ERC20_METADATA_ABI = [
   },
 ] as const;
 
+type MetadataReader = {
+  readContract(args: {
+    address: Address;
+    abi: typeof ERC20_METADATA_ABI;
+    functionName: "name" | "symbol" | "tokenURI" | "contractURI";
+  }): Promise<unknown>;
+};
+
 function getBaseRpcUrl() {
   return process.env.BASE_RPC_URL || "https://mainnet.base.org";
 }
@@ -94,7 +101,7 @@ export function getWebsiteUrl(metadata: Record<string, unknown>): string | undef
 }
 
 async function readOptionalString(
-  client: PublicClient,
+  client: MetadataReader,
   tokenAddress: Address,
   functionName: "name" | "symbol" | "tokenURI" | "contractURI"
 ): Promise<string | null> {

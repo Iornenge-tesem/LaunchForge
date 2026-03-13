@@ -121,7 +121,7 @@ export default function LaunchPage() {
 
       {/* Error banner */}
       {errorMsg && (
-        <div className="mb-6 flex items-start gap-3 rounded-xl border border-[var(--red-border,rgba(248,113,113,0.3))] bg-[var(--red-muted)] px-4 py-3 text-sm text-[var(--red)]">
+        <div className="mb-7 flex items-start gap-3 rounded-xl border border-[var(--red-border,rgba(248,113,113,0.3))] bg-[var(--red-muted)] px-4 py-3 text-sm text-[var(--red)]">
           <AlertCircle size={16} className="mt-0.5 shrink-0" />
           <span>{errorMsg}</span>
         </div>
@@ -129,171 +129,181 @@ export default function LaunchPage() {
 
       {/* Wallet status */}
       {!isConnected && (
-        <div className="mb-6 flex items-start gap-3 rounded-xl border border-[var(--accent-border,rgba(77,163,255,0.3))] bg-[var(--accent-muted)] px-4 py-3 text-sm text-[var(--accent)]">
+        <div className="mb-7 flex items-start gap-3 rounded-xl border border-[var(--accent-border,rgba(77,163,255,0.3))] bg-[var(--accent-muted)] px-4 py-3 text-sm text-[var(--accent)]">
           <AlertCircle size={16} className="mt-0.5 shrink-0" />
           <span>Your wallet is connecting automatically. Your address will be saved once connected.</span>
         </div>
       )}
 
-      <Card padding="md" className="mb-6 border-[var(--accent-border-soft)]/40">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold text-[var(--text-main)]">Need USDC on Base to launch?</p>
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">
-              Use Base funding tools, then return to submit and launch.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <FundButton
-              text="Fund Wallet"
-              openIn="tab"
-              className="!min-h-[44px] !rounded-xl !bg-[var(--accent)] !px-4 !font-semibold !text-white"
-            />
-            <a
-              href="https://docs.base.org/base-chain/network-information/bridges"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-2 text-sm font-medium text-[var(--text-main)] transition-colors hover:border-[var(--border-hover)]"
-            >
-              <Wallet size={15} />
-              Bridge to Base
-              <ExternalLink size={14} />
-            </a>
+      <Card padding="md" className="mb-8 border-[var(--accent-border-soft)]/40">
+        <div className="rounded-2xl border border-[var(--border)]/80 bg-[var(--bg-elevated)] p-4 sm:p-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-[var(--text-main)]">Need USDC on Base to launch?</p>
+              <p className="mt-1 text-sm text-[var(--text-secondary)]">
+                Use Base funding tools, then return to submit and launch.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <FundButton
+                text="Fund Wallet"
+                openIn="tab"
+                className="!min-h-[44px] !rounded-xl !bg-[var(--accent)] !px-4 !font-semibold !text-white"
+              />
+              <a
+                href="https://docs.base.org/base-chain/network-information/bridges"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-4 py-2 text-sm font-medium text-[var(--text-main)] transition-colors hover:border-[var(--border-hover)]"
+              >
+                <Wallet size={15} />
+                Bridge to Base
+                <ExternalLink size={14} />
+              </a>
+            </div>
           </div>
         </div>
       </Card>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-8">
         {/* Basic Info */}
-        <Card padding="lg" className="mb-6">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">1</span>
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
-              Basic Info
-            </h2>
-          </div>
-          <div className="space-y-6">
-            <Input
-              label="Project Name"
-              name="name"
-              placeholder="e.g. ForgePay"
-              required
-            />
-            <Textarea
-              label="Description"
-              name="description"
-              rows={4}
-              placeholder="Describe what your project does, the problem it solves, and why it matters."
-              required
-            />
-            <div className="grid gap-6 sm:grid-cols-2">
+        <Card padding="lg">
+          <div className="rounded-2xl border border-[var(--border)]/80 bg-[var(--bg-elevated)] p-4 sm:p-6">
+            <div className="mb-6 flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">1</span>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
+                Basic Info
+              </h2>
+            </div>
+            <div className="space-y-6">
               <Input
-                label="Token Symbol"
-                name="tokenSymbol"
-                placeholder="e.g. FGP"
-                hint="Optional — leave blank if no token"
+                label="Project Name"
+                name="name"
+                placeholder="e.g. ForgePay"
+                required
               />
-              <Select
-                label="Category"
-                name="category"
-                options={categoryOptions}
+              <Textarea
+                label="Description"
+                name="description"
+                rows={4}
+                placeholder="Describe what your project does, the problem it solves, and why it matters."
+                required
               />
+              <div className="grid gap-6 sm:grid-cols-2">
+                <Input
+                  label="Token Symbol"
+                  name="tokenSymbol"
+                  placeholder="e.g. FGP"
+                  hint="Optional — leave blank if no token"
+                />
+                <Select
+                  label="Category"
+                  name="category"
+                  options={categoryOptions}
+                />
+              </div>
             </div>
           </div>
         </Card>
 
         {/* Links */}
-        <Card padding="lg" className="mb-6">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">2</span>
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
-              Links
-            </h2>
-          </div>
-          <div className="space-y-6">
-            <div className="grid gap-6 sm:grid-cols-2">
+        <Card padding="lg">
+          <div className="rounded-2xl border border-[var(--border)]/80 bg-[var(--bg-elevated)] p-4 sm:p-6">
+            <div className="mb-6 flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">2</span>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
+                Links
+              </h2>
+            </div>
+            <div className="space-y-6">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <Input
+                  label="Website"
+                  name="website"
+                  type="url"
+                  placeholder="https://yourproject.xyz"
+                />
+                <Input
+                  label="Twitter / X"
+                  name="twitter"
+                  placeholder="@yourproject"
+                />
+              </div>
               <Input
-                label="Website"
-                name="website"
+                label="GitHub"
+                name="github"
                 type="url"
-                placeholder="https://yourproject.xyz"
-              />
-              <Input
-                label="Twitter / X"
-                name="twitter"
-                placeholder="@yourproject"
+                placeholder="https://github.com/your-org"
+                hint="Optional — open source projects get higher trust scores"
               />
             </div>
-            <Input
-              label="GitHub"
-              name="github"
-              type="url"
-              placeholder="https://github.com/your-org"
-              hint="Optional — open source projects get higher trust scores"
-            />
           </div>
         </Card>
 
         {/* Funding */}
-        <Card padding="lg" className="mb-6">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">3</span>
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
-              Funding & Tokenomics
-            </h2>
-          </div>
-          <div className="space-y-6">
-            <Input
-              label="Funding Target (USDC)"
-              name="fundingTarget"
-              type="number"
-              placeholder="50000"
-              hint="Optional — set 0 or leave blank for no fundraise"
-              min={0}
-            />
-            <Textarea
-              label="Tokenomics"
-              name="tokenomics"
-              rows={3}
-              placeholder="Describe token distribution, vesting schedules, liquidity allocation…"
-              hint="Optional — helps with AI scoring"
-            />
+        <Card padding="lg">
+          <div className="rounded-2xl border border-[var(--border)]/80 bg-[var(--bg-elevated)] p-4 sm:p-6">
+            <div className="mb-6 flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">3</span>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
+                Funding & Tokenomics
+              </h2>
+            </div>
+            <div className="space-y-6">
+              <Input
+                label="Funding Target (USDC)"
+                name="fundingTarget"
+                type="number"
+                placeholder="50000"
+                hint="Optional — set 0 or leave blank for no fundraise"
+                min={0}
+              />
+              <Textarea
+                label="Tokenomics"
+                name="tokenomics"
+                rows={3}
+                placeholder="Describe token distribution, vesting schedules, liquidity allocation…"
+                hint="Optional — helps with AI scoring"
+              />
+            </div>
           </div>
         </Card>
 
         {/* Submit */}
         <Card padding="lg">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs text-[var(--text-dim)]">
-                By submitting, you accept the LaunchForge terms.
-              </p>
-              {address && (
-                <p className="mt-1 text-[11px] text-[var(--text-dim)]">
-                  Submitting as{" "}
-                  <span className="font-mono text-[var(--text-secondary)]">{address.slice(0, 6)}&hellip;{address.slice(-4)}</span>
+          <div className="rounded-2xl border border-[var(--border)]/80 bg-[var(--bg-elevated)] p-4 sm:p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs text-[var(--text-dim)]">
+                  By submitting, you accept the LaunchForge terms.
                 </p>
-              )}
+                {address && (
+                  <p className="mt-1 text-[11px] text-[var(--text-dim)]">
+                    Submitting as{" "}
+                    <span className="font-mono text-[var(--text-secondary)]">{address.slice(0, 6)}&hellip;{address.slice(-4)}</span>
+                  </p>
+                )}
+              </div>
+              <Button
+                type="submit"
+                size="lg"
+                fullWidth
+                className="sm:w-auto gap-2"
+                disabled={formState === "submitting"}
+              >
+                {formState === "submitting" ? (
+                  <span className="flex items-center gap-2">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    Submitting…
+                  </span>
+                ) : (
+                  <>
+                    <Rocket size={16} />
+                    Submit Project
+                  </>
+                )}
+              </Button>
             </div>
-            <Button
-              type="submit"
-              size="lg"
-              fullWidth
-              className="sm:w-auto gap-2"
-              disabled={formState === "submitting"}
-            >
-              {formState === "submitting" ? (
-                <span className="flex items-center gap-2">
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  Submitting…
-                </span>
-              ) : (
-                <>
-                  <Rocket size={16} />
-                  Submit Project
-                </>
-              )}
-            </Button>
           </div>
         </Card>
       </form>

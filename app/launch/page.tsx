@@ -55,6 +55,7 @@ export default function LaunchPage() {
     const body = {
       name: data.get("name") as string,
       description: data.get("description") as string,
+      logoUrl: (data.get("logoUrl") as string) || undefined,
       tokenSymbol: (data.get("tokenSymbol") as string) || undefined,
       category: (data.get("category") as string) || "other",
       website: (data.get("website") as string) || undefined,
@@ -224,6 +225,13 @@ export default function LaunchPage() {
                 rows={4}
                 placeholder="Describe what your project does, the problem it solves, and why it matters."
                 required
+              />
+              <Input
+                label="Project Image URL"
+                name="logoUrl"
+                type="url"
+                placeholder="https://.../project-logo.png"
+                hint="Optional — this image will appear on project cards and the token page"
               />
               <div className="grid gap-6 sm:grid-cols-2">
                 <Input

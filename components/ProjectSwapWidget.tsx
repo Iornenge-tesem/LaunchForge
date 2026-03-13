@@ -25,18 +25,24 @@ type Props = {
   tokenAddress: string;
   tokenSymbol?: string;
   tokenName?: string;
+  tokenImage?: string | null;
 };
 
 /**
  * Inline swap widget (OnchainKit SwapDefault) for trading USDC ↔ a project token.
  * Only rendered when the token address is known.
  */
-export function ProjectSwapWidget({ tokenAddress, tokenSymbol, tokenName }: Props) {
+export function ProjectSwapWidget({
+  tokenAddress,
+  tokenSymbol,
+  tokenName,
+  tokenImage,
+}: Props) {
   const projectToken: Token = {
     address: tokenAddress as `0x${string}`,
     chainId: base.id,
     decimals: 18,
-    image: null,
+    image: tokenImage ?? null,
     name: tokenName ?? tokenSymbol ?? "Project Token",
     symbol: tokenSymbol?.toUpperCase() ?? "TOKEN",
   };

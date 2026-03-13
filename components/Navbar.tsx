@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { Container } from "@/components/Container";
-import { useTheme, useMiniAppProfile } from "@/components/providers";
-import { Sun, Moon, ChevronDown, ChevronUp, Wallet } from "lucide-react";
+import { useMiniAppProfile } from "@/components/providers";
+import { Wallet } from "lucide-react";
 import { CreatorIdentity } from "@/components/CreatorIdentity";
 
 const navLinks = [
@@ -16,13 +15,7 @@ const navLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
   const { user, address, isConnected } = useMiniAppProfile();
-
-  function toggleTheme() {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  }
 
   const shortAddress = address
     ? `${address.slice(0, 6)}...${address.slice(-4)}`
@@ -48,7 +41,6 @@ export function Navbar() {
         <Link
           href="/"
           className="flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80"
-          onClick={() => setOpen(false)}
         >
           <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-[var(--border)] shadow-[var(--shadow-xs)]">
             <img
@@ -81,13 +73,7 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="ml-auto flex shrink-0 items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => setOpen((prev) => !prev)}
-            className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 transition-all duration-150 hover:border-[var(--border-hover)] sm:hidden"
-            aria-label="Open navigation menu"
-            aria-expanded={open}
-          >
+          <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:hidden">
             {address ? (
               <div className="max-w-[120px] truncate">
                 <CreatorIdentity
@@ -108,12 +94,7 @@ export function Navbar() {
                 </div>
               </>
             )}
-            {open ? (
-              <ChevronUp size={16} className="shrink-0 text-[var(--text-dim)]" />
-            ) : (
-              <ChevronDown size={16} className="shrink-0 text-[var(--text-dim)]" />
-            )}
-          </button>
+          </div>
 
           <div className="hidden items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1.5 sm:flex">
             {address ? (
@@ -146,53 +127,8 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Theme toggle */}
-          <button
-            onClick={toggleTheme}
-            className="hidden h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-[var(--text-secondary)] transition-all duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)] sm:flex"
-            aria-label="Toggle theme"
-          >
-            {resolvedTheme === "dark" ? (
-              <Sun size={18} />
-            ) : (
-              <Moon size={18} />
-            )}
-          </button>
-
         </div>
       </Container>
-
-      {/* Mobile dropdown */}
-      {open && (
-        <div className="border-t border-[var(--border)] bg-[var(--bg-card)] px-5 pb-4 pt-2.5 shadow-[var(--shadow-lg)] sm:hidden slide-in-down">
-          <nav className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-150 ${
-                  pathname === link.href
-                    ? "bg-[var(--accent-muted)] text-[var(--accent)]"
-                    : "text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-main)]"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="mt-3 border-t border-[var(--border)] pt-3">
-            <button
-              onClick={toggleTheme}
-              className="flex w-full items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-1.5 text-sm font-medium text-[var(--text-main)] transition-all duration-150 hover:bg-[var(--bg-main)]"
-              aria-label="Toggle theme"
-            >
-              <span>Theme</span>
-              {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-          </div>
-        </div>
-      )}
     </header>
   );
 }

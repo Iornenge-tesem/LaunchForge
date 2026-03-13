@@ -65,6 +65,7 @@ export type LaunchTransaction = {
 export type CreateProjectInput = {
   name: string;
   description: string;
+  logoUrl?: string;
   tokenSymbol?: string;
   category: ProjectCategory;
   website?: string;

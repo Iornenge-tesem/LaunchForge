@@ -134,6 +134,7 @@ export async function createProject(
       id,
       name: input.name.trim(),
       description: input.description.trim(),
+      logo_url: input.logoUrl?.trim() ?? null,
       token_symbol: input.tokenSymbol?.trim() ?? null,
       category: input.category,
       website: input.website?.trim() ?? null,

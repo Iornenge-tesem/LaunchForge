@@ -40,10 +40,17 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    if (body.logoUrl && typeof body.logoUrl !== "string") {
+      return NextResponse.json(
+        { ok: false, error: "Logo URL must be a string" },
+        { status: 400 }
+      );
+    }
 
     const input: CreateProjectInput = {
       name: body.name,
       description: body.description,
+      logoUrl: body.logoUrl,
       tokenSymbol: body.tokenSymbol,
       category: body.category ?? "other",
       website: body.website,

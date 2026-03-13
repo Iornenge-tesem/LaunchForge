@@ -108,6 +108,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const {
     name,
     description,
+    logoUrl,
     creator,
     status,
     category,
@@ -155,6 +156,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="relative flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-3">
+                    {logoUrl && (
+                      <img
+                        src={logoUrl}
+                        alt={`${name} logo`}
+                        className="h-12 w-12 rounded-xl border border-[var(--border)] object-cover"
+                      />
+                    )}
                     <h1 className="text-2xl font-bold text-[var(--text-main)] sm:text-3xl">
                       {name}
                     </h1>
@@ -319,6 +327,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 tokenAddress={tokenAddress}
                 tokenSymbol={tokenSymbol}
                 tokenName={name}
+                tokenImage={logoUrl}
               />
             )}
 

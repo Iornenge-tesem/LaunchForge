@@ -26,6 +26,7 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
     creatorUsername,
     creatorDisplayName,
     creatorPfpUrl,
+    logoUrl,
     status,
     category,
     tokenSymbol,
@@ -44,6 +45,13 @@ export function ProjectCard({ project }: { project: LaunchProject }) {
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
+          {logoUrl && (
+            <img
+              src={logoUrl}
+              alt={`${name} logo`}
+              className="mb-3 h-10 w-10 rounded-lg border border-[var(--border)] object-cover"
+            />
+          )}
           <div className="flex items-center gap-2.5">
             <h3 className="truncate text-base font-semibold text-[var(--text-main)]">
               {name}

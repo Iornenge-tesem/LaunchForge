@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
-import { useMiniAppProfile } from "@/components/providers";
+import { useMiniAppProfile, useTheme } from "@/components/providers";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import type { LaunchProject } from "@/lib/types";
 import {
@@ -21,6 +21,8 @@ import {
   Wallet,
   TrendingUp,
   BarChart3,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const statusVariantMap: Record<string, "success" | "info" | "default" | "danger"> = {
@@ -32,8 +34,13 @@ const statusVariantMap: Record<string, "success" | "info" | "default" | "danger"
 
 export default function DashboardPage() {
   const { address, isConnected, user } = useMiniAppProfile();
+  const { resolvedTheme, setTheme } = useTheme();
   const [projects, setProjects] = useState<LaunchProject[]>([]);
   const [loading, setLoading] = useState(true);
+
+  function toggleTheme() {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  }
 
   const fetchMyProjects = useCallback(async () => {
     if (!address) return;
@@ -99,15 +106,25 @@ export default function DashboardPage() {
             </p>
           </div>
         </div>
-        <Link href="/launch">
-          <Button
-            size="md"
-            className="gap-2 border border-[var(--accent-border-soft)] text-white shadow-[var(--shadow-sm)]"
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-secondary)] transition-all duration-150 hover:border-[var(--border-hover)] hover:text-[var(--text-main)]"
+            aria-label="Toggle theme"
           >
-            <Plus size={16} />
-            New Project
-          </Button>
-        </Link>
+            {resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <Link href="/launch">
+            <Button
+              size="md"
+              className="gap-2 border border-[var(--accent-border-soft)] text-white shadow-[var(--shadow-sm)]"
+            >
+              <Plus size={16} />
+              New Project
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Stats row */}

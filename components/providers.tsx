@@ -20,6 +20,8 @@ import { farcasterMiniApp } from "@farcaster/miniapp-wagmi-connector";
 
 const appUrl =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://launch-forge-ten.vercel.app";
+const onchainKitApiKey = process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY;
+const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID;
 
 const wagmiConfig = createConfig({
   chains: [base],
@@ -249,7 +251,11 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <WagmiProvider config={wagmiConfig}>
-        <OnchainKitProvider chain={base}>
+        <OnchainKitProvider
+          apiKey={onchainKitApiKey}
+          projectId={cdpProjectId}
+          chain={base}
+        >
           <QueryClientProvider client={queryClient}>
             <MiniKitProvider>{children}</MiniKitProvider>
           </QueryClientProvider>

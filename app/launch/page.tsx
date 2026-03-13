@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Section } from "@/components/Section";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea, Select } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { FundButton } from "@coinbase/onchainkit/fund";
+import { FundButton, getOnrampBuyUrl } from "@coinbase/onchainkit/fund";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { useMiniAppProfile } from "@/components/providers";
 import { Check, Rocket, ArrowRight, AlertCircle, Wallet, ExternalLink } from "lucide-react";
@@ -23,6 +23,21 @@ export default function LaunchPage() {
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { address, isConnected, user } = useMiniAppProfile();
+  const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID;
+
+  const fundingUrl = useMemo(() => {
+    if (!cdpProjectId || !address) return null;
+
+    return getOnrampBuyUrl({
+      projectId: cdpProjectId,
+      addresses: { [address]: ["base"] },
+      assets: ["USDC"],
+      defaultAsset: "USDC",
+      defaultNetwork: "base",
+      presetFiatAmount: 25,
+      fiatCurrency: "USD",
+    });
+  }, [cdpProjectId, address]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -145,11 +160,23 @@ export default function LaunchPage() {
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <FundButton
-                text="Fund Wallet"
-                openIn="tab"
-                className="!min-h-[44px] !rounded-xl !bg-[var(--accent)] !px-4 !font-semibold !text-white"
-              />
+              {fundingUrl ? (
+                <FundButton
+                  fundingUrl={fundingUrl}
+                  text="Fund Wallet"
+                  openIn="tab"
+                  className="!min-h-[44px] !rounded-xl !bg-[var(--accent)] !px-4 !font-semibold !text-white"
+                />
+              ) : (
+                <Button
+                  type="button"
+                  size="md"
+                  disabled
+                  className="min-h-[44px] px-4"
+                >
+                  Connect wallet to fund
+                </Button>
+              )}
               <a
                 href="https://docs.base.org/base-chain/network-information/bridges"
                 target="_blank"

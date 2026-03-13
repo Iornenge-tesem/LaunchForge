@@ -49,8 +49,7 @@ contract LaunchForgeFactory {
         address indexed creator,
         string name,
         string symbol,
-        uint256 supply,
-        string metadataURI
+        uint256 supply
     );
 
     /* ── Constructor ────────────────────────────────────────── */
@@ -79,13 +78,11 @@ contract LaunchForgeFactory {
     function createToken(
         string calldata _name,
         string calldata _symbol,
-        uint256 _supply,
-        string calldata _metadataURI
+        uint256 _supply
     ) external returns (address token) {
         require(bytes(_name).length > 0, "Name required");
         require(bytes(_symbol).length > 0, "Symbol required");
         require(_supply > 0 && _supply <= MAX_SUPPLY, "Invalid supply");
-        require(bytes(_metadataURI).length > 0, "Metadata URI required");
 
         // 1. Collect payment — reverts if insufficient allowance/balance
         usdc.safeTransferFrom(msg.sender, treasury, LAUNCH_FEE);
@@ -95,8 +92,7 @@ contract LaunchForgeFactory {
             _name,
             _symbol,
             _supply,
-            msg.sender,
-            _metadataURI
+            msg.sender
         );
 
         token = address(newToken);
@@ -106,7 +102,7 @@ contract LaunchForgeFactory {
         tokensByCreator[msg.sender].push(token);
 
         // 4. Emit event
-        emit TokenCreated(token, msg.sender, _name, _symbol, _supply, _metadataURI);
+        emit TokenCreated(token, msg.sender, _name, _symbol, _supply);
     }
 
     /* ── Views ──────────────────────────────────────────────── */

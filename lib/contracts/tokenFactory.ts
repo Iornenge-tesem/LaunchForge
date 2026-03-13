@@ -7,7 +7,7 @@ export const USDC_ADDRESS = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as cons
 export const TREASURY_ADDRESS = "0x01491D527190528ccBC340De80bf2E447dCc4fe3" as const;
 
 // Factory address (deployed on Base mainnet)
-export const FACTORY_ADDRESS = "0x8FB20e612B371dFd1d2984715EEF698402C7480e" as `0x${string}`;
+export const FACTORY_ADDRESS = "0x4C969A286193e8935d8105D4D970630ae797bA3D" as `0x${string}`;
 
 // Launch fee: 0.1 USDC = 100_000 (6 decimals)
 export const LAUNCH_FEE = BigInt(100_000);
@@ -71,7 +71,6 @@ export const FACTORY_ABI = [
       { indexed: false, internalType: "string", name: "name", type: "string" },
       { indexed: false, internalType: "string", name: "symbol", type: "string" },
       { indexed: false, internalType: "uint256", name: "supply", type: "uint256" },
-      { indexed: false, internalType: "string", name: "metadataURI", type: "string" },
     ],
     name: "TokenCreated",
     type: "event",
@@ -95,7 +94,6 @@ export const FACTORY_ABI = [
       { internalType: "string", name: "_name", type: "string" },
       { internalType: "string", name: "_symbol", type: "string" },
       { internalType: "uint256", name: "_supply", type: "uint256" },
-      { internalType: "string", name: "_metadataURI", type: "string" },
     ],
     name: "createToken",
     outputs: [{ internalType: "address", name: "token", type: "address" }],

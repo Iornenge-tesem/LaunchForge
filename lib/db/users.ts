@@ -8,6 +8,13 @@ export type UserProfile = {
   pfpUrl?: string;
 };
 
+export type NotificationTokenInput = {
+  fid: number;
+  appFid: number;
+  token: string;
+  url: string;
+};
+
 /** Upsert a user profile — insert on first connect, update on subsequent visits. */
 export async function upsertUser(profile: UserProfile): Promise<void> {
   const supabase = getSupabase();
@@ -22,6 +29,24 @@ export async function upsertUser(profile: UserProfile): Promise<void> {
     },
     { onConflict: "wallet" }
   );
+  if (error) throw new Error(error.message);
+}
+
+export async function upsertNotificationToken(
+  input: NotificationTokenInput
+): Promise<void> {
+  const supabase = getSupabase();
+  const { error } = await supabase.from("notification_tokens").upsert(
+    {
+      fid: input.fid,
+      app_fid: input.appFid,
+      token: input.token,
+      url: input.url,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "fid,app_fid" }
+  );
+
   if (error) throw new Error(error.message);
 }
 

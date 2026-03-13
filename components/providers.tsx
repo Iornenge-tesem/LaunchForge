@@ -11,6 +11,7 @@ import {
 } from "react";
 import { MiniKit } from "@worldcoin/minikit-js";
 import { sdk } from "@farcaster/miniapp-sdk";
+import type { MiniAppNotificationDetails } from "@farcaster/miniapp-core";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http, useAccount } from "wagmi";
@@ -153,18 +154,47 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<MiniAppUser | null>(null);
   const [isMiniApp, setIsMiniApp] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [clientAdded, setClientAdded] = useState(false);
+  const [clientFid, setClientFid] = useState<number | null>(null);
+
+  const saveNotificationToken = useCallback(
+    async (
+      notificationDetails: MiniAppNotificationDetails,
+      options?: { fid?: number; appFid?: number | null }
+    ) => {
+      const fid = options?.fid ?? user?.fid;
+      const appFid = options?.appFid ?? clientFid;
+
+      if (!fid || !appFid) return;
+
+      await fetch("/api/users/notification-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fid,
+          appFid,
+          token: notificationDetails.token,
+          url: notificationDetails.url,
+        }),
+      });
+    },
+    [clientFid, user?.fid]
+  );
 
   const promptAddMiniApp = useCallback(async () => {
     try {
       if (!sdk.actions?.addMiniApp) return;
       const result = await sdk.actions.addMiniApp();
-      if ("added" in result && result.added && result.notificationDetails) {
+      setClientAdded(true);
+
+      if (result.notificationDetails) {
         setNotificationsEnabled(true);
+        await saveNotificationToken(result.notificationDetails);
       }
     } catch {
       // user rejected or not in mini app context
     }
-  }, []);
+  }, [saveNotificationToken]);
 
   useEffect(() => {
     let mounted = true;
@@ -191,10 +221,20 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
           setIsMiniApp(true);
         }
 
+        setClientAdded(Boolean(context.client?.added));
+        setClientFid(context.client?.clientFid ?? null);
+        setNotificationsEnabled(Boolean(context.client?.notificationDetails));
+
+        if (context.client?.notificationDetails && context.user?.fid) {
+          void saveNotificationToken(context.client.notificationDetails, {
+            fid: context.user.fid,
+            appFid: context.client.clientFid,
+          });
+        }
+
         if (sdk.actions?.ready) {
           await sdk.actions.ready();
         }
-
       } catch {
         // no-op: app still runs outside Mini App host
       }
@@ -205,7 +245,54 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [saveNotificationToken]);
+
+  useEffect(() => {
+    const handleMiniAppAdded = ({
+      notificationDetails,
+    }: {
+      notificationDetails?: MiniAppNotificationDetails;
+    }) => {
+      setClientAdded(true);
+      if (notificationDetails) {
+        setNotificationsEnabled(true);
+        void saveNotificationToken(notificationDetails);
+      }
+    };
+
+    const handleNotificationsEnabled = ({
+      notificationDetails,
+    }: {
+      notificationDetails: MiniAppNotificationDetails;
+    }) => {
+      setNotificationsEnabled(true);
+      void saveNotificationToken(notificationDetails);
+    };
+
+    const handleNotificationsDisabled = () => {
+      setNotificationsEnabled(false);
+    };
+
+    sdk.on("miniAppAdded", handleMiniAppAdded);
+    sdk.on("notificationsEnabled", handleNotificationsEnabled);
+    sdk.on("notificationsDisabled", handleNotificationsDisabled);
+
+    return () => {
+      sdk.off("miniAppAdded", handleMiniAppAdded);
+      sdk.off("notificationsEnabled", handleNotificationsEnabled);
+      sdk.off("notificationsDisabled", handleNotificationsDisabled);
+    };
+  }, [saveNotificationToken]);
+
+  useEffect(() => {
+    if (!isMiniApp || clientAdded) return;
+
+    const promptKey = "launchforge:add-miniapp-prompted";
+    if (sessionStorage.getItem(promptKey) === "1") return;
+
+    sessionStorage.setItem(promptKey, "1");
+    void promptAddMiniApp();
+  }, [clientAdded, isMiniApp, promptAddMiniApp]);
 
   // Save user profile to DB when wallet is connected and user data is available
   useEffect(() => {

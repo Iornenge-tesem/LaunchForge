@@ -42,8 +42,9 @@ export function TokenLauncher({
   defaultSymbol = "",
   onSuccess,
 }: TokenLauncherProps) {
-  const { address, isConnected } = useMiniAppProfile();
-  const { step, error, result, launch, reset, hasEnoughUsdc } =
+  const { address, isConnected, notificationsEnabled, promptAddMiniApp } =
+    useMiniAppProfile();
+  const { step, error, result, launch, reset, hasEnoughUsdc, flashblocksStatus } =
     useTokenLaunch();
 
   const [tokenName, setTokenName] = useState(projectName);
@@ -148,6 +149,18 @@ export function TokenLauncher({
                 </a>
               </div>
             </div>
+            {!notificationsEnabled && (
+              <div className="mt-3">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={promptAddMiniApp}
+                  className="border border-[var(--border)]"
+                >
+                  Save LaunchForge for notifications
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </Card>
@@ -239,6 +252,12 @@ export function TokenLauncher({
             <p className="text-sm font-medium text-[var(--accent)]">
               {STEP_LABELS[step]}
             </p>
+          </div>
+        )}
+
+        {step === "waiting-creation" && (
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-3 text-xs text-[var(--text-secondary)]">
+            Flashblocks preconfirmation: {flashblocksStatus === "idle" ? "checking..." : flashblocksStatus}
           </div>
         )}
 

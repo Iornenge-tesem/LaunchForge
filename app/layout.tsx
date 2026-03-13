@@ -5,6 +5,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import minikitConfig from "@/minikit.config";
 import { Navbar } from "@/components/Navbar";
+import { BottomNav } from "@/components/BottomNav";
 import { Container } from "@/components/Container";
 
 const manrope = Manrope({
@@ -111,7 +112,8 @@ export default function RootLayout({
         <Providers>
           <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden">
             <Navbar />
-            <main className="flex-1 overflow-x-hidden">{children}</main>
+            <main className="flex-1 overflow-x-hidden pb-20 sm:pb-0">{children}</main>
+            <BottomNav />
             <footer className="border-t border-[var(--border)] py-6">
               <Container className="flex flex-col items-center justify-between gap-3 text-sm text-[var(--text-dim)] sm:flex-row">
                 <p>&copy; {new Date().getFullYear()} LaunchForge</p>

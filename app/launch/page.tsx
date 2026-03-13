@@ -22,7 +22,13 @@ const categoryOptions = Object.entries(CATEGORY_LABELS).map(
 export default function LaunchPage() {
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const { address, isConnected, user } = useMiniAppProfile();
+  const {
+    address,
+    isConnected,
+    user,
+    notificationsEnabled,
+    promptAddMiniApp,
+  } = useMiniAppProfile();
   const cdpProjectId = process.env.NEXT_PUBLIC_CDP_PROJECT_ID;
 
   const fundingUrl = useMemo(() => {
@@ -112,6 +118,18 @@ export default function LaunchPage() {
               </Button>
             </a>
           </div>
+          {!notificationsEnabled && (
+            <div className="mt-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={promptAddMiniApp}
+                className="border border-[var(--border)]"
+              >
+                Save LaunchForge for updates
+              </Button>
+            </div>
+          )}
         </Card>
       </Section>
     );

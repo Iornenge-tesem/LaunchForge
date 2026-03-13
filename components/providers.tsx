@@ -195,17 +195,6 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
           await sdk.actions.ready();
         }
 
-        // Auto-prompt to add mini app & enable notifications
-        if (sdk.actions?.addMiniApp && mounted) {
-          try {
-            const result = await sdk.actions.addMiniApp();
-            if ("added" in result && result.added && result.notificationDetails) {
-              setNotificationsEnabled(true);
-            }
-          } catch {
-            // user may have already added or rejected
-          }
-        }
       } catch {
         // no-op: app still runs outside Mini App host
       }

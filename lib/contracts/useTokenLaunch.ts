@@ -48,6 +48,8 @@ export type LaunchResult = {
   txHash: string;
 };
 
+export type FlashblocksStatus = "idle" | "Known" | "Unknown" | "error";
+
 /** Human-readable launch fee */
 const LAUNCH_FEE_DISPLAY = "0.1 USDC";
 
@@ -58,6 +60,8 @@ export function useTokenLaunch() {
   const [result, setResult] = useState<LaunchResult | null>(null);
   const [approveTxHash, setApproveTxHash] = useState<`0x${string}` | undefined>();
   const [createTxHash, setCreateTxHash] = useState<`0x${string}` | undefined>();
+  const [flashblocksStatus, setFlashblocksStatus] =
+    useState<FlashblocksStatus>("idle");
 
   // wagmi config — needed for waitForTransactionReceipt which handles Smart Wallet UserOp hashes
   const config = useConfig();
@@ -85,6 +89,33 @@ export function useTokenLaunch() {
 
   const { writeContractAsync } = useWriteContract();
 
+  const pollFlashblocksStatus = useCallback(async (txHash: `0x${string}`) => {
+    setFlashblocksStatus("idle");
+
+    for (let i = 0; i < 12; i++) {
+      try {
+        const res = await fetch(
+          `/api/tx-status?hash=${encodeURIComponent(txHash)}`,
+          { cache: "no-store" }
+        );
+        const json = (await res.json()) as {
+          ok: boolean;
+          status?: "Known" | "Unknown";
+        };
+
+        if (json.ok && json.status) {
+          setFlashblocksStatus(json.status);
+          if (json.status === "Known") return;
+        }
+      } catch {
+        setFlashblocksStatus("error");
+        return;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+  }, []);
+
   const launch = useCallback(
     async (
       tokenName: string,
@@ -107,6 +138,7 @@ export function useTokenLaunch() {
       setResult(null);
       setApproveTxHash(undefined);
       setCreateTxHash(undefined);
+      setFlashblocksStatus("idle");
 
       try {
         // Validate inputs
@@ -196,6 +228,7 @@ export function useTokenLaunch() {
 
           if (batchTokenAddress && batchTxHash) {
             usedBatch = true;
+            void pollFlashblocksStatus(batchTxHash);
           }
         } catch (batchErr) {
           if (!isBatchNotSupported(batchErr)) throw batchErr;
@@ -248,6 +281,7 @@ export function useTokenLaunch() {
           args: [nameArg, symbolArg, supplyArg],
         });
         setCreateTxHash(createHash);
+        void pollFlashblocksStatus(createHash);
 
         // Step 6: Wait for creation confirmation (wagmi handles Smart Wallet UserOp hashes)
         setStep("waiting-creation");
@@ -311,7 +345,15 @@ export function useTokenLaunch() {
         setStep("error");
       }
     },
-    [address, usdcBalance, writeContractAsync, refetchAllowance, refetchBalance, config]
+    [
+      address,
+      usdcBalance,
+      writeContractAsync,
+      refetchAllowance,
+      refetchBalance,
+      config,
+      pollFlashblocksStatus,
+    ]
   );
 
   const reset = useCallback(() => {
@@ -320,6 +362,7 @@ export function useTokenLaunch() {
     setResult(null);
     setApproveTxHash(undefined);
     setCreateTxHash(undefined);
+    setFlashblocksStatus("idle");
   }, []);
 
   return {
@@ -332,5 +375,6 @@ export function useTokenLaunch() {
     ethBalance: ethBalance?.value,
     hasEnoughUsdc:
       usdcBalance !== undefined ? usdcBalance >= LAUNCH_FEE : undefined,
+    flashblocksStatus,
   };
 }

@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { FundButton, getOnrampBuyUrl } from "@coinbase/onchainkit/fund";
 import { CATEGORY_LABELS } from "@/lib/constants";
 import { useMiniAppProfile } from "@/components/providers";
-import { Check, Rocket, ArrowRight, AlertCircle, Wallet, ExternalLink } from "lucide-react";
+import { Check, Rocket, ArrowRight, AlertCircle } from "lucide-react";
 
 type FormState = "idle" | "submitting" | "success";
 
@@ -164,7 +164,8 @@ export default function LaunchPage() {
                 <FundButton
                   fundingUrl={fundingUrl}
                   text="Fund Wallet"
-                  openIn="tab"
+                  openIn="popup"
+                  popupSize="md"
                   className="!min-h-[44px] !rounded-xl !bg-[var(--accent)] !px-4 !font-semibold !text-white"
                 />
               ) : (
@@ -177,16 +178,6 @@ export default function LaunchPage() {
                   Connect wallet to fund
                 </Button>
               )}
-              <a
-                href="https://docs.base.org/base-chain/network-information/bridges"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-4 py-2 text-sm font-medium text-[var(--text-main)] transition-colors hover:border-[var(--border-hover)]"
-              >
-                <Wallet size={15} />
-                Bridge to Base
-                <ExternalLink size={14} />
-              </a>
             </div>
           </div>
         </div>

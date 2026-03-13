@@ -18,16 +18,18 @@ export function BottomNav() {
   const lastY = useRef(0);
 
   useEffect(() => {
+    lastY.current = window.scrollY;
+
     function onScroll() {
       const y = window.scrollY;
       const delta = y - lastY.current;
 
       if (delta > 2) {
-        // scrolling down -> reveal
-        setVisible(true);
-      } else if (delta < -2) {
-        // scrolling up -> hide
+        // scrolling down -> hide
         setVisible(false);
+      } else if (delta < -2) {
+        // scrolling up -> reveal
+        setVisible(true);
       }
 
       lastY.current = y;

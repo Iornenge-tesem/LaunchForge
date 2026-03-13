@@ -314,6 +314,24 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
           {/* ── Right Column (Sidebar) ──────── */}
           <div className="min-w-0 space-y-8">
+            {tokenAddress && (
+              <ProjectSwapWidget
+                tokenAddress={tokenAddress}
+                tokenSymbol={tokenSymbol}
+                tokenName={name}
+              />
+            )}
+
+            {/* Token */}
+            <ProjectTokenSection
+              projectId={id}
+              projectName={name}
+              tokenSymbol={tokenSymbol}
+              tokenAddress={tokenAddress}
+              tokenSupply={tokenSupply}
+              creatorWallet={creator}
+            />
+
             {/* AI Analysis */}
             <Card padding="lg">
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--text-dim)]">
@@ -368,24 +386,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
               )}
             </Card>
-
-            {/* Token */}
-            <ProjectTokenSection
-              projectId={id}
-              projectName={name}
-              tokenSymbol={tokenSymbol}
-              tokenAddress={tokenAddress}
-              tokenSupply={tokenSupply}
-              creatorWallet={creator}
-            />
-
-            {tokenAddress && (
-              <ProjectSwapWidget
-                tokenAddress={tokenAddress}
-                tokenSymbol={tokenSymbol}
-                tokenName={name}
-              />
-            )}
           </div>
         </div>
       </Container>

@@ -246,21 +246,34 @@ function MiniKitProvider({ children }: { children: ReactNode }) {
   );
 }
 
+function AppProviders({ children }: { children: ReactNode }) {
+  const { resolvedTheme } = useTheme();
+
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <OnchainKitProvider
+        apiKey={onchainKitApiKey}
+        projectId={cdpProjectId}
+        chain={base}
+        config={{
+          appearance: {
+            mode: resolvedTheme,
+          },
+        }}
+      >
+        <QueryClientProvider client={queryClient}>
+          <MiniKitProvider>{children}</MiniKitProvider>
+        </QueryClientProvider>
+      </OnchainKitProvider>
+    </WagmiProvider>
+  );
+}
+
 /* ── Combined Providers ─────────────────────────────────── */
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
-      <WagmiProvider config={wagmiConfig}>
-        <OnchainKitProvider
-          apiKey={onchainKitApiKey}
-          projectId={cdpProjectId}
-          chain={base}
-        >
-          <QueryClientProvider client={queryClient}>
-            <MiniKitProvider>{children}</MiniKitProvider>
-          </QueryClientProvider>
-        </OnchainKitProvider>
-      </WagmiProvider>
+      <AppProviders>{children}</AppProviders>
     </ThemeProvider>
   );
 }
